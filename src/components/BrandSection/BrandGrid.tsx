@@ -213,10 +213,10 @@ export default function BrandGrid() {
           </div>
           
           <h3 className="text-2xl font-semibold mb-4">
-            Join Wine Spectator's Revolutionary Video Series
+            Join Wine Spectator&apos;s Revolutionary Video Series
           </h3>
           <p className="text-white/60 mb-8 max-w-2xl mx-auto">
-            Share your vineyard's story. Submit your 30-60 second vertical videos 
+            Share your vineyard&apos;s story. Submit your 30-60 second vertical videos 
             showcasing the unique relationship between your soil and wine.
           </p>
           

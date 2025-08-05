@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Play, Pause, Volume2, VolumeX, Maximize, RefreshCw } from 'lucide-react'
 import ReactPlayer from 'react-player'
@@ -26,7 +26,7 @@ export default function VideoPlayer({ videos, featuredIndex, onVideoSelect }: Vi
   const [muted, setMuted] = useState(false)
   const [progress, setProgress] = useState(0)
   const [hoveredThumb, setHoveredThumb] = useState<number | null>(null)
-  const playerRef = useRef<ReactPlayer>(null)
+  const playerRef = useRef<any>(null)
 
   const featuredVideo = videos[featuredIndex]
 
@@ -91,13 +91,6 @@ export default function VideoPlayer({ videos, featuredIndex, onVideoSelect }: Vi
               onProgress={handleProgress}
               onEnded={handleVideoEnd}
               progressInterval={100}
-              config={{
-                file: {
-                  attributes: {
-                    style: { width: '100%', height: '100%', objectFit: 'cover' }
-                  }
-                }
-              }}
             />
             
             {/* Video Overlay */}
