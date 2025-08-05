@@ -6,6 +6,7 @@ import BrandGrid from '@/components/BrandSection/BrandGrid'
 import Hero from '@/components/Hero/Hero'
 import Navbar from '@/components/Navigation/Navbar'
 import Footer from '@/components/Footer/Footer'
+import ImageCollage from '@/components/ImageCollage/ImageCollage'
 import { videos } from '@/data/videos'
 
 export default function Home() {
@@ -28,6 +29,7 @@ export default function Home() {
           featuredIndex={featuredVideo}
           onVideoSelect={setFeaturedVideo}
         />
+        <ImageCollage />
         <BrandGrid />
       </main>
       <Footer />

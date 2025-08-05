@@ -1,194 +1,148 @@
 'use client'
 
-import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
-import { useInView } from 'react-intersection-observer'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { Brand } from '@/types'
 
-interface Brand {
-  id: string
-  name: string
-  logo: string
-  headline: string
-  description: string
-  accentColor: string
-}
-
-// Sample data - replace with your actual brands
 const brands: Brand[] = [
   {
     id: '1',
     name: 'Château Margaux',
-    logo: '/brands/margaux.png',
+    logo: 'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=400&h=300&fit=crop',
     headline: 'Where Limestone Meets Legend',
-    description: 'Discover how the unique gravelly soils of the Médoc create wines of unparalleled elegance and longevity.',
-    accentColor: '#8B0000'
+    description: 'Unique gravelly soils of the Médoc create wines of unparalleled elegance and longevity.',
+    accentColor: '#8B4513'
   },
   {
     id: '2',
     name: 'Opus One',
-    logo: '/brands/opus.png',
+    logo: 'https://images.unsplash.com/photo-1566995541428-f2246c17cda1?w=400&h=300&fit=crop',
     headline: 'Napa Valley Terroir Excellence',
-    description: 'Experience the perfect marriage of Bordeaux tradition and California innovation through volcanic soils.',
-    accentColor: '#4B0082'
+    description: 'The perfect marriage of Bordeaux tradition and California innovation through volcanic soils.',
+    accentColor: '#DC143C'
   },
   {
     id: '3',
     name: 'Penfolds',
-    logo: '/brands/penfolds.png',
+    logo: 'https://images.unsplash.com/photo-1474722883778-792e7990302f?w=400&h=300&fit=crop',
     headline: 'Australian Soil Stories',
     description: 'From the iron-rich terra rossa of Coonawarra to the ancient soils of Barossa Valley.',
-    accentColor: '#DC143C'
+    accentColor: '#FFD700'
   },
   {
     id: '4',
     name: 'Antinori',
-    logo: '/brands/antinori.png',
+    logo: 'https://images.unsplash.com/photo-1543418219-44e30b057fea?w=400&h=300&fit=crop',
     headline: 'Tuscan Earth Traditions',
     description: '26 generations of winemaking rooted in the galestro and alberese soils of Chianti Classico.',
-    accentColor: '#8B4513'
+    accentColor: '#228B22'
   }
 ]
 
-function BrandCard({ brand, index }: { brand: Brand; index: number }) {
-  const [ref, inView] = useInView({
-    threshold: 0.1,
-    triggerOnce: true
-  })
-  
-  const cardRef = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: cardRef,
-    offset: ["start end", "end start"]
-  })
-  
-  const y = useTransform(scrollYProgress, [0, 1], [100, -100])
-  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0])
-
-  return (
-    <motion.div
-      ref={cardRef}
-      style={{ y, opacity }}
-      className="relative"
-    >
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, y: 50 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8, delay: index * 0.2 }}
-        whileHover={{ scale: 1.02 }}
-        className="relative group"
-      >
-        <div className="glass-effect rounded-2xl p-8 h-full overflow-hidden">
-          {/* Background Gradient */}
-          <div 
-            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            style={{
-              background: `radial-gradient(circle at 50% 50%, ${brand.accentColor}20 0%, transparent 70%)`
-            }}
-          />
-          
-          {/* Content */}
-          <div className="relative z-10 space-y-6">
-            {/* Logo Container */}
-            <motion.div
-              className="h-24 flex items-center justify-center"
-              whileHover={{ rotate: [0, -5, 5, 0] }}
-              transition={{ duration: 0.5 }}
-            >
-              <img
-                src={brand.logo}
-                alt={brand.name}
-                className="h-full w-auto object-contain filter brightness-0 invert opacity-80 group-hover:opacity-100 transition-opacity"
-              />
-            </motion.div>
-            
-            {/* Headline */}
-            <h3 className="text-2xl font-bold text-center">
-              {brand.headline}
-            </h3>
-            
-            {/* Description */}
-            <p className="text-white/70 text-center leading-relaxed">
-              {brand.description}
-            </p>
-            
-            {/* CTA */}
-            <motion.button
-              className="w-full py-3 rounded-full border border-white/20 text-sm font-medium hover:bg-white/10 transition-colors"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Explore {brand.name}
-            </motion.button>
-          </div>
-          
-          {/* Decorative Elements */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/5 to-transparent rounded-full blur-2xl" />
-          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-white/5 to-transparent rounded-full blur-2xl" />
-        </div>
-      </motion.div>
-    </motion.div>
-  )
-}
-
 export default function BrandGrid() {
-  const containerRef = useRef(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"]
+    offset: ['start end', 'end start']
   })
-  
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
+
+  const y = useTransform(scrollYProgress, [0, 1], [100, -100])
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0])
 
   return (
-    <section ref={containerRef} className="relative py-24 px-4 overflow-hidden">
-      {/* Parallax Background */}
-      <motion.div
-        className="absolute inset-0 z-0"
-        style={{ y: backgroundY }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-red-950/5 to-transparent" />
-      </motion.div>
-
-      <div className="relative z-10 max-w-7xl mx-auto">
+    <section ref={containerRef} className="relative py-20 px-4 overflow-hidden">
+      <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          style={{ y, opacity }}
           className="text-center mb-16"
         >
-          <h2 className="text-5xl font-bold mb-4">
-            <span className="gradient-text">Featured Wineries</span>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            Featured Wineries
           </h2>
-          <p className="text-xl text-white/60 max-w-2xl mx-auto">
-            Each episode unveils the unique story of soil and tradition that defines these exceptional wines
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Each episode unveils the unique story of soil and tradition that defines these exceptional wines.
           </p>
         </motion.div>
 
-        {/* Brand Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Brand Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
           {brands.map((brand, index) => (
-            <BrandCard key={brand.id} brand={brand} index={index} />
+            <motion.div
+              key={brand.id}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              className="group relative"
+            >
+              <div className="relative overflow-hidden rounded-xl bg-black/20 backdrop-blur-sm border border-white/10">
+                {/* Brand Image */}
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={brand.logo}
+                    alt={brand.name}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div 
+                    className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-300"
+                    style={{ backgroundColor: brand.accentColor }}
+                  />
+                </div>
+
+                {/* Content */}
+                <div className="p-6">
+                  <h3 
+                    className="text-xl font-bold mb-2"
+                    style={{ color: brand.accentColor }}
+                  >
+                    {brand.headline}
+                  </h3>
+                  <p className="text-gray-300 text-sm leading-relaxed mb-4">
+                    {brand.description}
+                  </p>
+                  
+                  {/* Explore Button */}
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-full py-3 px-4 rounded-lg font-semibold transition-all duration-300 border-2 hover:shadow-lg"
+                    style={{
+                      borderColor: brand.accentColor,
+                      color: brand.accentColor,
+                      backgroundColor: 'transparent'
+                    }}
+                    onHoverStart={(e) => {
+                      const target = e.currentTarget as HTMLButtonElement
+                      target.style.backgroundColor = brand.accentColor
+                      target.style.color = '#000'
+                    }}
+                    onHoverEnd={(e) => {
+                      const target = e.currentTarget as HTMLButtonElement
+                      target.style.backgroundColor = 'transparent'
+                      target.style.color = brand.accentColor
+                    }}
+                  >
+                    Explore {brand.name}
+                  </motion.button>
+                </div>
+              </div>
+            </motion.div>
           ))}
         </div>
 
-        {/* Bottom CTA */}
+        {/* Submit Your Wine Story Button */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="text-center mt-16"
+          className="text-center"
         >
-          <p className="text-white/60 mb-6">
-            Join Wine Spectator&apos;s revolutionary video series
-          </p>
           <motion.button
-            className="px-8 py-4 bg-gradient-to-r from-amber-500 to-yellow-600 rounded-full font-semibold text-black hover:shadow-lg hover:shadow-amber-500/50 transition-all duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            className="px-12 py-4 bg-gradient-to-r from-amber-400 to-yellow-500 text-black font-bold text-lg rounded-lg hover:shadow-2xl transition-all duration-300"
           >
             Submit Your Wine Story
           </motion.button>
