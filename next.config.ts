@@ -2,7 +2,7 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ['sample-videos.com'],
+    domains: ['images.unsplash.com', 'commondatastorage.googleapis.com'],
     formats: ['image/webp'],
   },
   compress: true,

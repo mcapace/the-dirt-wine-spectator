@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import VideoPlayer from '@/components/VideoPlayer/VideoPlayer'
 import BrandGrid from '@/components/BrandSection/BrandGrid'
 import Hero from '@/components/Hero/Hero'
@@ -10,6 +10,13 @@ import { videos } from '@/data/videos'
 
 export default function Home() {
   const [featuredVideo, setFeaturedVideo] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFeaturedVideo((prev) => (prev + 1) % videos.length)
+    }, 30000)
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <>
