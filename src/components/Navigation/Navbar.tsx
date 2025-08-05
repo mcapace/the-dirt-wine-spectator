@@ -5,22 +5,31 @@ import Link from 'next/link'
 
 export default function Navbar() {
   return (
-    <nav 
-      className="fixed top-0 left-0 right-0 z-50 h-12 px-6 flex items-center"
-      style={{ backgroundColor: '#98231f' }}
-    >
-      <div className="max-w-7xl mx-auto w-full">
+    <div className="nav-container">
+      <nav className="h-20 px-6 flex items-center justify-between max-w-7xl mx-auto">
         <Link href="/" className="flex items-center">
           <Image
             src="/images/WS White.png"
             alt="Wine Spectator"
-            width={120}
-            height={30}
-            className="h-6 w-auto"
+            width={180}
+            height={45}
+            className="h-12 w-auto"
             priority
           />
         </Link>
-      </div>
-    </nav>
+        
+        <div className="flex items-center space-x-10">
+          <Link href="#about" className="text-white text-lg font-medium hover:text-gold-300 transition-colors duration-300 tracking-wide">
+            About
+          </Link>
+          <Link href="#videos" className="text-white text-lg font-medium hover:text-gold-300 transition-colors duration-300 tracking-wide">
+            Videos
+          </Link>
+          <Link href="#wineries" className="text-white text-lg font-medium hover:text-gold-300 transition-colors duration-300 tracking-wide">
+            Wineries
+          </Link>
+        </div>
+      </nav>
+    </div>
   )
 } 

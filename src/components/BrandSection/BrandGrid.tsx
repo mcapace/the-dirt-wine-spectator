@@ -198,7 +198,7 @@ export default function BrandGrid() {
     target: containerRef,
     offset: ["start end", "end start"]
   })
-  
+
   const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '30%'])
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0])
 
@@ -303,7 +303,7 @@ export default function BrandGrid() {
               className="absolute inset-0 wine-gradient group-hover:scale-110 transition-transform duration-300" 
             />
             <span className="relative text-white flex items-center gap-3">
-              Submit Your Wine Story
+            Submit Your Wine Story
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </span>
           </motion.button>
