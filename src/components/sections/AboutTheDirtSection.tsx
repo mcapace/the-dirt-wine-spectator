@@ -161,11 +161,11 @@ const AboutTheDirtSection = () => {
 
               {/* Thumbnails Below Main Player */}
               <div className="bg-gray-50 p-6">
-                <div className="flex justify-center items-center">
+                <div className="flex justify-center items-center video-thumbnails-mobile">
                   {thumbnailVideos.map((video, index) => (
                     <motion.div
                       key={video.id}
-                      className="relative cursor-pointer group flex-shrink-0"
+                      className="relative cursor-pointer group flex-shrink-0 video-thumbnail-mobile"
                       style={{ 
                         width: '200px', 
                         height: '120px',

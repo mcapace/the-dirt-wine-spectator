@@ -716,3 +716,55 @@
 .border-gold {
   border-color: var(--color-gold);
 }
+
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  /* Winery logos - stack in 2 columns on mobile */
+  .winery-grid-mobile {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
+  }
+  
+  /* Video thumbnails - show all 5 in a scrollable row */
+  .video-thumbnails-mobile {
+    display: flex !important;
+    overflow-x: auto !important;
+    gap: 1rem !important;
+    padding: 1rem !important;
+    scrollbar-width: none !important; /* Firefox */
+    -ms-overflow-style: none !important; /* IE/Edge */
+  }
+  
+  .video-thumbnails-mobile::-webkit-scrollbar {
+    display: none !important; /* Chrome/Safari/Opera */
+  }
+  
+  .video-thumbnail-mobile {
+    flex: 0 0 200px !important;
+    height: 120px !important;
+  }
+  
+  /* Modal adjustments for mobile */
+  .modal-mobile {
+    margin: 1rem !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+  }
+  
+  .modal-content-mobile {
+    flex-direction: column !important;
+    padding: 1rem !important;
+  }
+  
+  .modal-logo-mobile {
+    width: 100% !important;
+    padding: 1rem !important;
+  }
+  
+  .modal-text-mobile {
+    width: 100% !important;
+    padding: 1rem !important;
+    font-size: 0.875rem !important;
+  }
+}

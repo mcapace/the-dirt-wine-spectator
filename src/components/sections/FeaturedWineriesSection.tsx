@@ -93,16 +93,16 @@ const WineryModal = ({ winery, isOpen, onClose }: { winery: any; isOpen: boolean
       onClick={onClose}
     >
       <motion.div
-        className="bg-white rounded-2xl shadow-2xl max-w-5xl w-full max-h-[80vh] overflow-hidden"
+        className="bg-white rounded-2xl shadow-2xl max-w-5xl w-full max-h-[80vh] overflow-hidden modal-mobile"
         initial={{ scale: 0.8, rotateY: -90, opacity: 0 }}
         animate={{ scale: 1, rotateY: 0, opacity: 1 }}
         exit={{ scale: 0.8, rotateY: 90, opacity: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex flex-col lg:flex-row h-full">
+        <div className="flex flex-col lg:flex-row h-full modal-content-mobile">
           {/* Left side - Logo */}
-          <div className="lg:w-2/5 p-8 lg:p-12 flex items-center justify-center bg-gradient-to-br from-beige-light to-beige">
+          <div className="lg:w-2/5 p-8 lg:p-12 flex items-center justify-center bg-gradient-to-br from-beige-light to-beige modal-logo-mobile">
             <motion.div
               initial={{ scale: 0.5, rotate: -180 }}
               animate={{ scale: 1, rotate: 0 }}
@@ -114,24 +114,24 @@ const WineryModal = ({ winery, isOpen, onClose }: { winery: any; isOpen: boolean
                 alt={`${winery.name} Logo`}
                 width={300}
                 height={150}
-                className="w-auto h-32 lg:h-40 object-contain mx-auto"
+                className="w-auto h-24 md:h-32 lg:h-40 object-contain mx-auto"
               />
-              <h2 className="text-2xl lg:text-3xl font-bold text-black mt-6">{winery.name}</h2>
+              <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-black mt-4 md:mt-6">{winery.name}</h2>
             </motion.div>
           </div>
           
           {/* Right side - Content */}
-          <div className="lg:w-3/5 p-6 lg:p-12 flex flex-col justify-center">
+          <div className="lg:w-3/5 p-6 lg:p-12 flex flex-col justify-center modal-text-mobile">
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
-              className="space-y-6"
+              className="space-y-4 md:space-y-6"
             >
               {/* Main Content */}
               <div>
-                <h3 className="text-2xl lg:text-3xl font-semibold text-black mb-4">About {winery.name}</h3>
-                <div className="space-y-4 text-gray-700 leading-relaxed">
+                <h3 className="text-xl md:text-2xl lg:text-3xl font-semibold text-black mb-3 md:mb-4">About {winery.name}</h3>
+                <div className="space-y-3 md:space-y-4 text-gray-700 leading-relaxed text-sm md:text-base">
                   <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                   </p>
@@ -145,27 +145,27 @@ const WineryModal = ({ winery, isOpen, onClose }: { winery: any; isOpen: boolean
               </div>
               
               {/* Contact Information */}
-              <div className="pt-6 border-t border-gray-200">
-                <h4 className="text-xl font-semibold text-black mb-4">Contact Information</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div className="pt-4 md:pt-6 border-t border-gray-200">
+                <h4 className="text-lg md:text-xl font-semibold text-black mb-3 md:mb-4">Contact Information</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-4 md:mb-6">
                   <div className="flex items-center space-x-3">
-                    <span className="text-gray-500 text-lg">🌐</span>
+                    <span className="text-gray-500 text-base md:text-lg">🌐</span>
                     <a href={winery.website} target="_blank" rel="noopener noreferrer" 
-                       className="text-blue-600 hover:text-blue-800 transition-colors">
+                       className="text-blue-600 hover:text-blue-800 transition-colors text-sm md:text-base">
                       {winery.website}
                     </a>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <span className="text-gray-500 text-lg">✉️</span>
+                    <span className="text-gray-500 text-base md:text-lg">✉️</span>
                     <a href={`mailto:${winery.contact}`} 
-                       className="text-blue-600 hover:text-blue-800 transition-colors">
+                       className="text-blue-600 hover:text-blue-800 transition-colors text-sm md:text-base">
                       {winery.contact}
                     </a>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <span className="text-gray-500 text-lg">📞</span>
+                    <span className="text-gray-500 text-base md:text-lg">📞</span>
                     <a href={`tel:${winery.phone}`} 
-                       className="text-blue-600 hover:text-blue-800 transition-colors">
+                       className="text-blue-600 hover:text-blue-800 transition-colors text-sm md:text-base">
                       {winery.phone}
                     </a>
                   </div>
@@ -246,6 +246,7 @@ const FeaturedWineriesSection = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
+            viewport={{ once: true, amount: 0.3 }}
           >
             <h2 className="section-title">FEATURED WINERIES</h2>
             <p className="section-subtitle">From the Ground Up: Stories That Start in the Soil</p>
@@ -258,7 +259,7 @@ const FeaturedWineriesSection = () => {
           </div>
           
           <motion.div 
-            className="grid grid-cols-5 gap-6 lg:gap-8"
+            className="grid grid-cols-5 gap-6 lg:gap-8 winery-grid-mobile"
             initial="hidden"
             whileInView="visible"
             variants={{
