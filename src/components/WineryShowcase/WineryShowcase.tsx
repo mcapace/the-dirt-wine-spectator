@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useInView } from 'framer-motion'
-import { ShoppingCart, Star, Heart, Share2, Eye } from 'lucide-react'
+import { ShoppingCart, Star, Heart, Share2 } from 'lucide-react'
 import { useRef } from 'react'
 
 interface Winery {

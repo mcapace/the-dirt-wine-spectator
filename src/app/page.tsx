@@ -177,7 +177,7 @@ export default function Home() {
                     Fresh, vertical-video storytelling.
                   </h3>
                   <p className="text-gray-300 text-lg leading-relaxed">
-                    "The Dirt" takes viewers straight to the vineyard—showing how the soil beneath your feet shapes each featured wine.
+                    &ldquo;The Dirt&rdquo; takes viewers straight to the vineyard—showing how the soil beneath your feet shapes each featured wine.
                   </p>
                 </div>
               </div>
