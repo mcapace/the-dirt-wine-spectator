@@ -3,45 +3,45 @@ export const videos = [
     id: 'video-1',
     title: 'The Limestone Legacy',
     brand: 'Château Margaux',
-    url: 'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    url: 'https://www.youtube.com/watch?v=aqz-KE-bpKQ',
     thumbnail: 'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=800&h=450&fit=crop',
     duration: '0:45',
-    description: 'Discover how limestone-rich soils create the legendary wines of Margaux.'
+    description: 'Discover how the unique gravelly limestone soils of the Médoc create wines of unparalleled elegance and longevity. The gravel and limestone composition provides exceptional drainage and mineral complexity that defines the legendary character of Château Margaux.'
   },
   {
     id: 'video-2',
-    title: 'Volcanic Excellence',
+    title: 'Volcanic Terroir Tales',
     brand: 'Opus One',
-    url: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+    url: 'https://vimeo.com/45878034',
     thumbnail: 'https://images.unsplash.com/photo-1566995541428-f2246c17cda1?w=800&h=450&fit=crop',
     duration: '0:52',
-    description: 'Experience Napa Valley\'s volcanic soils through the lens of Opus One.'
+    description: 'Experience the perfect marriage of Bordeaux tradition and California innovation through Napa Valley\'s volcanic soils. The volcanic ash and alluvial deposits create wines of remarkable depth, structure, and aging potential that define Opus One\'s distinctive style.'
   },
   {
     id: 'video-3',
-    title: 'Terra Rossa Tales',
+    title: 'Terra Rossa Stories',
     brand: 'Penfolds',
-    url: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+    url: 'https://www.youtube.com/watch?v=aqz-KE-bpKQ',
     thumbnail: 'https://images.unsplash.com/photo-1474722883778-792e7990302f?w=800&h=450&fit=crop',
     duration: '0:48',
-    description: 'Journey through Australia\'s iconic red soils with Penfolds.'
+    description: 'Journey through Australia\'s iconic terra rossa soils from Coonawarra to the ancient soils of Barossa Valley. The distinctive iron-rich red clay soils impart unique character, complexity, and exceptional aging potential to every Penfolds vintage.'
   },
   {
     id: 'video-4',
-    title: 'Tuscan Traditions',
+    title: 'Clay & Galestro Traditions',
     brand: 'Antinori',
-    url: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+    url: 'https://vimeo.com/45878034',
     thumbnail: 'https://images.unsplash.com/photo-1543418219-44e30b057fea?w=800&h=450&fit=crop',
     duration: '0:50',
-    description: '26 generations of winemaking wisdom from Tuscany\'s ancient soils.'
+    description: '26 generations of winemaking wisdom rooted in the galestro and alberese soils of Chianti Classico. The schist and clay soils create wines of exceptional complexity, finesse, and the distinctive character that has defined Antinori for centuries.'
   },
   {
     id: 'video-5',
-    title: 'Rhône Valley Rocks',
+    title: 'Granite & Schist Excellence',
     brand: 'Chapoutier',
-    url: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
+    url: 'https://www.youtube.com/watch?v=aqz-KE-bpKQ',
     thumbnail: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&h=450&fit=crop',
     duration: '0:46',
-    description: 'Explore the granite and schist that define Hermitage wines.'
+    description: 'Explore the granite and schist soils that define the legendary wines of Hermitage. The ancient rock formations and mineral-rich soils create wines of extraordinary power, complexity, and the distinctive character that makes Chapoutier wines truly exceptional.'
   }
 ] 
