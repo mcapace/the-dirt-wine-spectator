@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 
 export default function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -51,14 +52,21 @@ export default function Hero() {
           transition={{ duration: 0.8 }}
         >
           {/* Logo/Title */}
-          <motion.h1
-            className="text-6xl md:text-8xl font-black mb-6"
+          <motion.div
+            className="mb-6"
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <span className="gradient-text">THE DIRT</span>
-          </motion.h1>
+            <Image
+              src="/images/The Dirt Logo.png"
+              alt="The Dirt"
+              width={400}
+              height={200}
+              className="mx-auto max-w-full h-auto"
+              priority
+            />
+          </motion.div>
           
           {/* Subtitle */}
           <motion.p
