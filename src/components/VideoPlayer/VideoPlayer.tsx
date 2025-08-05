@@ -26,6 +26,7 @@ export default function VideoPlayer({ videos, featuredIndex, onVideoSelect }: Vi
   const [muted, setMuted] = useState(false)
   const [progress, setProgress] = useState(0)
   const [hoveredThumb, setHoveredThumb] = useState<number | null>(null)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const playerRef = useRef<any>(null)
 
   const featuredVideo = videos[featuredIndex]
