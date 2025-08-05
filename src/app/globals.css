@@ -4,24 +4,21 @@
 
 @layer base {
   :root {
-    --primary: 139 0 0;
-    --secondary: 212 165 116;
-    --accent: 255 215 0;
-    --background: 10 10 10;
+    --background: 0 0 0;
     --foreground: 245 245 245;
   }
 
   body {
-    background: rgb(10, 10, 10);
-    color: rgb(245, 245, 245);
+    background-color: #000000;
+    color: #ffffff;
   }
 }
 
 @layer components {
   .glass-effect {
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(24px);
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   }
   
@@ -33,9 +30,15 @@
   }
   
   .video-glow {
-    box-shadow: 0 0 50px rgba(212, 165, 116, 0.5),
-                0 0 100px rgba(212, 165, 116, 0.3),
-                0 0 150px rgba(212, 165, 116, 0.1);
+    box-shadow: 
+      0 0 20px rgba(139, 69, 19, 0.5),
+      0 0 40px rgba(139, 69, 19, 0.3),
+      0 0 60px rgba(139, 69, 19, 0.2),
+      0 0 80px rgba(139, 69, 19, 0.1);
+  }
+
+  .wine-gradient {
+    background: linear-gradient(to bottom right, #7f1d1d, #991b1b, #92400e);
   }
 }
 
