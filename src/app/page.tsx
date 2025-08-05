@@ -6,6 +6,7 @@ import FeaturedWineriesSection from '@/components/sections/FeaturedWineriesSecti
 import ClosingSection from '@/components/sections/ClosingSection';
 import Navigation from '@/components/Navigation/Navbar';
 import Footer from '@/components/Footer/Footer';
+import SectionSeparator from '@/components/UI/SectionSeparator';
 
 export default function HomePage() {
   return (
@@ -16,11 +17,20 @@ export default function HomePage() {
       {/* 2. Hero Section */}
       <HeroSection />
       
+      {/* Separator */}
+      <SectionSeparator />
+      
       {/* 3. About The Dirt with Video Gallery */}
       <AboutTheDirtSection />
       
+      {/* Separator */}
+      <SectionSeparator />
+      
       {/* 4. Featured Wineries */}
       <FeaturedWineriesSection />
+      
+      {/* Separator */}
+      <SectionSeparator />
       
       {/* 5. Closing Section */}
       <ClosingSection />

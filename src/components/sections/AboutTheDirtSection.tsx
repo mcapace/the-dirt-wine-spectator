@@ -162,6 +162,19 @@ const AboutTheDirtSection = () => {
               {/* Thumbnails Below Main Player */}
               <div className="bg-gray-50 p-6">
                 <div className="flex justify-center items-center video-thumbnails-mobile">
+                  {/* Left scroll arrow (mobile only) */}
+                  <button 
+                    className="scroll-arrow-left hidden md:hidden"
+                    onClick={() => {
+                      const container = document.querySelector('.video-thumbnails-mobile');
+                      if (container) {
+                        container.scrollBy({ left: -220, behavior: 'smooth' });
+                      }
+                    }}
+                  >
+                    ←
+                  </button>
+                  
                   {thumbnailVideos.map((video, index) => (
                     <motion.div
                       key={video.id}
@@ -192,6 +205,19 @@ const AboutTheDirtSection = () => {
                       </div>
                     </motion.div>
                   ))}
+                  
+                  {/* Right scroll arrow (mobile only) */}
+                  <button 
+                    className="scroll-arrow-right hidden md:hidden"
+                    onClick={() => {
+                      const container = document.querySelector('.video-thumbnails-mobile');
+                      if (container) {
+                        container.scrollBy({ left: 220, behavior: 'smooth' });
+                      }
+                    }}
+                  >
+                    →
+                  </button>
                 </div>
               </div>
             </div>
