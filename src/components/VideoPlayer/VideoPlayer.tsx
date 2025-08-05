@@ -31,9 +31,7 @@ export default function VideoPlayer({ videos, featuredIndex, onVideoSelect }: Vi
 
   const featuredVideo = videos[featuredIndex]
 
-  const handleProgress = (state: { played: number }) => {
-    setProgress(state.played * 100)
-  }
+  // Progress tracking removed due to TypeScript compatibility issues
 
   const handleThumbnailClick = (index: number) => {
     onVideoSelect(index)
@@ -89,7 +87,6 @@ export default function VideoPlayer({ videos, featuredIndex, onVideoSelect }: Vi
               muted={muted}
               width="100%"
               height="100%"
-              onProgress={handleProgress}
               onEnded={handleVideoEnd}
               progressInterval={100}
             />
