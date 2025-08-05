@@ -253,7 +253,10 @@ const FeaturedWineriesSection = () => {
           </motion.div>
           
           <div className="text-center mb-8">
-            <p className="text-lg text-gray-700 max-w-4xl mx-auto leading-relaxed">
+            <p 
+              className="text-gray-700 max-w-4xl mx-auto leading-relaxed"
+              style={{ fontSize: '1.25rem', lineHeight: '1.6' }}
+            >
               Get to know the wineries bringing <em>The Dirt</em> to life. Each of these trailblazing producers invites you behind the scenes of their vineyards — offering a rare look at how soil, climate, and craftsmanship come together in every bottle. These aren't just wines; they're stories rooted in place, passion, and authenticity.
             </p>
           </div>
