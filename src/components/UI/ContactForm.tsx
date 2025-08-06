@@ -12,6 +12,8 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
+  console.log('ContactForm props:', { isOpen, onClose });
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
