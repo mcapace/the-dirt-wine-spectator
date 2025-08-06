@@ -7,9 +7,12 @@ import { ChevronDown, Play, ArrowRight } from 'lucide-react'
 export default function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const { scrollY } = useScroll()
-  const y = useTransform(scrollY, [0, 500], [0, 150])
-  const opacity = useTransform(scrollY, [0, 300], [1, 0])
-  const scale = useTransform(scrollY, [0, 300], [1, 0.8])
+  const y = useTransform(scrollY, [0, 800], [0, 200])
+  const opacity = useTransform(scrollY, [0, 400], [1, 0])
+  const scale = useTransform(scrollY, [0, 400], [1, 0.85])
+  const titleY = useTransform(scrollY, [0, 600], [0, -100])
+  const titleScale = useTransform(scrollY, [0, 600], [1, 0.9])
+  const backgroundY = useTransform(scrollY, [0, 1000], [0, 300])
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -37,7 +40,10 @@ export default function Hero() {
       style={{ y, opacity, scale }}
     >
       {/* Dynamic Background */}
-      <div className="absolute inset-0">
+      <motion.div 
+        className="absolute inset-0"
+        style={{ y: backgroundY }}
+      >
         <div className="absolute inset-0 bg-gradient-to-br from-black via-red-950/20 to-amber-950/10" />
         
         {/* Floating Wine-Colored Orbs */}
@@ -116,6 +122,7 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+          style={{ y: titleY, scale: titleScale }}
         >
           <span 
             className="block relative"
@@ -197,7 +204,10 @@ export default function Hero() {
         >
           <motion.button 
             className="group relative px-10 py-5 overflow-hidden rounded-full font-semibold text-lg"
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ 
+              scale: 1.05,
+              transition: { duration: 0.3, ease: "easeOut" }
+            }}
             whileTap={{ scale: 0.95 }}
           >
             <motion.div 
@@ -205,19 +215,55 @@ export default function Hero() {
               whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.3 }}
             />
+            <motion.div
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              style={{
+                background: 'radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%)'
+              }}
+            />
             <span className="relative text-white flex items-center gap-2">
-              <Play size={20} />
+              <motion.div
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
+              >
+                <Play size={20} />
+              </motion.div>
               Watch Now
             </span>
           </motion.button>
           
           <motion.button 
-            className="group px-10 py-5 glass-effect rounded-full font-semibold text-lg hover:bg-white/10 transition-all duration-300 border border-white/20 flex items-center gap-2"
-            whileHover={{ scale: 1.05 }}
+            className="group relative px-10 py-5 glass-effect rounded-full font-semibold text-lg hover:bg-white/10 transition-all duration-300 border border-white/20 flex items-center gap-2 overflow-hidden"
+            whileHover={{ 
+              scale: 1.05,
+              transition: { duration: 0.3, ease: "easeOut" }
+            }}
             whileTap={{ scale: 0.95 }}
           >
-            <span>Learn More</span>
-            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+            <motion.div
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              style={{
+                background: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.05) 50%, transparent 70%)',
+                transform: 'translateX(-100%)'
+              }}
+              animate={{
+                x: ['-100%', '100%']
+              }}
+              transition={{
+                duration: 1,
+                repeat: Infinity,
+                repeatDelay: 3,
+                ease: "easeInOut"
+              }}
+            />
+            <span className="relative">Learn More</span>
+            <motion.div
+              className="relative"
+              whileHover={{ x: 5 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            >
+              <ArrowRight size={20} />
+            </motion.div>
           </motion.button>
         </motion.div>
       </div>

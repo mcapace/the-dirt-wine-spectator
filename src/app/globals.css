@@ -43,6 +43,13 @@
   line-height: 1.6;
   color: var(--color-black);
   background: var(--color-beige-light);
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(152, 35, 31, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(152, 35, 31, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(152, 35, 31, 0.02) 0%, transparent 50%);
+  background-size: 400px 400px, 300px 300px, 200px 200px;
+  background-position: 0 0, 100px 100px, 50px 50px;
+  background-repeat: repeat;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -675,21 +682,113 @@
 }
 
 /* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+
+
+
+/* Custom scrollbar for modal content */
+.modal-scroll-container::-webkit-scrollbar {
+  width: 10px;
+  background: transparent;
 }
 
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
+.modal-scroll-container::-webkit-scrollbar-track {
+  background: rgba(240, 240, 240, 0.2);
+  border-radius: 5px;
+  margin: 5px 0;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
+.modal-scroll-container::-webkit-scrollbar-thumb {
+  background: rgba(152, 35, 31, 0.4);
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: background 0.3s ease;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
+.modal-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(152, 35, 31, 0.6);
+}
+
+.modal-scroll-container::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Enhanced wine card animations */
+.winery-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.winery-card:hover {
+  transform: translateY(-15px) scale(1.05);
+}
+
+/* Smooth page transitions */
+* {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced mobile experience */
+@media (max-width: 768px) {
+  .winery-grid-mobile {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .winery-card:hover {
+    transform: translateY(-8px) scale(1.02);
+  }
+}
+
+@media (max-width: 480px) {
+  .winery-grid-mobile {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+/* Performance optimizations */
+.wine-card-glass {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Loading animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Enhanced button interactions */
+.btn-enhanced {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-enhanced::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-enhanced:hover::before {
+  left: 100%;
 }
 
 /* Custom color utilities for compatibility */
