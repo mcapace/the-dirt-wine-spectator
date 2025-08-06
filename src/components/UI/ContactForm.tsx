@@ -9,47 +9,29 @@ interface ContactFormProps {
 }
 
 const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-    company: '',
-    phone: ''
-  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+
     try {
       const response = await fetch('https://formspree.io/f/mkgzqkpb', {
         method: 'POST',
+        body: formData,
         headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+          'Accept': 'application/json'
+        }
       });
 
       if (response.ok) {
         setSubmitStatus('success');
-        setFormData({
-          name: '',
-          email: '',
-          message: '',
-          company: '',
-          phone: ''
-        });
+        form.reset();
         setTimeout(() => {
           onClose();
           setSubmitStatus('idle');
@@ -105,7 +87,7 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                Get In Touch
+                Share Your Story
               </motion.h2>
               <motion.p 
                 className="text-red-100 relative z-10"
@@ -113,7 +95,7 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                Let's discuss your wine journey
+                Tell us about your winery for The Dirt
               </motion.p>
               
               {/* Close Button */}
@@ -143,11 +125,16 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
                   >
                     <span className="text-white text-2xl">✓</span>
                   </motion.div>
-                  <h3 className="text-2xl font-bold text-gray-800 mb-2">Message Sent!</h3>
-                  <p className="text-gray-600">Thank you for reaching out. We'll get back to you soon.</p>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-2">Story Submitted!</h3>
+                  <p className="text-gray-600">Thank you for sharing your winery's story. We'll review your submission and get back to you soon.</p>
                 </motion.div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form 
+                  action="https://formspree.io/f/mkgzqkpb"
+                  method="POST"
+                  onSubmit={handleSubmit} 
+                  className="space-y-6"
+                >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Name Field */}
                     <motion.div
@@ -161,8 +148,6 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
                       <input
                         type="text"
                         name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-300 bg-white/80 backdrop-blur-sm"
                         placeholder="Your full name"
@@ -181,8 +166,6 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
                       <input
                         type="email"
                         name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-300 bg-white/80 backdrop-blur-sm"
                         placeholder="your.email@example.com"
@@ -191,41 +174,39 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Company Field */}
+                    {/* Winery Name Field */}
                     <motion.div
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.6 }}
                     >
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Company
+                        Winery Name *
                       </label>
                       <input
                         type="text"
                         name="company"
-                        value={formData.company}
-                        onChange={handleInputChange}
+                        required
                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-300 bg-white/80 backdrop-blur-sm"
-                        placeholder="Your company (optional)"
+                        placeholder="Your winery name"
                       />
                     </motion.div>
 
-                    {/* Phone Field */}
+                    {/* Location Field */}
                     <motion.div
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.7 }}
                     >
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Phone
+                        Winery Location *
                       </label>
                       <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
+                        type="text"
+                        name="location"
+                        required
                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-300 bg-white/80 backdrop-blur-sm"
-                        placeholder="Your phone number (optional)"
+                        placeholder="City, State/Region, Country"
                       />
                     </motion.div>
                   </div>
@@ -237,16 +218,14 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
                     transition={{ delay: 0.8 }}
                   >
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Message *
+                      Your Story *
                     </label>
                     <textarea
                       name="message"
-                      value={formData.message}
-                      onChange={handleInputChange}
                       required
                       rows={5}
                       className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-300 bg-white/80 backdrop-blur-sm resize-none"
-                      placeholder="Tell us about your wine interests, questions, or how we can help..."
+                      placeholder="Tell us about your winery's unique story, terroir, winemaking philosophy, and why you'd like to be featured in The Dirt..."
                     />
                   </motion.div>
 
@@ -285,7 +264,7 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
                           <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full" />
                         </motion.div>
                       ) : (
-                        'Send Message'
+                        'Submit Story'
                       )}
                     </motion.button>
                   </motion.div>
