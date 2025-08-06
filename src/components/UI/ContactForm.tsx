@@ -49,26 +49,15 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
   };
 
   return (
-    <AnimatePresence>
+    <>
       {isOpen && (
-        <motion.div
-          className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+        <div
+          className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4"
           onClick={onClose}
         >
-          <motion.div
-            className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden modal-enhanced"
-            initial={{ scale: 0.8, y: 50, opacity: 0 }}
-            animate={{ scale: 1, y: 0, opacity: 1 }}
-            exit={{ scale: 0.8, y: 50, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+          <div
+            className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden"
             onClick={(e) => e.stopPropagation()}
-            style={{
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              boxShadow: '0 25px 50px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1)'
-            }}
           >
             {/* Header */}
             <div className="bg-gradient-to-r from-red-900 to-red-700 text-white p-8 text-center relative overflow-hidden">
@@ -284,9 +273,9 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
               )}
             </div>
           </motion.div>
-        </motion.div>
+        </div>
       )}
-    </AnimatePresence>
+    </>
   );
 };
 
