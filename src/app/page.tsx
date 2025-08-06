@@ -1,7 +1,7 @@
 'use client'
 
 import HeroSection from '@/components/sections/HeroSection';
-import AboutTheDirtSection from '../components/sections/AboutTheDirtSection';
+import AboutTheDirtSection from '@/components/sections/AboutTheDirtSection';
 import FeaturedWineriesSection from '@/components/sections/FeaturedWineriesSection';
 import ClosingSection from '@/components/sections/ClosingSection';
 import Navigation from '@/components/Navigation/Navbar';

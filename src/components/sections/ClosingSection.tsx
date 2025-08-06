@@ -82,4 +82,4 @@ Best regards,
   );
 };
 
-export default ClosingSection; 
+export default ClosingSection;

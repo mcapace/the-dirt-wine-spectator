@@ -77,6 +77,208 @@ const wineries = [
   }
 ];
 
+const WineryModal = ({ winery, isOpen, onClose }: { winery: any; isOpen: boolean; onClose: () => void }) => {
+  console.log('Modal props:', { isOpen, wineryName: winery?.name });
+  if (!isOpen || !winery) {
+    console.log('Modal not rendering - isOpen:', isOpen, 'winery:', winery);
+    return null;
+  }
+
+  return (
+    <motion.div
+      className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
+      <motion.div
+        className="bg-white/80 backdrop-blur-2xl rounded-3xl shadow-2xl max-w-5xl w-full max-h-[80vh] overflow-hidden border border-white/30 modal-mobile"
+        initial={{ scale: 0.8, rotateY: -90, opacity: 0 }}
+        animate={{ scale: 1, rotateY: 0, opacity: 1 }}
+        exit={{ scale: 0.8, rotateY: 90, opacity: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: 'rgba(255, 255, 255, 0.8)',
+          backdropFilter: 'blur(30px)',
+          border: '1px solid rgba(255, 255, 255, 0.4)',
+          boxShadow: '0 35px 70px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1)'
+        }}
+      >
+        <div className="flex flex-col lg:flex-row h-full modal-content-mobile">
+          {/* Left side - Logo */}
+          <div className="lg:w-2/5 p-8 lg:p-12 flex items-center justify-center bg-gradient-to-br from-beige-light/60 to-beige/60 backdrop-blur-xl border-r border-white/30 modal-logo-mobile" style={{
+            background: 'linear-gradient(135deg, rgba(248, 244, 232, 0.6) 0%, rgba(240, 232, 208, 0.6) 100%)',
+            backdropFilter: 'blur(20px)',
+            borderRight: '1px solid rgba(255, 255, 255, 0.3)'
+          }}>
+            <motion.div
+              initial={{ scale: 0.5, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ duration: 1, delay: 0.3 }}
+              className="text-center"
+            >
+              <Image
+                src={winery.logo}
+                alt={`${winery.name} Logo`}
+                width={300}
+                height={150}
+                className="w-auto h-24 md:h-32 lg:h-40 object-contain mx-auto"
+              />
+              <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-black mt-4 md:mt-6">{winery.name}</h2>
+            </motion.div>
+          </div>
+          
+          {/* Right side - Content */}
+          <div className="lg:w-3/5 p-6 lg:p-12 flex flex-col justify-center modal-text-mobile overflow-y-auto">
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="space-y-4 md:space-y-6"
+            >
+              {/* Main Content */}
+              <div>
+                <h3 className="text-xl md:text-2xl lg:text-3xl font-semibold text-black mb-3 md:mb-4">About {winery.name}</h3>
+                <div className="space-y-3 md:space-y-4 text-gray-700 leading-relaxed text-sm md:text-base">
+                  <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  </p>
+                  <p>
+                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  </p>
+                  <p>
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                  </p>
+                </div>
+              </div>
+              
+              {/* Contact Information */}
+              <div className="pt-4 md:pt-6 border-t border-gray-200/50">
+                <h4 className="text-lg md:text-xl font-semibold text-black mb-3 md:mb-4">Contact Information</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-4 md:mb-6">
+                  <div className="flex items-center space-x-3">
+                    <img
+                      src="/Logos/Web logo.png"
+                      alt="Website"
+                      className="w-5 h-5 object-contain"
+                    />
+                    <a href={winery.website} target="_blank" rel="noopener noreferrer" 
+                       className="text-blue-600 hover:text-blue-800 transition-colors text-sm md:text-base">
+                      {winery.website}
+                    </a>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <img
+                      src="/Logos/Email logo.png"
+                      alt="Email"
+                      className="w-5 h-5 object-contain"
+                    />
+                    <a href={`mailto:${winery.contact}`} 
+                       className="text-blue-600 hover:text-blue-800 transition-colors text-sm md:text-base">
+                      {winery.contact}
+                    </a>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <img
+                      src="/Logos/Phone logo.png"
+                      alt="Phone"
+                      className="w-5 h-5 object-contain"
+                    />
+                    <a href={`tel:${winery.phone}`} 
+                       className="text-blue-600 hover:text-blue-800 transition-colors text-sm md:text-base">
+                      {winery.phone}
+                    </a>
+                  </div>
+                </div>
+                
+                {/* Social Media */}
+                <div>
+                  <h4 className="text-lg font-semibold text-black mb-3">Connect With Us</h4>
+                  <div className="flex space-x-4">
+                    <motion.a
+                      href={winery.social.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 backdrop-blur-xl"
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      whileTap={{ scale: 0.9 }}
+                      style={{
+                        background: 'linear-gradient(135deg, #833AB4 0%, #FD1D1D 50%, #F77737 100%)',
+                        backdropFilter: 'blur(10px)',
+                        boxShadow: '0 8px 32px rgba(131, 58, 180, 0.3)'
+                      }}
+                    >
+                      <img
+                        src="/Logos/IG logo.png"
+                        alt="Instagram"
+                        className="w-6 h-6 object-contain"
+                      />
+                    </motion.a>
+                    <motion.a
+                      href={winery.social.facebook}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 backdrop-blur-xl"
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      whileTap={{ scale: 0.9 }}
+                      style={{
+                        background: 'linear-gradient(135deg, #1877F2 0%, #0D6EFD 100%)',
+                        backdropFilter: 'blur(10px)',
+                        boxShadow: '0 8px 32px rgba(24, 119, 242, 0.3)'
+                      }}
+                    >
+                      <img
+                        src="/Logos/FB logo.png"
+                        alt="Facebook"
+                        className="w-6 h-6 object-contain"
+                      />
+                    </motion.a>
+                    <motion.a
+                      href={winery.social.twitter}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-12 h-12 bg-black rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 backdrop-blur-xl"
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      whileTap={{ scale: 0.9 }}
+                      style={{
+                        background: 'linear-gradient(135deg, #000000 0%, #1DA1F2 100%)',
+                        backdropFilter: 'blur(10px)',
+                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+                      }}
+                    >
+                      <img
+                        src="/Logos/X logo.png"
+                        alt="X (Twitter)"
+                        className="w-6 h-6 object-contain"
+                      />
+                    </motion.a>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+        
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-6 right-6 w-12 h-12 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 border border-white/30 hover:scale-110"
+          style={{
+            backdropFilter: 'blur(20px)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+          }}
+        >
+          <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </motion.div>
+    </motion.div>
+  );
+};
+
 const FeaturedWineriesSection = () => {
   const [selectedWinery, setSelectedWinery] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -88,7 +290,6 @@ const FeaturedWineriesSection = () => {
   };
 
   const closeModal = () => {
-    console.log('Closing modal');
     setIsModalOpen(false);
     setSelectedWinery(null);
   };
@@ -241,7 +442,7 @@ const FeaturedWineriesSection = () => {
         </div>
       </motion.section>
 
-      {/* Modal */}
+      {/* Rotating modal */}
       {isModalOpen && selectedWinery && (
         <motion.div 
           initial={{ opacity: 0 }}
@@ -319,8 +520,7 @@ const FeaturedWineriesSection = () => {
                 e.currentTarget.style.boxShadow = 
                   '0 12px 40px rgba(152, 35, 31, 0.6), ' +
                   'inset 0 1px 0 rgba(255, 255, 255, 0.4), ' +
-                  'inset 0 -1px 0 rgba(0, 0, 0, 0.15), ' +
-                  '0 0 20px rgba(152, 35, 31, 0.2)';
+                  'inset 0 -1px 0 rgba(0, 0, 0, 0.3)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'scale(1)';
@@ -716,6 +916,8 @@ const FeaturedWineriesSection = () => {
           </motion.div>
         </motion.div>
       )}
+      
+
     </>
   );
 };
