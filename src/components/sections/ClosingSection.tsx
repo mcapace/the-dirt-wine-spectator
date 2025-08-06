@@ -55,18 +55,15 @@ const ClosingSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
-            <motion.button
-              className="btn-minimal red text-lg px-12 py-4"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.2 }}
+            <button
+              className="bg-red-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-red-700 transition-colors"
               onClick={() => {
                 console.log('Button clicked!');
                 setIsContactFormOpen(true);
               }}
             >
               Want your story in the dirt?
-            </motion.button>
+            </button>
           </motion.div>
         </motion.div>
       </div>
