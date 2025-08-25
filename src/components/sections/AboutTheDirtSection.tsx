@@ -252,7 +252,7 @@ const AboutTheDirtSection = () => {
                           className="w-full h-full object-cover"
                           style={{ 
                             objectPosition: video.id === 'video2' ? 'center 25%' : 
-                                       video.id === 'video1' ? 'center 15%' :
+                                       video.id === 'video1' ? 'center 10%' :
                                        video.id === 'video3' ? 'center 40%' :
                                        video.id === 'video4' ? 'center 30%' :
                                        video.id === 'video5' ? 'center 35%' : 'center center'
