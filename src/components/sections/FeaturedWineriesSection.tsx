@@ -63,16 +63,16 @@ const wineries = [
   },
   {
     id: 5,
-    name: 'The Dirt',
-    logo: '/Logos/New Dirt logo V.2.png',
+    name: 'Whitehaven',
+    logo: '/Logos/WHV_Logo_2019-removebg-preview.png',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    website: 'https://thedirt.com',
-    contact: 'info@thedirt.com',
-    phone: '+1 (555) 567-8901',
+    website: 'https://whitehaven.co.nz',
+    contact: 'info@whitehaven.co.nz',
+    phone: '+64 3 520 6215',
     social: {
-      instagram: 'https://instagram.com/thedirt',
-      facebook: 'https://facebook.com/thedirt',
-      twitter: 'https://twitter.com/thedirt'
+      instagram: 'https://instagram.com/whitehavenwines',
+      facebook: 'https://facebook.com/whitehavenwines',
+      twitter: 'https://twitter.com/whitehavenwines'
     }
   }
 ];

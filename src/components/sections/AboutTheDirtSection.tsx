@@ -48,10 +48,10 @@ const AboutTheDirtSection = () => {
     },
     {
       id: 'video5',
-      mediaId: '7bnWKUei',
-      title: 'The-Dirt-Series Trefethen 1080x1920',
-      image: 'https://cdn.jwplayer.com/thumbs/7bnWKUei-720.jpg',
-      embedUrl: 'https://cdn.jwplayer.com/players/7bnWKUei-O0V5rBgo.html'
+      mediaId: 'L6WSfCgB',
+      title: 'The-Dirt-Series Whitehaven 1080x1920',
+      image: 'https://cdn.jwplayer.com/thumbs/L6WSfCgB-720.jpg',
+      embedUrl: 'https://cdn.jwplayer.com/players/L6WSfCgB-O0V5rBgo.html'
     }
   ];
 
@@ -76,6 +76,17 @@ const AboutTheDirtSection = () => {
     setShuffledVideos(newShuffled);
     setCurrentMainVideo(newVideo);
     setThumbnailVideos(newShuffled.slice(1));
+    
+    // Force iframe reload to trigger autoplay
+    setTimeout(() => {
+      const iframe = document.querySelector('iframe');
+      if (iframe) {
+        const currentSrc = iframe.getAttribute('src');
+        if (currentSrc) {
+          iframe.setAttribute('src', currentSrc);
+        }
+      }
+    }, 100);
   };
 
   useEffect(() => {
@@ -165,11 +176,11 @@ const AboutTheDirtSection = () => {
                 
                 {/* Iframe player */}
                 <iframe 
-                  src={`${currentMainVideo.embedUrl}?autoplay=1&muted=1`}
+                  src={`${currentMainVideo.embedUrl}?autoplay=1&muted=1&controls=1&rel=0`}
                   className="absolute top-0 left-0 w-full h-full border-0"
                   style={{ zIndex: 2 }}
                   allowFullScreen
-                  allow="autoplay; encrypted-media"
+                  allow="autoplay; encrypted-media; fullscreen"
                 />
               </div>
 
