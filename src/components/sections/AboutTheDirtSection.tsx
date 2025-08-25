@@ -111,12 +111,11 @@ const AboutTheDirtSection = () => {
         const iframe = document.querySelector('iframe');
         if (iframe) {
           try {
-            // Try to send autoplay message to iframe
+            // Try multiple autoplay approaches
             iframe.contentWindow?.postMessage(JSON.stringify({
               method: 'play'
             }), '*');
             
-            // Also try JW Player specific command
             iframe.contentWindow?.postMessage(JSON.stringify({
               method: 'load',
               params: {
@@ -124,11 +123,29 @@ const AboutTheDirtSection = () => {
                 autostart: true
               }
             }), '*');
+            
+            // Try JW Player specific autoplay
+            iframe.contentWindow?.postMessage(JSON.stringify({
+              method: 'setConfig',
+              params: {
+                autostart: true,
+                mute: true
+              }
+            }), '*');
+            
+            // Also try clicking the play button programmatically
+            setTimeout(() => {
+              const playButton = iframe.contentDocument?.querySelector('.jw-icon-playback');
+              if (playButton) {
+                (playButton as HTMLElement).click();
+              }
+            }, 500);
+            
           } catch (e) {
             console.log('Autoplay message sent');
           }
         }
-      }, 1500);
+      }, 2000);
     }
   }, [currentMainVideo]);
 
@@ -190,7 +207,7 @@ const AboutTheDirtSection = () => {
                 {/* Iframe player */}
                 <iframe 
                   key={currentMainVideo.id}
-                  src={`${currentMainVideo.embedUrl}?autoplay=1&muted=1&controls=1&rel=0&playsinline=1&preload=auto&repeat=0&stretching=uniform`}
+                  src={`${currentMainVideo.embedUrl}?autostart=true&muted=true&controls=true&rel=0&playsinline=true&preload=auto&repeat=0&stretching=uniform`}
                   className="absolute top-0 left-0 w-full h-full border-0"
                   style={{ zIndex: 2 }}
                   allowFullScreen
@@ -235,7 +252,7 @@ const AboutTheDirtSection = () => {
                           className="w-full h-full object-cover"
                           style={{ 
                             objectPosition: video.id === 'video2' ? 'center 25%' : 
-                                       video.id === 'video1' ? 'center 20%' :
+                                       video.id === 'video1' ? 'center 15%' :
                                        video.id === 'video3' ? 'center 40%' :
                                        video.id === 'video4' ? 'center 30%' :
                                        video.id === 'video5' ? 'center 35%' : 'center center'
