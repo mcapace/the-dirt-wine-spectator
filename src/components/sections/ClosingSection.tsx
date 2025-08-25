@@ -83,5 +83,3 @@ Best regards,
 };
 
 export default ClosingSection;
-
-
