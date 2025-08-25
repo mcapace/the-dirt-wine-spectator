@@ -105,6 +105,21 @@ const AboutTheDirtSection = () => {
       if (backgroundCanvas) {
         backgroundCanvas.style.backgroundImage = `url(${currentMainVideo.image})`;
       }
+      
+      // Force autoplay after iframe loads
+      setTimeout(() => {
+        const iframe = document.querySelector('iframe');
+        if (iframe) {
+          try {
+            // Try to send autoplay message to iframe
+            iframe.contentWindow?.postMessage(JSON.stringify({
+              method: 'play'
+            }), '*');
+          } catch (e) {
+            console.log('Autoplay message sent');
+          }
+        }
+      }, 1000);
     }
   }, [currentMainVideo]);
 
@@ -166,11 +181,12 @@ const AboutTheDirtSection = () => {
                 {/* Iframe player */}
                 <iframe 
                   key={currentMainVideo.id}
-                  src={`${currentMainVideo.embedUrl}?autoplay=1&muted=1&controls=1&rel=0&playsinline=1`}
+                  src={`${currentMainVideo.embedUrl}?autoplay=1&muted=1&controls=1&rel=0&playsinline=1&preload=auto`}
                   className="absolute top-0 left-0 w-full h-full border-0"
                   style={{ zIndex: 2 }}
                   allowFullScreen
                   allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+                  loading="eager"
                 />
               </div>
 
@@ -209,7 +225,11 @@ const AboutTheDirtSection = () => {
                           alt={video.title}
                           className="w-full h-full object-cover"
                           style={{ 
-                            objectPosition: video.id === 'video2' ? 'center 30%' : 'center center'
+                            objectPosition: video.id === 'video2' ? 'center 25%' : 
+                                       video.id === 'video1' ? 'center 35%' :
+                                       video.id === 'video3' ? 'center 40%' :
+                                       video.id === 'video4' ? 'center 30%' :
+                                       video.id === 'video5' ? 'center 35%' : 'center center'
                           }}
                         />
                         <div className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
