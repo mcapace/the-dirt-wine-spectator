@@ -76,17 +76,6 @@ const AboutTheDirtSection = () => {
     setShuffledVideos(newShuffled);
     setCurrentMainVideo(newVideo);
     setThumbnailVideos(newShuffled.slice(1));
-    
-    // Force iframe reload to trigger autoplay
-    setTimeout(() => {
-      const iframe = document.querySelector('iframe');
-      if (iframe) {
-        const currentSrc = iframe.getAttribute('src');
-        if (currentSrc) {
-          iframe.setAttribute('src', currentSrc);
-        }
-      }
-    }, 100);
   };
 
   useEffect(() => {
@@ -176,11 +165,12 @@ const AboutTheDirtSection = () => {
                 
                 {/* Iframe player */}
                 <iframe 
-                  src={`${currentMainVideo.embedUrl}?autoplay=1&muted=1&controls=1&rel=0`}
+                  key={currentMainVideo.id}
+                  src={`${currentMainVideo.embedUrl}?autoplay=1&muted=1&controls=1&rel=0&playsinline=1`}
                   className="absolute top-0 left-0 w-full h-full border-0"
                   style={{ zIndex: 2 }}
                   allowFullScreen
-                  allow="autoplay; encrypted-media; fullscreen"
+                  allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
                 />
               </div>
 
@@ -205,9 +195,9 @@ const AboutTheDirtSection = () => {
                       key={video.id}
                       className="relative cursor-pointer group flex-shrink-0 video-thumbnail-mobile"
                       style={{ 
-                        width: '200px', 
-                        height: '120px',
-                        marginRight: index < thumbnailVideos.length - 1 ? '24px' : '0'
+                        width: '280px', 
+                        height: '168px',
+                        marginRight: index < thumbnailVideos.length - 1 ? '20px' : '0'
                       }}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -223,11 +213,11 @@ const AboutTheDirtSection = () => {
                           }}
                         />
                         <div className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-                          <div className="w-10 h-10 bg-white bg-opacity-90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                            <div className="w-0 h-0 border-l-6 border-l-gray-700 border-t-4 border-t-transparent border-b-4 border-b-transparent ml-1"></div>
+                          <div className="w-12 h-12 bg-white bg-opacity-90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                            <div className="w-0 h-0 border-l-8 border-l-gray-700 border-t-5 border-t-transparent border-b-5 border-b-transparent ml-1"></div>
                           </div>
                         </div>
-                        <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
+                        <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 to-transparent">
                           <p className="text-white text-sm font-medium truncate">{video.title}</p>
                         </div>
                       </div>
