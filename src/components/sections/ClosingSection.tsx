@@ -1,12 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useState } from 'react';
-import ContactForm from '../UI/ContactForm';
 
 const ClosingSection = () => {
-  const [isContactFormOpen, setIsContactFormOpen] = useState(false);
-
   return (
     <section className="section-minimal bg-black text-white py-24">
       <div className="container-minimal">
@@ -55,26 +51,37 @@ const ClosingSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
-            <button
-              className="bg-red-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-red-700 transition-colors"
+            <motion.button
+              className="btn-minimal red text-lg px-12 py-4"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.2 }}
               onClick={() => {
-                console.log('Button clicked!');
-                setIsContactFormOpen(true);
+                const subject = encodeURIComponent('The Dirt - Winery Story Submission');
+                const body = encodeURIComponent(`Hi John,
+
+I'm interested in sharing my winery's story for The Dirt video series.
+
+Winery Name:
+Location:
+Contact Information:
+
+I'd love to discuss how we can showcase our unique terroir and winemaking story through your vertical video format.
+
+Best regards,
+[Your Name]`);
+                window.open(`mailto:jgrecco@mshanken.com?subject=${subject}&body=${body}`, '_blank');
               }}
             >
               Want your story in the dirt?
-            </button>
+            </motion.button>
           </motion.div>
         </motion.div>
       </div>
-      
-      {/* Contact Form Modal */}
-      <ContactForm 
-        isOpen={isContactFormOpen}
-        onClose={() => setIsContactFormOpen(false)}
-      />
     </section>
   );
 };
 
-export default ClosingSection; 
+export default ClosingSection;
+
+

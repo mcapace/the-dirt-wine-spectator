@@ -9,31 +9,47 @@ interface ContactFormProps {
 }
 
 const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+    company: '',
+    phone: ''
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  console.log('ContactForm props:', { isOpen, onClose });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
-    const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
-
     try {
       const response = await fetch('https://formspree.io/f/mkgzqkpb', {
         method: 'POST',
-        body: formData,
         headers: {
-          'Accept': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {
         setSubmitStatus('success');
-        form.reset();
+        setFormData({
+          name: '',
+          email: '',
+          message: '',
+          company: '',
+          phone: ''
+        });
         setTimeout(() => {
           onClose();
           setSubmitStatus('idle');
@@ -49,15 +65,26 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
   };
 
   return (
-    <>
+    <AnimatePresence>
       {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4"
+        <motion.div
+          className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           onClick={onClose}
         >
-          <div
-            className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden"
+          <motion.div
+            className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden modal-enhanced"
+            initial={{ scale: 0.8, y: 50, opacity: 0 }}
+            animate={{ scale: 1, y: 0, opacity: 1 }}
+            exit={{ scale: 0.8, y: 50, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 100, damping: 20 }}
             onClick={(e) => e.stopPropagation()}
+            style={{
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              boxShadow: '0 25px 50px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1)'
+            }}
           >
             {/* Header */}
             <div className="bg-gradient-to-r from-red-900 to-red-700 text-white p-8 text-center relative overflow-hidden">
@@ -78,7 +105,7 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                Share Your Story
+                Get In Touch
               </motion.h2>
               <motion.p 
                 className="text-red-100 relative z-10"
@@ -86,7 +113,7 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                Tell us about your winery for The Dirt
+                Let's discuss your wine journey
               </motion.p>
               
               {/* Close Button */}
@@ -116,16 +143,11 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
                   >
                     <span className="text-white text-2xl">✓</span>
                   </motion.div>
-                  <h3 className="text-2xl font-bold text-gray-800 mb-2">Story Submitted!</h3>
-                  <p className="text-gray-600">Thank you for sharing your winery's story. We'll review your submission and get back to you soon.</p>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-2">Message Sent!</h3>
+                  <p className="text-gray-600">Thank you for reaching out. We'll get back to you soon.</p>
                 </motion.div>
               ) : (
-                <form 
-                  action="https://formspree.io/f/mkgzqkpb"
-                  method="POST"
-                  onSubmit={handleSubmit} 
-                  className="space-y-6"
-                >
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Name Field */}
                     <motion.div
@@ -139,6 +161,8 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
                       <input
                         type="text"
                         name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-300 bg-white/80 backdrop-blur-sm"
                         placeholder="Your full name"
@@ -157,6 +181,8 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
                       <input
                         type="email"
                         name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-300 bg-white/80 backdrop-blur-sm"
                         placeholder="your.email@example.com"
@@ -165,39 +191,41 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Winery Name Field */}
+                    {/* Company Field */}
                     <motion.div
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.6 }}
                     >
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Winery Name *
+                        Company
                       </label>
                       <input
                         type="text"
                         name="company"
-                        required
+                        value={formData.company}
+                        onChange={handleInputChange}
                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-300 bg-white/80 backdrop-blur-sm"
-                        placeholder="Your winery name"
+                        placeholder="Your company (optional)"
                       />
                     </motion.div>
 
-                    {/* Location Field */}
+                    {/* Phone Field */}
                     <motion.div
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.7 }}
                     >
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Winery Location *
+                        Phone
                       </label>
                       <input
-                        type="text"
-                        name="location"
-                        required
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-300 bg-white/80 backdrop-blur-sm"
-                        placeholder="City, State/Region, Country"
+                        placeholder="Your phone number (optional)"
                       />
                     </motion.div>
                   </div>
@@ -209,14 +237,16 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
                     transition={{ delay: 0.8 }}
                   >
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Your Story *
+                      Message *
                     </label>
                     <textarea
                       name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
                       required
                       rows={5}
                       className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-300 bg-white/80 backdrop-blur-sm resize-none"
-                      placeholder="Tell us about your winery's unique story, terroir, winemaking philosophy, and why you'd like to be featured in The Dirt..."
+                      placeholder="Tell us about your wine interests, questions, or how we can help..."
                     />
                   </motion.div>
 
@@ -255,7 +285,7 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
                           <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full" />
                         </motion.div>
                       ) : (
-                        'Submit Story'
+                        'Send Message'
                       )}
                     </motion.button>
                   </motion.div>
@@ -273,9 +303,9 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
               )}
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       )}
-    </>
+    </AnimatePresence>
   );
 };
 
