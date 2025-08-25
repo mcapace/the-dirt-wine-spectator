@@ -79,11 +79,24 @@ const AboutTheDirtSection = () => {
   };
 
   useEffect(() => {
-    // Initialize with iframe approach
-    const shuffled = shuffleArray(videos);
-    setShuffledVideos(shuffled);
-    setCurrentMainVideo(shuffled[0]);
-    setThumbnailVideos(shuffled.slice(1));
+    // Check for video parameter in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const videoParam = urlParams.get('video');
+    
+    let initialVideos = shuffleArray(videos);
+    
+    if (videoParam) {
+      const targetVideo = videos.find(v => v.id === videoParam);
+      if (targetVideo) {
+        // Move target video to first position
+        const filtered = initialVideos.filter(v => v.id !== videoParam);
+        initialVideos = [targetVideo, ...filtered];
+      }
+    }
+    
+    setShuffledVideos(initialVideos);
+    setCurrentMainVideo(initialVideos[0]);
+    setThumbnailVideos(initialVideos.slice(1));
   }, []);
 
   useEffect(() => {
@@ -99,14 +112,14 @@ const AboutTheDirtSection = () => {
     <section id="about" data-videos-section className="section-minimal bg-beige-light">
       <div className="container-minimal">
         <motion.div 
-          className="text-center max-w-4xl mx-auto mb-8"
+          className="text-center max-w-4xl mx-auto mb-6"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true, amount: 0.3 }}
         >
           <motion.h2 
-            className="font-light text-black mb-6 tracking-wide"
+            className="font-light text-black mb-4 tracking-wide"
             style={{ fontSize: '2.5rem', lineHeight: '1.1' }}
             initial={{ opacity: 0, letterSpacing: "0.5em" }}
             whileInView={{ opacity: 1, letterSpacing: "0.1em" }}
@@ -122,7 +135,7 @@ const AboutTheDirtSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Welcome to <em>The Dirt</em> — Wine Spectator's newest video series that brings wine lovers straight to the vineyard. Through quick, compelling vertical videos filmed by the winemakers themselves, we uncover how the soil beneath the vines shapes the character of every bottle.
+            Welcome to <em>The Dirt</em> — Wine Spectator invited winemakers to grab a bottle and their phone, head into the vineyard, and show you how the soil beneath the vines shapes the character of their wine. Watch the videos and expand your Wine IQ!
           </motion.p>
         </motion.div>
 
@@ -152,10 +165,11 @@ const AboutTheDirtSection = () => {
                 
                 {/* Iframe player */}
                 <iframe 
-                  src={currentMainVideo.embedUrl}
+                  src={`${currentMainVideo.embedUrl}?autoplay=1&muted=1`}
                   className="absolute top-0 left-0 w-full h-full border-0"
                   style={{ zIndex: 2 }}
                   allowFullScreen
+                  allow="autoplay; encrypted-media"
                 />
               </div>
 
@@ -193,6 +207,9 @@ const AboutTheDirtSection = () => {
                           src={video.image} 
                           alt={video.title}
                           className="w-full h-full object-cover"
+                          style={{ 
+                            objectPosition: video.id === 'video2' ? 'center 30%' : 'center center'
+                          }}
                         />
                         <div className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
                           <div className="w-10 h-10 bg-white bg-opacity-90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">

@@ -20,7 +20,7 @@ const HeroSection = () => {
           muted
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ filter: 'brightness(0.7)' }}
+          style={{ filter: 'brightness(0.9)' }}
         >
           <source src="/videos/Dirt Falling.mp4" type="video/mp4" />
           Your browser does not support the video tag.
