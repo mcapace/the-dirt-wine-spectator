@@ -256,15 +256,14 @@ const AboutTheDirtSection = () => {
                     }
                   }}
                   style={{
-                    position: isMobile && isMobileExpanded ? 'fixed' : 'absolute',
-                    top: isMobile && isMobileExpanded ? '0' : '50%',
-                    left: isMobile && isMobileExpanded ? '0' : '50%',
-                    transform: isMobile && isMobileExpanded ? 'none' : 'translate(-50%, -50%)',
-                    width: isMobile && isMobileExpanded ? '100vw' : '95%',
-                    maxWidth: isMobile && isMobileExpanded ? '100vw' : '900px',
-                    aspectRatio: isMobile && isMobileExpanded ? 'auto' : '16/9',
-                    height: isMobile && isMobileExpanded ? '100vh' : 'auto',
-                    zIndex: isMobile && isMobileExpanded ? 9999 : 2,
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: '95%',
+                    maxWidth: '900px',
+                    aspectRatio: '16/9',
+                    zIndex: 2,
                     cursor: isMobile && !isMobileExpanded ? 'pointer' : 'default'
                   }}
                 >
