@@ -247,7 +247,6 @@ const AboutTheDirtSection = () => {
               }} />
 
               {/* Video Container */}
-              {(!isMobile || !isMobileExpanded) && (
                 <div 
                   onClick={() => {
                     console.log('Video container clicked, isMobile:', isMobile, 'isMobileExpanded:', isMobileExpanded);
@@ -351,7 +350,6 @@ const AboutTheDirtSection = () => {
                   </button>
                 )}
               </div>
-            )}
           </div>
 
             {/* CTA Button - Below Video */}
