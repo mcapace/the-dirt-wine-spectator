@@ -257,12 +257,13 @@ const AboutTheDirtSection = () => {
                   }}
                   style={{
                     position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: '95%',
-                    maxWidth: '900px',
-                    aspectRatio: '16/9',
+                    top: isMobile && isMobileExpanded ? '0' : '50%',
+                    left: isMobile && isMobileExpanded ? '0' : '50%',
+                    transform: isMobile && isMobileExpanded ? 'none' : 'translate(-50%, -50%)',
+                    width: isMobile && isMobileExpanded ? '100%' : '95%',
+                    maxWidth: isMobile && isMobileExpanded ? '100%' : '900px',
+                    aspectRatio: isMobile && isMobileExpanded ? 'auto' : '16/9',
+                    height: isMobile && isMobileExpanded ? '100%' : 'auto',
                     zIndex: 2,
                     cursor: isMobile && !isMobileExpanded ? 'pointer' : 'default'
                   }}
@@ -272,7 +273,7 @@ const AboutTheDirtSection = () => {
                   key={currentVideo.id}
                   src={`${currentVideo.embedUrl}?autostart=true&automute=true&mute=true&controls=true&stretching=uniform&repeat=false&displaytitle=false&displaydescription=false&aspectratio=16:9&playsinline=1&preload=auto`}
                   style={{
-                    position: isMobile && isMobileExpanded ? 'relative' : 'absolute',
+                    position: 'absolute',
                     top: 0,
                     left: 0,
                     width: '100%',
@@ -285,7 +286,6 @@ const AboutTheDirtSection = () => {
                   allowFullScreen
                   allow="autoplay *; fullscreen *; encrypted-media *; picture-in-picture *"
                   title={currentVideo.winery}
-
                 />
 
                 {/* Mobile Play Button Overlay */}
