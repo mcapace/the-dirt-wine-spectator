@@ -449,10 +449,13 @@ const AboutTheDirtSection = () => {
                         transition: 'opacity 0.3s ease'
                       }}
                       onClick={() => {
+                        console.log('Thumbnail clicked, isMobile:', isMobile);
                         if (isMobile) {
                           // On mobile, switch video and go to full-screen overlay
+                          console.log('Switching video and going full-screen');
                           switchToVideo(videoIndex);
                           setTimeout(() => {
+                            console.log('Setting isMobileExpanded to true');
                             setIsMobileExpanded(true);
                           }, 200); // Small delay to ensure video is loaded
                         } else {
@@ -555,6 +558,7 @@ const AboutTheDirtSection = () => {
       </div>
 
       {/* Full Screen Mobile Video Overlay */}
+      {console.log('Checking overlay conditions:', { isMobile, isMobileExpanded })}
       {isMobile && isMobileExpanded && (
         <div style={{
           position: 'fixed',
