@@ -450,13 +450,10 @@ const AboutTheDirtSection = () => {
                       }}
                       onClick={() => {
                         if (isMobile) {
-                          // On mobile, switch video and request full-screen
+                          // On mobile, switch video and go to full-screen overlay
                           switchToVideo(videoIndex);
                           setTimeout(() => {
-                            const iframe = document.querySelector('iframe');
-                            if (iframe && iframe.requestFullscreen) {
-                              iframe.requestFullscreen();
-                            }
+                            setIsMobileExpanded(true);
                           }, 200); // Small delay to ensure video is loaded
                         } else {
                           // On desktop, just switch video
