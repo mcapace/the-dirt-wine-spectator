@@ -215,7 +215,7 @@ const AboutTheDirtSection = () => {
             left: isMobile && isMobileExpanded ? '0' : 'auto',
             right: isMobile && isMobileExpanded ? '0' : 'auto',
             bottom: isMobile && isMobileExpanded ? '0' : 'auto',
-            zIndex: isMobile && isMobileExpanded ? 1000 : 'auto',
+            zIndex: isMobile && isMobileExpanded ? 9999 : 'auto',
             width: isMobile && isMobileExpanded ? '100vw' : '100%',
             height: isMobile && isMobileExpanded ? '100vh' : 'auto',
             display: 'flex',
@@ -341,7 +341,7 @@ const AboutTheDirtSection = () => {
                       borderRadius: '50%',
                       fontSize: '20px',
                       cursor: 'pointer',
-                      zIndex: 1002,
+                      zIndex: 10000,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center'
@@ -557,136 +557,7 @@ const AboutTheDirtSection = () => {
         </div>
       </div>
 
-      {/* Full Screen Mobile Video Overlay */}
-      {console.log('Checking overlay conditions:', { isMobile, isMobileExpanded })}
-      {isMobile && isMobileExpanded && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: '#000',
-          zIndex: 9999,
-          width: '100vw',
-          height: '100vh',
-          display: 'flex',
-          flexDirection: 'column'
-        }}>
-          {/* Video Container - Full Screen */}
-          <div style={{
-            position: 'relative',
-            width: '100%',
-            height: '100%',
-            zIndex: 2
-          }}>
-            {/* Video iFrame - Full Screen */}
-            <iframe
-              key={currentVideo.id}
-              src={`${currentVideo.embedUrl}?autostart=true&automute=true&mute=true&controls=true&stretching=uniform&repeat=false&displaytitle=false&displaydescription=false&aspectratio=16:9&playsinline=1&preload=auto`}
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                border: 'none',
-                opacity: isTransitioning ? 0 : 1,
-                transition: 'opacity 0.3s ease',
-                objectFit: 'cover'
-              }}
-              allowFullScreen
-              allow="autoplay *; fullscreen *; encrypted-media *; picture-in-picture *"
-              title={currentVideo.winery}
-            />
 
-            {/* Mobile Close Button */}
-            <button
-              onClick={() => setIsMobileExpanded(false)}
-              style={{
-                position: 'absolute',
-                top: '16px',
-                right: '16px',
-                width: '40px',
-                height: '40px',
-                backgroundColor: 'rgba(0,0,0,0.7)',
-                color: 'white',
-                border: 'none',
-                borderRadius: '50%',
-                fontSize: '20px',
-                cursor: 'pointer',
-                zIndex: 1002,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              ×
-            </button>
-          </div>
-
-          {/* CTA Button - Full Screen Bottom */}
-          {showCTA && currentVideo.cta && !isTransitioning && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                padding: '16px',
-                backgroundColor: 'rgba(0,0,0,0.8)',
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                zIndex: 1001
-              }}
-            >
-              <a
-                href={currentVideo.cta.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (currentVideo.cta) {
-                    window.open(currentVideo.cta.url, '_blank', 'noopener,noreferrer');
-                  }
-                }}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  backgroundColor: '#98231f',
-                  color: 'white',
-                  padding: '16px 36px',
-                  borderRadius: '8px',
-                  textDecoration: 'none',
-                  fontWeight: 700,
-                  fontSize: '18px',
-                  boxShadow: '0 10px 40px rgba(152, 35, 31, 0.6)',
-                  transition: 'all 0.3s ease',
-                  cursor: 'pointer',
-                  border: '2px solid rgba(255,255,255,0.3)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  background: 'linear-gradient(135deg, #98231f 0%, #b42924 100%)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'scale(1.08) translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 15px 50px rgba(152, 35, 31, 0.7)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'scale(1) translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 10px 40px rgba(152, 35, 31, 0.6)';
-                }}
-              >
-                {currentVideo.cta.text}
-              </a>
-            </motion.div>
-          )}
-        </div>
-      )}
     </section>
   );
 };
