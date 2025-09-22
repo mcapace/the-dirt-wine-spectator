@@ -136,7 +136,7 @@ export default function RootLayout({
             fontSize: '14px'
           }}
         >
-          This is a sponsored page featuring participating wineries.
+          Custom Content
         </div>
 
         <Navigation />

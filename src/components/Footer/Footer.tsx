@@ -9,7 +9,7 @@ export default function Footer() {
             © 2025 Wine Spectator. All Rights Reserved.
           </p>
           <p className="text-white/80 text-xs">
-            This is a sponsored page featuring participating wineries.
+            Sponsored Content
           </p>
         </div>
       </div>
