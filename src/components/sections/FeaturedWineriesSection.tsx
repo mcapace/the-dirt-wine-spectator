@@ -51,7 +51,7 @@ const wineries = [
     logo: '/Logos/WHV_Logo_2019-removebg-preview.png',
     website: 'https://www.whitehavenwine.com/',
     social: {
-      instagram: 'https://www.instagram.com/whitehavenwines',
+      instagram: 'https://www.instagram.com/whitehaven/?hl=en',
       facebook: 'https://www.facebook.com/whitehavenwine/'
     }
   }

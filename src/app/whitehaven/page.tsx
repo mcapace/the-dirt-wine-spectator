@@ -248,7 +248,7 @@ const WhitehavenPage = () => {
                 
                 {/* Instagram Link */}
                 <a 
-                  href="https://www.instagram.com/whitehavenwines" 
+                  href="https://www.instagram.com/whitehaven/?hl=en" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   style={{ 
