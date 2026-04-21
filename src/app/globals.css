@@ -860,8 +860,8 @@ body {
     gap: 1rem !important;
   }
   
-  /* Center the 5th winery logo */
-  .winery-grid-mobile .winery-card:nth-child(5) {
+  /* Center the last winery logo when it sits alone in the final row (7 in 2-col grid) */
+  .winery-grid-mobile .winery-card:nth-child(7) {
     grid-column: 1 / -1 !important;
     justify-self: center !important;
     max-width: 200px !important;

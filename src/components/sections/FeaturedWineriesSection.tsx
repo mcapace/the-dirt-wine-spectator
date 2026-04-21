@@ -54,6 +54,26 @@ const wineries = [
       instagram: 'https://www.instagram.com/whitehaven/?hl=en',
       facebook: 'https://www.facebook.com/whitehavenwine/'
     }
+  },
+  {
+    id: 6,
+    name: 'Rocky Pond',
+    logo: '/Logos/Rocky-Pond-logo.png',
+    website: 'https://www.rockypondwinery.com/',
+    social: {
+      instagram: 'https://www.instagram.com/rockypondwinery/',
+      facebook: 'https://www.facebook.com/rockypondwinery'
+    }
+  },
+  {
+    id: 7,
+    name: 'Robert Hall',
+    logo: '/Logos/Robert-Hall-logo.png',
+    website: 'https://www.roberthallwinery.com/',
+    social: {
+      instagram: 'https://www.instagram.com/roberthallwines/',
+      facebook: 'https://www.facebook.com/RobertHallWinery'
+    }
   }
 ];
 
@@ -139,7 +159,7 @@ const FeaturedWineriesSection = () => {
           </motion.div>
           
           <motion.div 
-            className="grid grid-cols-5 gap-4 lg:gap-6 winery-grid-mobile mb-2"
+            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4 lg:gap-6 winery-grid-mobile mb-2"
             initial="hidden"
             whileInView="visible"
             variants={{
