@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import Navigation from '@/components/Navigation/Navbar';
 import Footer from '@/components/Footer/Footer';
 import { theDirtJwVideos, jwEmbedUrl, jwThumbnailUrl } from '@/data/theDirtJwVideos';
@@ -17,23 +17,24 @@ const videoData = theDirtJwVideos.map((v) => ({
   cta: v.cta,
 }));
 
-interface VideoPageProps {
-  params: {
-    id: string;
-  };
-}
+export default function VideoPage() {
+  const params = useParams();
+  const id = typeof params.id === 'string' ? params.id : params.id?.[0];
 
-export default function VideoPage({ params }: VideoPageProps) {
   const [video, setVideo] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const foundVideo = videoData.find(v => v.id === params.id);
+    if (!id) {
+      setLoading(false);
+      return;
+    }
+    const foundVideo = videoData.find(v => v.id === id);
     if (foundVideo) {
       setVideo(foundVideo);
     }
     setLoading(false);
-  }, [params.id]);
+  }, [id]);
 
   if (loading) {
     return (

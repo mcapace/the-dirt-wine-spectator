@@ -91,7 +91,7 @@ export default function Hero() {
             ease: "easeInOut"
           }}
         />
-      </div>
+      </motion.div>
 
       {/* Content */}
       <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
