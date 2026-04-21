@@ -775,7 +775,7 @@ body {
 @media (max-width: 480px) {
   .winery-grid-mobile {
     grid-template-columns: 1fr !important;
-    row-gap: 2.25rem !important;
+    row-gap: 3rem !important;
     justify-items: center;
   }
 }

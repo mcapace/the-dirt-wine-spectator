@@ -4,59 +4,10 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Image from 'next/image';
 
+/** Display order: newest episodes first, then original partners */
 const wineries = [
   {
     id: 1,
-    name: 'Sullivan',
-    logo: '/Logos/SRE Logo.png',
-    website: 'https://sullivanwine.com/',
-    social: {
-      instagram: 'https://www.instagram.com/sullivan.rutherford.estate',
-      facebook: 'https://www.facebook.com/SullivanRutherfordEstateWinery'
-    }
-  },
-  {
-    id: 2,
-    name: 'Trefethen',
-    logo: '/Logos/TFV - Gray.png',
-    website: 'https://www.trefethen.com/',
-    social: {
-      instagram: 'https://www.instagram.com/trefethenfamily/',
-      facebook: 'https://www.facebook.com/trefethenfamily'
-    }
-  },
-  {
-    id: 3,
-    name: 'HALL',
-    logo: '/Logos/HALL Napa Valley Logo - Red.png',
-    website: 'https://www.hallwines.com/',
-    social: {
-      instagram: 'https://www.instagram.com/hallwines/',
-      facebook: 'https://www.facebook.com/hallwines'
-    }
-  },
-  {
-    id: 4,
-    name: 'J Vineyards',
-    logo: '/Logos/JVW_Primary_Logo_Yellow.png',
-    website: 'https://www.jwine.com/',
-    social: {
-      instagram: 'https://www.instagram.com/jwinery/',
-      facebook: 'https://www.facebook.com/JWinery'
-    }
-  },
-  {
-    id: 5,
-    name: 'Whitehaven',
-    logo: '/Logos/WHV_Logo_2019-removebg-preview.png',
-    website: 'https://www.whitehavenwine.com/',
-    social: {
-      instagram: 'https://www.instagram.com/whitehaven/?hl=en',
-      facebook: 'https://www.facebook.com/whitehavenwine/'
-    }
-  },
-  {
-    id: 6,
     name: 'Rocky Pond',
     logo: '/Logos/Rocky-Pond-logo.png',
     website: 'https://www.rockypondwinery.com/',
@@ -66,13 +17,63 @@ const wineries = [
     }
   },
   {
-    id: 7,
+    id: 2,
     name: 'Robert Hall',
     logo: '/Logos/Robert-Hall-logo.png',
     website: 'https://www.roberthallwinery.com/',
     social: {
       instagram: 'https://www.instagram.com/roberthallwines/',
       facebook: 'https://www.facebook.com/RobertHallWinery'
+    }
+  },
+  {
+    id: 3,
+    name: 'Sullivan',
+    logo: '/Logos/SRE Logo.png',
+    website: 'https://sullivanwine.com/',
+    social: {
+      instagram: 'https://www.instagram.com/sullivan.rutherford.estate',
+      facebook: 'https://www.facebook.com/SullivanRutherfordEstateWinery'
+    }
+  },
+  {
+    id: 4,
+    name: 'Trefethen',
+    logo: '/Logos/TFV - Gray.png',
+    website: 'https://www.trefethen.com/',
+    social: {
+      instagram: 'https://www.instagram.com/trefethenfamily/',
+      facebook: 'https://www.facebook.com/trefethenfamily'
+    }
+  },
+  {
+    id: 5,
+    name: 'HALL',
+    logo: '/Logos/HALL Napa Valley Logo - Red.png',
+    website: 'https://www.hallwines.com/',
+    social: {
+      instagram: 'https://www.instagram.com/hallwines/',
+      facebook: 'https://www.facebook.com/hallwines'
+    }
+  },
+  {
+    id: 6,
+    name: 'J Vineyards',
+    logo: '/Logos/JVW_Primary_Logo_Yellow.png',
+    website: 'https://www.jwine.com/',
+    social: {
+      instagram: 'https://www.instagram.com/jwinery/',
+      facebook: 'https://www.facebook.com/JWinery'
+    }
+  },
+  {
+    id: 7,
+    name: 'Whitehaven',
+    logo: '/Logos/WHV_Logo_2019-removebg-preview.png',
+    website: 'https://www.whitehavenwine.com/',
+    social: {
+      instagram: 'https://www.instagram.com/whitehaven/?hl=en',
+      facebook: 'https://www.facebook.com/whitehavenwine/'
     }
   }
 ];
@@ -90,7 +91,7 @@ function WineryLogoCard({
 }) {
   return (
     <motion.div
-      className="winery-card wine-card-glass winery-logo-cell cursor-pointer group relative flex flex-col items-center justify-center rounded-2xl px-4 py-6 sm:px-6 sm:py-7"
+      className="winery-card wine-card-glass winery-logo-cell cursor-pointer group relative flex flex-col items-center justify-center rounded-2xl px-5 py-8 sm:px-7 sm:py-10"
       initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
@@ -112,7 +113,7 @@ function WineryLogoCard({
       />
 
       <div className="relative z-10 flex w-full flex-col items-center justify-center">
-        <div className="flex h-[4.5rem] w-full items-center justify-center sm:h-[5rem]">
+        <div className="flex min-h-[5rem] w-full items-center justify-center sm:min-h-[5.5rem]">
           <Image
             src={winery.logo}
             alt={`${winery.name} logo`}
@@ -217,7 +218,7 @@ const FeaturedWineriesSection = () => {
           
           <div className="mb-4">
             {/* Small screens: two balanced columns — generous gaps (globals no longer force 1rem) */}
-            <div className="winery-grid-mobile mx-auto grid max-w-2xl grid-cols-2 gap-x-10 gap-y-14 px-4 sm:max-w-3xl sm:gap-x-14 sm:gap-y-16 md:hidden">
+            <div className="winery-grid-mobile mx-auto grid max-w-2xl grid-cols-2 gap-x-8 gap-y-24 px-4 sm:max-w-3xl sm:gap-x-12 sm:gap-y-28 md:hidden">
               {wineries.map((winery, index) => (
                 <WineryLogoCard
                   key={winery.id}
@@ -229,8 +230,8 @@ const FeaturedWineriesSection = () => {
             </div>
 
             {/* md+: two rows — 4 + 3 with wide horizontal spacing */}
-            <div className="mx-auto hidden w-full max-w-6xl flex-col items-center gap-16 px-4 md:flex lg:max-w-7xl lg:gap-20 lg:px-10">
-              <div className="winery-logo-row-top grid w-full grid-cols-4 items-center justify-items-center gap-x-8 gap-y-10 md:gap-x-12 lg:gap-x-16 xl:gap-x-20">
+            <div className="mx-auto hidden w-full max-w-6xl flex-col items-center gap-20 px-4 md:flex lg:max-w-7xl lg:gap-24 lg:px-10">
+              <div className="winery-logo-row-top grid w-full grid-cols-4 items-center justify-items-center gap-x-8 gap-y-12 md:gap-x-12 md:gap-y-14 lg:gap-x-16 xl:gap-x-20">
                 {firstRow.map((winery, index) => (
                   <WineryLogoCard
                     key={winery.id}
@@ -240,7 +241,7 @@ const FeaturedWineriesSection = () => {
                   />
                 ))}
               </div>
-              <div className="winery-logo-row-bottom grid w-full max-w-4xl grid-cols-3 items-center justify-items-center gap-x-10 gap-y-8 md:max-w-5xl lg:gap-x-16 xl:max-w-6xl xl:gap-x-24">
+              <div className="winery-logo-row-bottom grid w-full max-w-4xl grid-cols-3 items-center justify-items-center gap-x-10 gap-y-12 md:max-w-5xl lg:gap-x-16 xl:max-w-6xl xl:gap-x-24">
                 {secondRow.map((winery, index) => (
                   <WineryLogoCard
                     key={winery.id}

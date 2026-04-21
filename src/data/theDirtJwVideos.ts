@@ -30,6 +30,30 @@ export interface TheDirtJwVideo {
 
 export const theDirtJwVideos: TheDirtJwVideo[] = [
   {
+    id: 'J4mjNPcy',
+    title: 'Rocky Pond',
+    winery: 'Rocky Pond Estate Winery',
+    duration: 45,
+    description:
+      'See how Rocky Pond Estate Winery brings Columbia Valley terroir from soil to glass.',
+    cta: {
+      text: 'Plan a Visit',
+      url: 'https://www.rockypondwinery.com/',
+    },
+  },
+  {
+    id: 'nsF12zfB',
+    title: 'Robert Hall',
+    winery: 'Robert Hall Winery',
+    duration: 45,
+    description:
+      'Step into Robert Hall Winery and the Paso Robles story behind the bottle.',
+    cta: {
+      text: 'Learn More',
+      url: 'https://www.roberthallwinery.com/',
+    },
+  },
+  {
     id: 'bE41U3pF',
     title: 'Sullivan',
     winery: 'Sullivan Rutherford Estate',
@@ -83,30 +107,6 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
     cta: {
       text: '🛒 Buy This Wine',
       url: 'https://www.trefethen.com/',
-    },
-  },
-  {
-    id: 'J4mjNPcy',
-    title: 'Rocky Pond',
-    winery: 'Rocky Pond Estate Winery',
-    duration: 45,
-    description:
-      'See how Rocky Pond Estate Winery brings Columbia Valley terroir from soil to glass.',
-    cta: {
-      text: 'Plan a Visit',
-      url: 'https://www.rockypondwinery.com/',
-    },
-  },
-  {
-    id: 'nsF12zfB',
-    title: 'Robert Hall',
-    winery: 'Robert Hall Winery',
-    duration: 45,
-    description:
-      'Step into Robert Hall Winery and the Paso Robles story behind the bottle.',
-    cta: {
-      text: 'Learn More',
-      url: 'https://www.roberthallwinery.com/',
     },
   },
 ];
