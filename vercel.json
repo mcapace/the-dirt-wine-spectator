@@ -10,7 +10,7 @@
   },
   "headers": [
     {
-      "source": "/media/(.*)",
+      "source": "/hero/(.*)",
       "headers": [
         {
           "key": "Cache-Control",

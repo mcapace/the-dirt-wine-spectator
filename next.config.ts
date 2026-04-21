@@ -25,8 +25,8 @@ const nextConfig: NextConfig = {
         ],
       },
       {
-        // Hero background only — do not use /videos/*.mp4 (conflicts with app/videos/[id] routes)
-        source: '/media/(.*)',
+        // Hero background static file (avoid /videos/* and /media/* pitfalls)
+        source: '/hero/(.*)',
         headers: [
           {
             key: 'Cache-Control',

@@ -207,32 +207,18 @@ body {
   }
 }
 
-.hero-minimal video {
-  /* Optimize for high-quality video playback */
-  image-rendering: high-quality;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
+/* Do not apply image-rendering / crisp-edges to <video> — breaks playback in Safari/WebKit */
+.hero-minimal video,
+.hero-bg-video {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  transform: translateZ(0);
-  will-change: transform;
-  /* Prevent compression artifacts */
   object-fit: cover;
   object-position: center;
-  /* Ensure full resolution */
   width: 100%;
   height: 100%;
   min-width: 100%;
   min-height: 100%;
-  /* Quality preservation */
-  -webkit-transform: translateZ(0);
-  -webkit-perspective: 1000;
-  -webkit-backface-visibility: hidden;
-  /* Disable any browser compression */
-  -webkit-filter: none;
-  filter: none;
-  /* Force hardware acceleration */
-  transform: translate3d(0, 0, 0);
+  transform: translateZ(0);
 }
 
 .hero-image {

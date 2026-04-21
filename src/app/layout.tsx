@@ -108,7 +108,7 @@ export default function RootLayout({
       <body className={inter.variable}>
         {/* Google tag (gtag.js) */}
         <Script
-          src="d  ahttps://www.googletagmanager.com/gtag/js?id=G-0SX1LL4XNX"
+          src="https://www.googletagmanager.com/gtag/js?id=G-0SX1LL4XNX"
           strategy="afterInteractive"
         />
         <Script id="ga-init" strategy="afterInteractive">

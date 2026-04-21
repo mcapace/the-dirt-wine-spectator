@@ -1,22 +1,41 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useEffect, useRef } from 'react';
+
+const HERO_VIDEO_SRC = '/hero/hero-background.mp4';
 
 const HeroSection = () => {
-  const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, 150]);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    el.muted = true;
+    el.defaultMuted = true;
+    el.setAttribute('muted', '');
+    el.setAttribute('playsinline', '');
+    const p = el.play();
+    if (p !== undefined) {
+      p.catch(() => {
+        /* autoplay blocked — user gesture may be required on some browsers */
+      });
+    }
+  }, []);
 
   return (
     <section className="hero-minimal relative min-h-screen overflow-hidden">
-      {/* Video Background — /media/* avoids conflict with app route /videos/[id] */}
+      {/* Video lives under /hero/* (not /media — many blockers target /media/) */}
       <video
-        src="/media/hero-background.mp4"
+        ref={videoRef}
+        src={HERO_VIDEO_SRC}
         autoPlay
         loop
         muted
         playsInline
         preload="auto"
-        className="absolute inset-0 z-0 h-full w-full object-cover"
+        className="hero-bg-video absolute inset-0 z-0 h-full w-full min-h-full min-w-full object-cover"
+        aria-hidden
       />
 
       {/* Subtle overlay for better logo visibility */}
