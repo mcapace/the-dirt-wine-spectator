@@ -121,7 +121,6 @@ const AboutTheDirtSection = () => {
   if (videos.length === 0) return null;
 
   const currentVideo = videos[currentVideoIndex];
-  const otherVideos = videos.filter((_, idx) => idx !== currentVideoIndex);
 
   return (
     <section id="about" className="section-minimal bg-beige-light">
@@ -380,15 +379,16 @@ const AboutTheDirtSection = () => {
                 maxWidth: '100%',
                 margin: '0 auto'
               }}>
-                {otherVideos.map((video) => {
-                  const videoIndex = videos.indexOf(video);
+                {videos.map((video, videoIndex) => {
+                  const isActive = videoIndex === currentVideoIndex;
                   return (
                     <motion.button
                       key={video.id}
-                      whileHover={{ scale: 1.02 }}
+                      whileHover={{ scale: isActive ? 1 : 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       disabled={isTransitioning}
                       transition={{ duration: 0.3, ease: "easeOut" }}
+                      aria-current={isActive ? 'true' : undefined}
                       style={{
                         cursor: isTransitioning ? 'wait' : 'pointer',
                         width: '100%',
@@ -402,15 +402,17 @@ const AboutTheDirtSection = () => {
                       onClick={() => {
                         console.log('Thumbnail clicked, isMobile:', isMobile);
                         if (isMobile) {
-                          // On mobile, switch video and go to full-screen overlay
-                          console.log('Switching video and going full-screen');
-                          switchToVideo(videoIndex);
-                          setTimeout(() => {
-                            console.log('Setting isMobileExpanded to true');
-                            setIsMobileExpanded(true);
-                          }, 200); // Small delay to ensure video is loaded
+                          if (isActive) {
+                            enterFullScreen();
+                          } else {
+                            console.log('Switching video and going full-screen');
+                            switchToVideo(videoIndex);
+                            setTimeout(() => {
+                              console.log('Setting isMobileExpanded to true');
+                              setIsMobileExpanded(true);
+                            }, 200);
+                          }
                         } else {
-                          // On desktop, just switch video
                           switchToVideo(videoIndex);
                         }
                       }}
@@ -420,7 +422,9 @@ const AboutTheDirtSection = () => {
                         paddingBottom: '56.25%',
                         borderRadius: '8px',
                         overflow: 'hidden',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                        boxShadow: isActive
+                          ? '0 0 0 3px #98231f, 0 4px 12px rgba(0,0,0,0.15)'
+                          : '0 4px 12px rgba(0,0,0,0.1)'
                       }}>
                         <img 
                           src={video.thumbnail}
