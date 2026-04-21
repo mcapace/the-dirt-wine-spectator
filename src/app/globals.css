@@ -774,8 +774,9 @@ body {
 
 @media (max-width: 480px) {
   .winery-grid-mobile {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
     gap: 1.5rem;
+    justify-items: center;
   }
 }
 
@@ -846,11 +847,11 @@ body {
     gap: 1rem !important;
   }
   
-  /* Center the last winery logo when it sits alone in the final row (7 in 2-col grid) */
-  .winery-grid-mobile .winery-card:nth-child(7) {
+  /* Center the 7th logo when it sits alone in the last row (2-col × 3 rows + 1) */
+  .winery-grid-mobile .winery-logo-cell:nth-child(7) {
     grid-column: 1 / -1 !important;
     justify-self: center !important;
-    max-width: 200px !important;
+    max-width: 220px !important;
   }
   
   /* Video thumbnails - show all 5 in a scrollable row with arrows */

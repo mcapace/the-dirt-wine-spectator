@@ -77,6 +77,60 @@ const wineries = [
   }
 ];
 
+type Winery = (typeof wineries)[number];
+
+function WineryLogoCard({
+  winery,
+  index,
+  onSelect,
+}: {
+  winery: Winery;
+  index: number;
+  onSelect: (w: Winery) => void;
+}) {
+  return (
+    <motion.div
+      className="winery-card wine-card-glass winery-logo-cell cursor-pointer group relative flex flex-col items-center justify-center rounded-2xl px-3 py-5 sm:px-4"
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.4, delay: index * 0.04, ease: [0.25, 0.46, 0.45, 0.94] }}
+      whileHover={{
+        scale: 1.02,
+        transition: { duration: 0.3, ease: 'easeOut' },
+      }}
+      whileTap={{ scale: 0.98 }}
+      onClick={() => onSelect(winery)}
+    >
+      <motion.div
+        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        style={{
+          background:
+            'radial-gradient(circle at center, rgba(152, 35, 31, 0.12) 0%, transparent 70%)',
+          filter: 'blur(20px)',
+        }}
+      />
+
+      <div className="relative z-10 flex w-full flex-col items-center justify-center">
+        <div className="flex h-[4.5rem] w-full items-center justify-center sm:h-[5rem]">
+          <Image
+            src={winery.logo}
+            alt={`${winery.name} logo`}
+            width={160}
+            height={80}
+            sizes="(max-width: 768px) 45vw, 160px"
+            className="max-h-14 w-auto max-w-[min(9rem,100%)] object-contain object-center transition-all duration-300 group-hover:drop-shadow-md sm:max-h-16"
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+          />
+        </div>
+      </div>
+
+    </motion.div>
+  );
+}
+
 const FeaturedWineriesSection = () => {
   const [selectedWinery, setSelectedWinery] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -92,6 +146,9 @@ const FeaturedWineriesSection = () => {
     setIsModalOpen(false);
     setSelectedWinery(null);
   };
+
+  const firstRow = wineries.slice(0, 4);
+  const secondRow = wineries.slice(4, 7);
 
   return (
     <>
@@ -158,86 +215,43 @@ const FeaturedWineriesSection = () => {
             </motion.p>
           </motion.div>
           
-          <motion.div 
-            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4 lg:gap-6 winery-grid-mobile mb-2"
-            initial="hidden"
-            whileInView="visible"
-            variants={{
-              visible: {
-                transition: { staggerChildren: 0.1 }
-              }
-            }}
-          >
-            {wineries.map((winery, index) => (
-              <motion.div
-                key={winery.id}
-                className="winery-card wine-card-glass cursor-pointer group"
-                variants={{
-                  hidden: { opacity: 0 },
-                  visible: { opacity: 1 }
-                }}
-                whileHover={{ 
-                  scale: 1.02,
-                  transition: { duration: 0.3, ease: "easeOut" }
-                }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => handleWineryClick(winery)}
-                style={{
-                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
-                }}
-              >
-                {/* Hover glow effect */}
-                <motion.div
-                  className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{
-                    background: 'radial-gradient(circle at center, rgba(152, 35, 31, 0.15) 0%, transparent 70%)',
-                    filter: 'blur(20px)'
-                  }}
+          <div className="mb-2">
+            {/* Small screens: two balanced columns */}
+            <div className="winery-grid-mobile mx-auto grid max-w-xl grid-cols-2 gap-x-6 gap-y-10 px-2 sm:max-w-2xl sm:gap-x-10 md:hidden">
+              {wineries.map((winery, index) => (
+                <WineryLogoCard
+                  key={winery.id}
+                  winery={winery}
+                  index={index}
+                  onSelect={handleWineryClick}
                 />
-                
-                <motion.div
-                  className="wine-image relative z-10"
-                  whileHover={{ 
-                    scale: 1.05,
-                    transition: { duration: 0.3, ease: "easeOut" }
-                  }}
-                >
-                  <div className="h-full w-auto flex items-center justify-center">
-                    <div className="text-center">
-                      <Image
-                        src={winery.logo}
-                        alt={`${winery.name} Logo`}
-                        width={80}
-                        height={80}
-                        className="w-auto h-16 object-contain mx-auto mb-2 transition-all duration-300 group-hover:drop-shadow-lg"
-                        loading="lazy"
-                        placeholder="blur"
-                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-                      />
-                    </div>
-                  </div>
-                </motion.div>
-                
-                {/* Subtle shine effect on hover */}
-                <motion.div
-                  className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"
-                  style={{
-                    background: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%)',
-                    transform: 'translateX(-100%)'
-                  }}
-                  animate={{
-                    x: ['-100%', '100%']
-                  }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity,
-                    repeatDelay: 2,
-                    ease: "easeInOut"
-                  }}
-                />
-              </motion.div>
-            ))}
-          </motion.div>
+              ))}
+            </div>
+
+            {/* md+: two rows — 4 logos, then 3 — visually even */}
+            <div className="mx-auto hidden max-w-5xl flex-col items-center gap-10 px-2 md:flex lg:max-w-6xl lg:gap-12">
+              <div className="grid w-full grid-cols-4 items-center justify-items-center gap-6 lg:gap-10">
+                {firstRow.map((winery, index) => (
+                  <WineryLogoCard
+                    key={winery.id}
+                    winery={winery}
+                    index={index}
+                    onSelect={handleWineryClick}
+                  />
+                ))}
+              </div>
+              <div className="grid w-full max-w-3xl grid-cols-3 items-center justify-items-center gap-6 lg:gap-10">
+                {secondRow.map((winery, index) => (
+                  <WineryLogoCard
+                    key={winery.id}
+                    winery={winery}
+                    index={index + 4}
+                    onSelect={handleWineryClick}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </motion.section>
 
