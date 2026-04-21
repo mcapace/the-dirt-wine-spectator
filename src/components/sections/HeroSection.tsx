@@ -8,24 +8,20 @@ const HeroSection = () => {
 
   return (
     <section className="hero-minimal relative min-h-screen overflow-hidden">
-      {/* Video Background */}
+      {/* Video Background — /media/* avoids conflict with app route /videos/[id] */}
       <video
+        src="/media/hero-background.mp4"
         autoPlay
         loop
         muted
         playsInline
-        className="absolute inset-0 w-full h-full object-cover"
-      >
-        <source
-          src="/media/hero-background.mp4"
-          type="video/mp4"
-        />
-        Your browser does not support the video tag.
-      </video>
-      
+        preload="auto"
+        className="absolute inset-0 z-0 h-full w-full object-cover"
+      />
+
       {/* Subtle overlay for better logo visibility */}
-      <div 
-        className="absolute inset-0 bg-black/15"
+      <div
+        className="absolute inset-0 z-[1] bg-black/15"
         style={{ backdropFilter: 'blur(0.3px)' }}
       />
       
