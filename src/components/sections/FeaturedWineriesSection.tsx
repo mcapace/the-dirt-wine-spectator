@@ -148,8 +148,9 @@ const FeaturedWineriesSection = () => {
     setSelectedWinery(null);
   };
 
-  const firstRow = wineries.slice(0, 4);
-  const secondRow = wineries.slice(4, 7);
+  /** Rows of 3 + 3, seventh logo centered below (avoids uneven 4|3 columns) */
+  const topSix = wineries.slice(0, 6);
+  const seventh = wineries[6];
 
   return (
     <>
@@ -216,23 +217,11 @@ const FeaturedWineriesSection = () => {
             </motion.p>
           </motion.div>
           
-          <div className="mb-4">
-            {/* Small screens: two balanced columns — generous gaps (globals no longer force 1rem) */}
-            <div className="winery-grid-mobile mx-auto grid max-w-2xl grid-cols-2 gap-x-8 gap-y-24 px-4 sm:max-w-3xl sm:gap-x-12 sm:gap-y-28 md:hidden">
-              {wineries.map((winery, index) => (
-                <WineryLogoCard
-                  key={winery.id}
-                  winery={winery}
-                  index={index}
-                  onSelect={handleWineryClick}
-                />
-              ))}
-            </div>
-
-            {/* md+: two rows — 4 + 3 with wide horizontal spacing */}
-            <div className="mx-auto hidden w-full max-w-6xl flex-col items-center gap-20 px-4 md:flex lg:max-w-7xl lg:gap-24 lg:px-10">
-              <div className="winery-logo-row-top grid w-full grid-cols-4 items-center justify-items-center gap-x-8 gap-y-12 md:gap-x-12 md:gap-y-14 lg:gap-x-16 xl:gap-x-20">
-                {firstRow.map((winery, index) => (
+          <div className="mb-8">
+            {/* 3×2 grid + seventh centered — even spacing at all breakpoints */}
+            <div className="winery-logo-mosaic mx-auto max-w-5xl px-4 sm:max-w-6xl lg:max-w-7xl lg:px-8">
+              <div className="grid grid-cols-2 gap-x-10 gap-y-24 sm:grid-cols-3 sm:gap-x-12 sm:gap-y-28 lg:gap-x-16 lg:gap-y-32">
+                {topSix.map((winery, index) => (
                   <WineryLogoCard
                     key={winery.id}
                     winery={winery}
@@ -241,15 +230,15 @@ const FeaturedWineriesSection = () => {
                   />
                 ))}
               </div>
-              <div className="winery-logo-row-bottom grid w-full max-w-4xl grid-cols-3 items-center justify-items-center gap-x-10 gap-y-12 md:max-w-5xl lg:gap-x-16 xl:max-w-6xl xl:gap-x-24">
-                {secondRow.map((winery, index) => (
+              <div className="mt-24 flex justify-center sm:mt-28 lg:mt-32">
+                <div className="w-full max-w-[15rem] sm:max-w-[17rem] lg:max-w-[19rem]">
                   <WineryLogoCard
-                    key={winery.id}
-                    winery={winery}
-                    index={index + 4}
+                    key={seventh.id}
+                    winery={seventh}
+                    index={6}
                     onSelect={handleWineryClick}
                   />
-                ))}
+                </div>
               </div>
             </div>
           </div>

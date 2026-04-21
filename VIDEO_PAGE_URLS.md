@@ -34,6 +34,20 @@ These pages are hidden from the main navigation but accessible via direct links 
 - **Video Duration**: 43 seconds
 - **CTA**: "🛒 Buy This Wine" → https://www.trefethen.com/
 
+### 6. Rocky Pond Estate Winery
+- **URL**: `/rocky-pond`
+- **Full URL**: `https://thedirt.winespectator.com/rocky-pond`
+- **Example (with list tracking)**: `https://thedirt.winespectator.com/rocky-pond?lid=YOUR_ID`
+- **Video Duration**: 45 seconds
+- **CTA**: "Plan a Visit" → https://www.rockypondwinery.com/
+
+### 7. Robert Hall Winery
+- **URL**: `/robert-hall` (distinct from HALL Napa Valley at `/hall`)
+- **Full URL**: `https://thedirt.winespectator.com/robert-hall`
+- **Example (with list tracking)**: `https://thedirt.winespectator.com/robert-hall?lid=YOUR_ID`
+- **Video Duration**: 45 seconds
+- **CTA**: "Learn More" → https://www.roberthallwinery.com/
+
 ## Features
 
 Each page includes:

@@ -58,7 +58,7 @@ const ClosingSection = () => {
               transition={{ duration: 0.2 }}
               onClick={() => {
                 const subject = encodeURIComponent('The Dirt - Winery Story Submission');
-                const body = encodeURIComponent(`Hi John,
+                const body = encodeURIComponent(`Hi Emily,
 
 I'm interested in sharing my winery's story for The Dirt video series.
 
@@ -70,7 +70,7 @@ I'd love to discuss how we can showcase our unique terroir and winemaking story 
 
 Best regards,
 [Your Name]`);
-                window.open(`mailto:jgrecco@mshanken.com?subject=${subject}&body=${body}`, '_blank');
+                window.open(`mailto:ebain@mshanken.com?subject=${subject}&body=${body}`, '_blank');
               }}
             >
               Want your story in the dirt?

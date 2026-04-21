@@ -13,6 +13,9 @@ export const videoUrls = {
   trefethen: '/videos/FSUUFWTG',
   rockyPond: '/videos/J4mjNPcy',
   robertHall: '/videos/nsF12zfB',
+  /** Email-blast landing pages (append e.g. ?lid=campaign for tracking) */
+  rockyPondLanding: '/rocky-pond',
+  robertHallLanding: '/robert-hall',
 
   // Video data for reference (includes new episodes from theDirtJwVideos)
   videoData: theDirtJwVideos.map((v) => ({

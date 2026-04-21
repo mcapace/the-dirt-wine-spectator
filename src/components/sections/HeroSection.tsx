@@ -57,16 +57,16 @@ const HeroSection = () => {
           className="text-center"
         >
           <motion.img
-            src="/images/New Dirt logo-edit.png"
-            alt="The Dirt Logo"
+            src="/Logos/TheDirtLOGO.png"
+            alt="The Dirt"
             className="mx-auto"
             style={{
               width: 'auto',
               height: 'auto',
-              maxWidth: 'min(1000px, 90vw)',
-              maxHeight: 'min(500px, 50vh)',
-              filter: 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4)) brightness(1.4) contrast(1.2) saturate(1.1)',
-              WebkitFilter: 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4)) brightness(1.4) contrast(1.2) saturate(1.1)'
+              maxWidth: 'min(920px, 88vw)',
+              maxHeight: 'min(480px, 48vh)',
+              filter: 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.35))',
+              WebkitFilter: 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.35))'
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

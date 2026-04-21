@@ -762,21 +762,8 @@ body {
 
 /* Enhanced mobile experience */
 @media (max-width: 768px) {
-  .winery-grid-mobile {
-    grid-template-columns: repeat(2, 1fr);
-    /* gap comes from Tailwind on the section — do not force tight 1rem here */
-  }
-  
   .winery-card:hover {
     transform: translateY(-8px) scale(1.02);
-  }
-}
-
-@media (max-width: 480px) {
-  .winery-grid-mobile {
-    grid-template-columns: 1fr !important;
-    row-gap: 3rem !important;
-    justify-items: center;
   }
 }
 
@@ -840,20 +827,6 @@ body {
 
 /* Mobile-specific optimizations */
 @media (max-width: 768px) {
-  /* Winery logos - stack in 2 columns on mobile, center the 5th one */
-  .winery-grid-mobile {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    /* Let component Tailwind classes control column/row gap */
-  }
-  
-  /* Center the 7th logo when it sits alone in the last row (2-col × 3 rows + 1) */
-  .winery-grid-mobile .winery-logo-cell:nth-child(7) {
-    grid-column: 1 / -1 !important;
-    justify-self: center !important;
-    max-width: 260px !important;
-  }
-  
   /* Video thumbnails - show all 5 in a scrollable row with arrows */
   .video-thumbnails-mobile {
     display: flex !important;
