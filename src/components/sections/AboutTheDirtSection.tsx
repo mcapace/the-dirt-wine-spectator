@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import {
   theDirtJwVideos,
+  CAROUSEL_PIN_FIRST,
   jwEmbedUrl,
   jwThumbnailUrl,
   getThumbnailObjectPosition,
@@ -61,12 +62,13 @@ const AboutTheDirtSection = () => {
 
 
 
-  // Shuffle videos on mount
+  // Keep newest episodes first (see CAROUSEL_PIN_FIRST); shuffle the rest for variety
   useEffect(() => {
-    const shuffled = [...videoData].sort(() => Math.random() - 0.5);
-    setVideos(shuffled);
+    const pinned = videoData.slice(0, CAROUSEL_PIN_FIRST);
+    const rest = [...videoData.slice(CAROUSEL_PIN_FIRST)].sort(() => Math.random() - 0.5);
+    setVideos([...pinned, ...rest]);
     setCurrentVideoIndex(0);
-  }, []);
+  }, [videoData]);
 
   // Setup CTA timer
   useEffect(() => {

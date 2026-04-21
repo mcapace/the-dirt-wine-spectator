@@ -28,6 +28,9 @@ export interface TheDirtJwVideo {
   };
 }
 
+/** How many episodes stay fixed at the front of the homepage carousel (newest first). */
+export const CAROUSEL_PIN_FIRST = 2;
+
 export const theDirtJwVideos: TheDirtJwVideo[] = [
   {
     id: 'J4mjNPcy',
