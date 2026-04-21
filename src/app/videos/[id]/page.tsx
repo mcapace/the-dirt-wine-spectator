@@ -5,70 +5,17 @@ import { motion } from 'framer-motion';
 import { notFound } from 'next/navigation';
 import Navigation from '@/components/Navigation/Navbar';
 import Footer from '@/components/Footer/Footer';
+import { theDirtJwVideos, jwEmbedUrl, jwThumbnailUrl } from '@/data/theDirtJwVideos';
 
-// Video data - same as in AboutTheDirtSection
-const videoData = [
-  {
-    id: 'bE41U3pF',
-    winery: 'Sullivan Rutherford Estate',
-    embedUrl: 'https://cdn.jwplayer.com/players/bE41U3pF-O0V5rBgo.html',
-    thumbnail: 'https://cdn.jwplayer.com/thumbs/bE41U3pF-720.jpg',
-    description: 'Discover the story behind Sullivan Rutherford Estate and their commitment to excellence.',
-    duration: 38,
-    cta: {
-      text: 'Inquire for Availability',
-      url: 'https://sullivanwine.com/estate-experiences/'
-    }
-  },
-  {
-    id: 'oPFkkAfZ',
-    winery: 'HALL Napa Valley',
-    embedUrl: 'https://cdn.jwplayer.com/players/oPFkkAfZ-O0V5rBgo.html',
-    thumbnail: 'https://cdn.jwplayer.com/thumbs/oPFkkAfZ-720.jpg',
-    description: 'Explore the passion and tradition of HALL Napa Valley.',
-    duration: 44,
-    cta: {
-      text: 'Come See Us!',
-      url: 'https://www.hallwines.com/'
-    }
-  },
-  {
-    id: 'L6WSfCgB',
-    winery: 'Whitehaven Wine Company',
-    embedUrl: 'https://cdn.jwplayer.com/players/L6WSfCgB-O0V5rBgo.html',
-    thumbnail: 'https://cdn.jwplayer.com/thumbs/L6WSfCgB-720.jpg',
-    description: 'Learn about Whitehaven\'s innovative approach to winemaking.',
-    duration: 49,
-    cta: {
-      text: 'Learn More',
-      url: 'https://whitehavenwine.com'
-    }
-  },
-  {
-    id: 'kncdFPTD',
-    winery: 'J Vineyards & Winery',
-    embedUrl: 'https://cdn.jwplayer.com/players/kncdFPTD-O0V5rBgo.html',
-    thumbnail: 'https://cdn.jwplayer.com/thumbs/kncdFPTD-720.jpg',
-    description: 'Experience the unique terroir of J Vineyards & Winery.',
-    duration: 46,
-    cta: {
-      text: '❤️ Follow Us',
-      url: 'https://www.instagram.com/jwinery/'
-    }
-  },
-  {
-    id: 'FSUUFWTG',
-    winery: 'Trefethen Family Vineyards',
-    embedUrl: 'https://cdn.jwplayer.com/players/FSUUFWTG-O0V5rBgo.html',
-    thumbnail: 'https://cdn.jwplayer.com/thumbs/FSUUFWTG-720.jpg',
-    description: 'Discover the artistry behind Trefethen Family Vineyards.',
-    duration: 43,
-    cta: {
-      text: '🛒 Buy This Wine',
-      url: 'https://www.trefethen.com/'
-    }
-  }
-];
+const videoData = theDirtJwVideos.map((v) => ({
+  id: v.id,
+  winery: v.winery,
+  embedUrl: jwEmbedUrl(v.id),
+  thumbnail: jwThumbnailUrl(v.id),
+  description: v.description,
+  duration: v.duration,
+  cta: v.cta,
+}));
 
 interface VideoPageProps {
   params: {

@@ -1,7 +1,13 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import {
+  theDirtJwVideos,
+  jwEmbedUrl,
+  jwThumbnailUrl,
+  getThumbnailObjectPosition,
+} from '@/data/theDirtJwVideos';
 
 interface Video {
   id: string;
@@ -26,74 +32,20 @@ const AboutTheDirtSection = () => {
   const [isMobile, setIsMobile] = useState(false);
   const ctaTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Video configuration
-  const videoData: Video[] = [
-    {
-      id: 'bE41U3pF',
-      mediaId: 'bE41U3pF',
-      title: 'Sullivan',
-      winery: 'Sullivan Rutherford Estate',
-      duration: 38,
-      thumbnail: 'https://cdn.jwplayer.com/thumbs/bE41U3pF-720.jpg',
-      embedUrl: 'https://cdn.jwplayer.com/players/bE41U3pF-O0V5rBgo.html',
-      cta: {
-        text: 'Inquire for Availability',
-        url: 'https://sullivanwine.com/estate-experiences/'
-      }
-    },
-    {
-      id: 'oPFkkAfZ',
-      mediaId: 'oPFkkAfZ',
-      title: 'HALL',
-      winery: 'HALL Napa Valley',
-      duration: 44,
-      thumbnail: 'https://cdn.jwplayer.com/thumbs/oPFkkAfZ-720.jpg',
-      embedUrl: 'https://cdn.jwplayer.com/players/oPFkkAfZ-O0V5rBgo.html',
-      cta: {
-        text: 'Come See Us!',
-        url: 'https://www.hallwines.com/'
-      }
-    },
-    {
-      id: 'L6WSfCgB',
-      mediaId: 'L6WSfCgB',
-      title: 'Whitehaven',
-      winery: 'Whitehaven Wine',
-      duration: 49,
-      thumbnail: 'https://cdn.jwplayer.com/thumbs/L6WSfCgB-720.jpg',
-      embedUrl: 'https://cdn.jwplayer.com/players/L6WSfCgB-O0V5rBgo.html',
-      cta: {
-        text: 'Learn More',
-        url: 'https://whitehavenwine.com'
-      }
-    },
-    {
-      id: 'kncdFPTD',
-      mediaId: 'kncdFPTD',
-      title: 'J Vineyards',
-      winery: 'J Vineyards & Winery',
-      duration: 46,
-      thumbnail: 'https://cdn.jwplayer.com/thumbs/kncdFPTD-720.jpg',
-      embedUrl: 'https://cdn.jwplayer.com/players/kncdFPTD-O0V5rBgo.html',
-      cta: {
-        text: '❤️ Follow Us',
-        url: 'https://www.instagram.com/jwinery/'
-      }
-    },
-    {
-      id: 'FSUUFWTG',
-      mediaId: 'FSUUFWTG',
-      title: 'Trefethen',
-      winery: 'Trefethen Family Vineyards',
-      duration: 43,
-      thumbnail: 'https://cdn.jwplayer.com/thumbs/FSUUFWTG-720.jpg',
-      embedUrl: 'https://cdn.jwplayer.com/players/FSUUFWTG-O0V5rBgo.html',
-      cta: {
-        text: '🛒 Buy This Wine',
-        url: 'https://www.trefethen.com/'
-      }
-    }
-  ];
+  const videoData: Video[] = useMemo(
+    () =>
+      theDirtJwVideos.map((v) => ({
+        id: v.id,
+        mediaId: v.id,
+        title: v.title,
+        winery: v.winery,
+        duration: v.duration,
+        thumbnail: jwThumbnailUrl(v.id),
+        embedUrl: jwEmbedUrl(v.id),
+        cta: v.cta,
+      })),
+    []
+  );
 
   // Check if mobile on mount and resize
   useEffect(() => {
@@ -478,14 +430,7 @@ const AboutTheDirtSection = () => {
                             width: '100%',
                             height: '100%',
                             objectFit: 'cover',
-                            // Custom positioning for each video to keep faces visible
-                            objectPosition: 
-                              video.id === 'bE41U3pF' ? 'center 40%' :  // Sullivan - show more middle
-                              video.id === 'oPFkkAfZ' ? 'center 30%' :  // HALL - show more top
-                              video.id === 'L6WSfCgB' ? 'center 45%' :  // Whitehaven - centered
-                              video.id === 'kncdFPTD' ? 'center 42%' :  // J Vineyards - show more top
-                              video.id === 'FSUUFWTG' ? 'center 38%' :  // Trefethen - show more top
-                              'center center'
+                            objectPosition: getThumbnailObjectPosition(video.id),
                           }}
                         />
                         
