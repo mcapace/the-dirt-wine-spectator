@@ -43,8 +43,8 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
     description:
       'See how Rocky Pond Estate Winery brings Columbia Valley terroir from soil to glass.',
     cta: {
-      text: 'Plan a Visit',
-      url: 'https://www.rockypondwinery.com/',
+      text: 'Shop Now',
+      url: 'https://rockypondwinery.orderport.net/product-details/1140/2023-11-dams',
     },
   },
   {
@@ -56,8 +56,8 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
     description:
       'Step into Robert Hall Winery and the Paso Robles story behind the bottle.',
     cta: {
-      text: 'Learn More',
-      url: 'https://www.roberthallwinery.com/',
+      text: 'Discover Robert Hall',
+      url: 'https://www.roberthallwinery.com/regenerative-organic-viticulture/',
     },
   },
   {
@@ -122,6 +122,18 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
     },
   },
 ];
+
+/**
+ * CTA + duration for a JW media id. Landing pages use this so buttons stay in sync
+ * with the home carousel — edit URLs once in `theDirtJwVideos` above.
+ */
+export function getCtaForMediaId(
+  mediaId: string
+): { text: string; url: string; duration: number } | null {
+  const v = theDirtJwVideos.find((x) => x.id === mediaId);
+  if (!v?.cta) return null;
+  return { text: v.cta.text, url: v.cta.url, duration: v.duration };
+}
 
 /** Thumbnail crop in the homepage carousel (object-position). Defaults to center. */
 export const THUMBNAIL_OBJECT_POSITION: Record<string, string> = {

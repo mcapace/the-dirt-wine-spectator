@@ -4,12 +4,21 @@ import { motion } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import Navigation from '@/components/Navigation/Navbar';
 import Footer from '@/components/Footer/Footer';
+import { getCtaForMediaId, jwEmbedUrl } from '@/data/theDirtJwVideos';
+
+const ROBERT_HALL_MEDIA_ID = 'nsF12zfB';
 
 const RobertHallPage = () => {
   const [showCTA, setShowCTA] = useState(false);
   const ctaTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const durationSec = 45;
+  const meta = getCtaForMediaId(ROBERT_HALL_MEDIA_ID);
+  const ctaUrl =
+    meta?.url ??
+    'https://www.roberthallwinery.com/regenerative-organic-viticulture/';
+  const ctaText = meta?.text ?? 'Discover Robert Hall';
+  const durationSec = meta?.duration ?? 45;
+  const embedUrl = jwEmbedUrl(ROBERT_HALL_MEDIA_ID);
 
   useEffect(() => {
     if (ctaTimerRef.current) {
@@ -89,7 +98,7 @@ const RobertHallPage = () => {
               <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl">
                 <div style={{position:'relative',overflow:'hidden',paddingBottom:'56.25%'}}>
                   <iframe 
-                    src="https://cdn.jwplayer.com/players/nsF12zfB-O0V5rBgo.html" 
+                    src={embedUrl}
                     width="100%" 
                     height="100%" 
                     frameBorder="0" 
@@ -117,12 +126,12 @@ const RobertHallPage = () => {
                       }}
                     >
                       <a
-                        href="https://www.roberthallwinery.com/"
+                        href={ctaUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => {
                           e.preventDefault();
-                          window.open('https://www.roberthallwinery.com/', '_blank', 'noopener,noreferrer');
+                          window.open(ctaUrl, '_blank', 'noopener,noreferrer');
                         }}
                         style={{
                           display: 'inline-flex',
@@ -153,7 +162,7 @@ const RobertHallPage = () => {
                           e.currentTarget.style.boxShadow = '0 10px 40px rgba(152, 35, 31, 0.6)';
                         }}
                       >
-                        Learn More
+                        {ctaText}
                       </a>
                     </motion.div>
                   )}
@@ -171,14 +180,14 @@ const RobertHallPage = () => {
                 
                 {/* CTA Button */}
                 <motion.a
-                  href="https://www.roberthallwinery.com/"
+                  href={ctaUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  Learn More
+                  {ctaText}
                 </motion.a>
               </div>
             </motion.div>

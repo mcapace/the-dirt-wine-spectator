@@ -40,14 +40,14 @@ These pages are hidden from the main navigation but accessible via direct links 
 - **Full URL**: `https://thedirt.winespectator.com/rocky-pond`
 - **Example (with list tracking)**: `https://thedirt.winespectator.com/rocky-pond?lid=YOUR_ID` (same `?lid=` pattern as Whitehaven above)
 - **Video Duration**: 45 seconds
-- **CTA**: "Plan a Visit" → https://www.rockypondwinery.com/
+- **CTA**: "Shop Now" → https://rockypondwinery.orderport.net/product-details/1140/2023-11-dams
 
 ### 7. Robert Hall Winery
 - **URL**: `/robert-hall` (distinct from HALL Napa Valley at `/hall`)
 - **Full URL**: `https://thedirt.winespectator.com/robert-hall`
 - **Example (with list tracking)**: `https://thedirt.winespectator.com/robert-hall?lid=YOUR_ID` (same `?lid=` pattern as Whitehaven above)
 - **Video Duration**: 45 seconds
-- **CTA**: "Learn More" → https://www.roberthallwinery.com/
+- **CTA**: "Discover Robert Hall" → https://www.roberthallwinery.com/regenerative-organic-viticulture/
 
 ## Features
 
