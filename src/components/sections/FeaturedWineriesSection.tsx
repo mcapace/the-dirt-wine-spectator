@@ -10,6 +10,7 @@ const wineries = [
     id: 1,
     name: 'Rocky Pond',
     logo: '/Logos/Rocky-Pond-logo.png',
+    landingPath: '/rocky-pond',
     website: 'https://www.rockypondwinery.com/',
     social: {
       instagram: 'https://www.instagram.com/rockypondwinery/',
@@ -20,6 +21,7 @@ const wineries = [
     id: 2,
     name: 'Robert Hall',
     logo: '/Logos/Robert-Hall-logo.png',
+    landingPath: '/robert-hall',
     website: 'https://www.roberthallwinery.com/',
     social: {
       instagram: 'https://www.instagram.com/roberthallwines/',
@@ -30,6 +32,7 @@ const wineries = [
     id: 3,
     name: 'Sullivan',
     logo: '/Logos/SRE Logo.png',
+    landingPath: '/sullivan',
     website: 'https://sullivanwine.com/',
     social: {
       instagram: 'https://www.instagram.com/sullivan.rutherford.estate',
@@ -40,6 +43,7 @@ const wineries = [
     id: 4,
     name: 'Trefethen',
     logo: '/Logos/TFV - Gray.png',
+    landingPath: '/trefethen',
     website: 'https://www.trefethen.com/',
     social: {
       instagram: 'https://www.instagram.com/trefethenfamily/',
@@ -50,6 +54,7 @@ const wineries = [
     id: 5,
     name: 'HALL',
     logo: '/Logos/HALL Napa Valley Logo - Red.png',
+    landingPath: '/hall',
     website: 'https://www.hallwines.com/',
     social: {
       instagram: 'https://www.instagram.com/hallwines/',
@@ -60,6 +65,7 @@ const wineries = [
     id: 6,
     name: 'J Vineyards',
     logo: '/Logos/JVW_Primary_Logo_Yellow.png',
+    landingPath: '/j-vineyards',
     website: 'https://www.jwine.com/',
     social: {
       instagram: 'https://www.instagram.com/jwinery/',
@@ -70,6 +76,7 @@ const wineries = [
     id: 7,
     name: 'Whitehaven',
     logo: '/Logos/WHV_Logo_2019-removebg-preview.png',
+    landingPath: '/whitehaven',
     website: 'https://www.whitehavenwine.com/',
     social: {
       instagram: 'https://www.instagram.com/whitehaven/?hl=en',
@@ -370,6 +377,27 @@ const FeaturedWineriesSection = () => {
                   }}
                 />
               </div>
+
+              <a
+                href={selectedWinery.landingPath}
+                style={{
+                  display: 'inline-block',
+                  width: '100%',
+                  textAlign: 'center',
+                  padding: '12px 16px',
+                  borderRadius: '10px',
+                  background: 'linear-gradient(135deg, #98231f 0%, #b42924 100%)',
+                  color: 'white',
+                  fontWeight: 700,
+                  fontSize: '14px',
+                  textDecoration: 'none',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.06em',
+                  boxShadow: '0 6px 20px rgba(152, 35, 31, 0.35)',
+                }}
+              >
+                Watch on Wine Spectator
+              </a>
               
               {/* Icon Links - Just Icons */}
               <div style={{ 

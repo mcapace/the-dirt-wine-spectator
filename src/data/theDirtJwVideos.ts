@@ -22,6 +22,8 @@ export interface TheDirtJwVideo {
   winery: string;
   duration: number;
   description: string;
+  /** Dedicated email/social landing page (append ?lid= for list tracking). */
+  landingPath: string;
   cta?: {
     text: string;
     url: string;
@@ -36,6 +38,7 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
     id: 'J4mjNPcy',
     title: 'Rocky Pond',
     winery: 'Rocky Pond Estate Winery',
+    landingPath: '/rocky-pond',
     duration: 45,
     description:
       'See how Rocky Pond Estate Winery brings Columbia Valley terroir from soil to glass.',
@@ -48,6 +51,7 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
     id: 'nsF12zfB',
     title: 'Robert Hall',
     winery: 'Robert Hall Winery',
+    landingPath: '/robert-hall',
     duration: 45,
     description:
       'Step into Robert Hall Winery and the Paso Robles story behind the bottle.',
@@ -60,6 +64,7 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
     id: 'bE41U3pF',
     title: 'Sullivan',
     winery: 'Sullivan Rutherford Estate',
+    landingPath: '/sullivan',
     duration: 38,
     description:
       'Discover the story behind Sullivan Rutherford Estate and their commitment to excellence.',
@@ -72,6 +77,7 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
     id: 'oPFkkAfZ',
     title: 'HALL',
     winery: 'HALL Napa Valley',
+    landingPath: '/hall',
     duration: 44,
     description: 'Explore the passion and tradition of HALL Napa Valley.',
     cta: {
@@ -83,6 +89,7 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
     id: 'L6WSfCgB',
     title: 'Whitehaven',
     winery: 'Whitehaven Wine Company',
+    landingPath: '/whitehaven',
     duration: 49,
     description: "Learn about Whitehaven's innovative approach to winemaking.",
     cta: {
@@ -94,6 +101,7 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
     id: 'kncdFPTD',
     title: 'J Vineyards',
     winery: 'J Vineyards & Winery',
+    landingPath: '/j-vineyards',
     duration: 46,
     description: 'Experience the unique terroir of J Vineyards & Winery.',
     cta: {
@@ -105,6 +113,7 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
     id: 'FSUUFWTG',
     title: 'Trefethen',
     winery: 'Trefethen Family Vineyards',
+    landingPath: '/trefethen',
     duration: 43,
     description: 'Discover the artistry behind Trefethen Family Vineyards.',
     cta: {

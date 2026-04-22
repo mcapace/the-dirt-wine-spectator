@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { notFound, useParams } from 'next/navigation';
+import { notFound, useParams, useSearchParams } from 'next/navigation';
 import Navigation from '@/components/Navigation/Navbar';
 import Footer from '@/components/Footer/Footer';
 import { theDirtJwVideos, jwEmbedUrl, jwThumbnailUrl } from '@/data/theDirtJwVideos';
@@ -15,10 +15,12 @@ const videoData = theDirtJwVideos.map((v) => ({
   description: v.description,
   duration: v.duration,
   cta: v.cta,
+  landingPath: v.landingPath,
 }));
 
 export default function VideoPage() {
   const params = useParams();
+  const searchParams = useSearchParams();
   const id = typeof params.id === 'string' ? params.id : params.id?.[0];
 
   const [video, setVideo] = useState<any>(null);
@@ -47,6 +49,9 @@ export default function VideoPage() {
   if (!video) {
     notFound();
   }
+
+  const queryString = searchParams?.toString();
+  const campaignLandingHref = `${video.landingPath}${queryString ? `?${queryString}` : ''}`;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
@@ -122,6 +127,18 @@ export default function VideoPage() {
                 {video.cta.text}
               </motion.a>
             )}
+            <p className="text-gray-400 text-sm mt-6 mb-2">
+              Email and social campaigns use the winery landing page (append{' '}
+              <code className="text-gray-300">?lid=…</code> for tracking).
+            </p>
+            <motion.a
+              href={campaignLandingHref}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-block px-6 py-3 bg-white/15 hover:bg-white/25 text-white rounded-lg border border-white/30 transition-colors duration-200 text-base font-medium"
+            >
+              Open dedicated landing page →
+            </motion.a>
           </div>
         </motion.div>
       </section>

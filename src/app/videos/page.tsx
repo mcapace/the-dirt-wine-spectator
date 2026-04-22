@@ -14,6 +14,7 @@ const videoData = theDirtJwVideos.map((v) => ({
   description: v.description,
   duration: v.duration,
   cta: v.cta,
+  landingPath: v.landingPath,
 }));
 
 export default function VideosPage() {
@@ -93,15 +94,23 @@ export default function VideosPage() {
                   </span>
                 </div>
                 
-                {/* Action Buttons */}
-                <div className="flex gap-2">
+                {/* Action Buttons — landingPath matches email campaigns (append ?lid= for tracking) */}
+                <div className="flex flex-col gap-2">
+                  <motion.a
+                    href={video.landingPath}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white text-center rounded-md transition-colors duration-200 font-semibold"
+                  >
+                    Wine Spectator landing page
+                  </motion.a>
                   <motion.a
                     href={`/videos/${video.id}`}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="flex-1 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white text-center rounded-md transition-colors duration-200 font-semibold"
+                    className="w-full px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-center text-sm rounded-md transition-colors duration-200 border border-white/20"
                   >
-                    Watch Full Story
+                    Episode URL (/videos/…)
                   </motion.a>
                   {video.cta && (
                     <motion.a
@@ -110,7 +119,7 @@ export default function VideosPage() {
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="flex-1 px-4 py-3 bg-red-600 hover:bg-red-700 text-white text-center rounded-md transition-colors duration-200 font-semibold"
+                      className="w-full px-4 py-3 bg-red-600 hover:bg-red-700 text-white text-center rounded-md transition-colors duration-200 font-semibold"
                     >
                       {video.cta.text}
                     </motion.a>

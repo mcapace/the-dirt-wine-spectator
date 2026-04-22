@@ -13,7 +13,7 @@ export const videoUrls = {
   trefethen: '/videos/FSUUFWTG',
   rockyPond: '/videos/J4mjNPcy',
   robertHall: '/videos/nsF12zfB',
-  /** Email-blast landing pages (append e.g. ?lid=campaign for tracking) */
+  /** Email-blast paths (same as landingPath on each video in theDirtJwVideos) */
   rockyPondLanding: '/rocky-pond',
   robertHallLanding: '/robert-hall',
 
@@ -22,6 +22,7 @@ export const videoUrls = {
     id: v.id,
     winery: v.winery,
     url: `/videos/${v.id}`,
+    landingPath: v.landingPath,
     embedUrl: jwEmbedUrl(v.id),
     cta: v.cta,
   })),

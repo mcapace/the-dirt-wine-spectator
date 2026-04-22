@@ -19,6 +19,7 @@ These pages are hidden from the main navigation but accessible via direct links 
 ### 3. Whitehaven Wine Company
 - **URL**: `/whitehaven`
 - **Full URL**: `https://thedirt.winespectator.com/whitehaven`
+- **Example (with list tracking)**: `https://thedirt.winespectator.com/whitehaven?lid=ztw0f2w7t1me`
 - **Video Duration**: 49 seconds
 - **CTA**: "Learn More" → https://whitehavenwine.com
 
@@ -37,14 +38,14 @@ These pages are hidden from the main navigation but accessible via direct links 
 ### 6. Rocky Pond Estate Winery
 - **URL**: `/rocky-pond`
 - **Full URL**: `https://thedirt.winespectator.com/rocky-pond`
-- **Example (with list tracking)**: `https://thedirt.winespectator.com/rocky-pond?lid=YOUR_ID`
+- **Example (with list tracking)**: `https://thedirt.winespectator.com/rocky-pond?lid=YOUR_ID` (same `?lid=` pattern as Whitehaven above)
 - **Video Duration**: 45 seconds
 - **CTA**: "Plan a Visit" → https://www.rockypondwinery.com/
 
 ### 7. Robert Hall Winery
 - **URL**: `/robert-hall` (distinct from HALL Napa Valley at `/hall`)
 - **Full URL**: `https://thedirt.winespectator.com/robert-hall`
-- **Example (with list tracking)**: `https://thedirt.winespectator.com/robert-hall?lid=YOUR_ID`
+- **Example (with list tracking)**: `https://thedirt.winespectator.com/robert-hall?lid=YOUR_ID` (same `?lid=` pattern as Whitehaven above)
 - **Video Duration**: 45 seconds
 - **CTA**: "Learn More" → https://www.roberthallwinery.com/
 

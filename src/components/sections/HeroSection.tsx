@@ -63,8 +63,8 @@ const HeroSection = () => {
             style={{
               width: 'auto',
               height: 'auto',
-              maxWidth: 'min(920px, 88vw)',
-              maxHeight: 'min(480px, 48vh)',
+              maxWidth: 'min(1040px, 92vw)',
+              maxHeight: 'min(560px, 54vh)',
               filter: 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.35))',
               WebkitFilter: 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.35))'
             }}
