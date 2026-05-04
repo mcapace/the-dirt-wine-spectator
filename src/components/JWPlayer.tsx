@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { jwEmbedUrl } from '@/data/theDirtJwVideos';
 
 interface JWPlayerProps {
@@ -10,8 +10,43 @@ interface JWPlayerProps {
   onComplete?: () => void;
 }
 
+function readBox(el: HTMLElement): { w: number; h: number } | null {
+  const r = el.getBoundingClientRect();
+  const w = Math.round(r.width);
+  const h = Math.round(r.height);
+  if (w < 2 || h < 2) return null;
+  return { w, h };
+}
+
 export default function JWPlayer({ mediaId, wineryName, onTime, onComplete }: JWPlayerProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  /** JW Cloud reads iframe size on load; mount only after layout gives non-zero dimensions (avoids random zoom/crop). */
+  const [iframeBox, setIframeBox] = useState<{ w: number; h: number } | null>(null);
+
+  useLayoutEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const apply = () => {
+      const next = readBox(el);
+      setIframeBox((prev) => {
+        if (!next) return prev;
+        if (prev && prev.w === next.w && prev.h === next.h) return prev;
+        return next;
+      });
+    };
+
+    apply();
+    // Second pass next frame: flex + aspect-ratio layout can report wrong size on first layout pass.
+    const raf = requestAnimationFrame(() => apply());
+    const ro = new ResizeObserver(() => apply());
+    ro.observe(el);
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
+  }, []);
 
   // Listen for postMessage events from the JW iframe to wire onTime/onComplete callbacks.
   // JW's iframe doesn't post these by default — it only does if the player is configured
@@ -43,17 +78,26 @@ export default function JWPlayer({ mediaId, wineryName, onTime, onComplete }: JW
   }, [onTime, onComplete]);
 
   return (
-    <div className="absolute inset-0 overflow-hidden bg-black">
-      <iframe
-        ref={iframeRef}
-        key={mediaId}
-        src={jwEmbedUrl(mediaId)}
-        allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
-        allowFullScreen
-        className="absolute inset-0 block h-full w-full border-0 bg-black"
-        style={{ border: 0, backgroundColor: '#000' }}
-        title={wineryName ? `${wineryName} — The Dirt` : 'The Dirt video player'}
-      />
+    <div ref={containerRef} className="absolute inset-0 overflow-hidden bg-black">
+      {iframeBox ? (
+        <iframe
+          ref={iframeRef}
+          key={mediaId}
+          src={jwEmbedUrl(mediaId)}
+          width={iframeBox.w}
+          height={iframeBox.h}
+          allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+          allowFullScreen
+          className="absolute left-0 top-0 block border-0 bg-black"
+          style={{
+            border: 0,
+            backgroundColor: '#000',
+            width: iframeBox.w,
+            height: iframeBox.h,
+          }}
+          title={wineryName ? `${wineryName} — The Dirt` : 'The Dirt video player'}
+        />
+      ) : null}
     </div>
   );
 }
