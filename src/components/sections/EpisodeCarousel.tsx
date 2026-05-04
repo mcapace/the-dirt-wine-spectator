@@ -63,15 +63,21 @@ export default function EpisodeCarousel() {
           const idx = allVideos.findIndex((v) => v.id === video.id);
           if (idx !== -1) setActiveIndex(idx);
         }}
-        className="relative block shrink-0 overflow-hidden rounded-md bg-neutral-900"
+        className={`relative block shrink-0 overflow-hidden rounded-md bg-neutral-900 transition-[filter] duration-500 ${
+          isActive ? '' : 'brightness-[0.55] saturate-[0.7] hover:brightness-75 hover:saturate-90'
+        }`}
         style={{
-          width: isActive ? 260 : 200,
+          width: isActive ? 240 : 180,
           aspectRatio: '9/16',
           scrollSnapAlign: 'start',
+          animation: isActive
+            ? 'ws-glow-pulse 2.4s ease-in-out infinite, ws-breathe 3.6s ease-in-out infinite'
+            : undefined,
+          transform: !isActive ? 'translateY(0)' : undefined,
         }}
-        animate={{ y: isActive ? -8 : 0 }}
+        animate={!isActive ? { y: 0 } : undefined}
         transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
-        whileHover={{ y: isActive ? -8 : -4 }}
+        whileHover={!isActive ? { y: -4 } : undefined}
       >
         <div className="absolute inset-0 overflow-hidden">
           <img
@@ -127,10 +133,6 @@ export default function EpisodeCarousel() {
           <div className="font-serif mt-0.5 text-sm leading-tight text-ws-cream">{video.winery}</div>
           <div className="font-mono mt-1 text-[9px] text-white/60">{formatDuration(video.duration)}</div>
         </div>
-
-        {isActive ? (
-          <div className="pointer-events-none absolute inset-0 rounded-md ring-1 ring-ws-red/40" />
-        ) : null}
       </motion.button>
     );
   }
