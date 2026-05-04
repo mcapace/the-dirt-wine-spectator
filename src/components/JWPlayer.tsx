@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { JW_PLAYER_ID, jwPlaylistUrl } from '@/data/theDirtJwVideos';
+import { JW_PLAYER_ID, jwBotrDivId, jwPerMediaScriptUrl } from '@/data/theDirtJwVideos';
 
 interface JWPlayerProps {
   mediaId: string;
@@ -15,85 +15,71 @@ type JWPlayerInstance = {
   on: (event: string, handler: (e: unknown) => void) => void;
 };
 
-type JWSetup = (options: Record<string, unknown>) => JWPlayerInstance;
+type JWFactory = (id: string) => JWPlayerInstance;
 
-let jwLibraryPromise: Promise<void> | null = null;
-
-function ensureJwLibrary(): Promise<void> {
-  if (typeof window === 'undefined') return Promise.resolve();
-  const g = window as unknown as { jwplayer?: (target: Element | string) => { setup: JWSetup } };
-  if (typeof g.jwplayer === 'function') return Promise.resolve();
-  if (!jwLibraryPromise) {
-    jwLibraryPromise = new Promise((resolve, reject) => {
-      const s = document.createElement('script');
-      s.src = `https://cdn.jwplayer.com/libraries/${JW_PLAYER_ID}.js`;
-      s.async = true;
-      s.onload = () => resolve();
-      s.onerror = () => reject(new Error('JW Player library failed to load'));
-      document.head.appendChild(s);
-    });
-  }
-  return jwLibraryPromise;
+function getJw(): JWFactory | undefined {
+  if (typeof window === 'undefined') return undefined;
+  const jw = (window as unknown as { jwplayer?: JWFactory }).jwplayer;
+  return typeof jw === 'function' ? jw : undefined;
 }
 
+/**
+ * JW Cloud “advanced” embed for a single media item: load `players/{mediaId}-{playerId}.js`.
+ * That script pulls in JW if needed and runs `jwplayer("botr_{media}_{player}_div").setup(config)`.
+ * The generic `libraries/{player}.js` + manual playlist URL did not initialize playback for this account.
+ */
 export default function JWPlayer({ mediaId, wineryName, onTime, onComplete }: JWPlayerProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const playerRef = useRef<JWPlayerInstance | null>(null);
+  const botrId = jwBotrDivId(mediaId, JW_PLAYER_ID);
   const onTimeRef = useRef(onTime);
   const onCompleteRef = useRef(onComplete);
   onTimeRef.current = onTime;
   onCompleteRef.current = onComplete;
 
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    let cancelled = false;
+    const script = document.createElement('script');
+    script.src = jwPerMediaScriptUrl(mediaId, JW_PLAYER_ID);
+    script.async = true;
 
-    ensureJwLibrary()
-      .then(() => {
-        if (cancelled || !containerRef.current) return;
-        playerRef.current?.remove();
-        playerRef.current = null;
-
-        const g = window as unknown as { jwplayer?: (target: Element | string) => { setup: JWSetup } };
-        const jw = g.jwplayer;
-        if (!jw || typeof jw !== 'function') return;
-
-        const player = jw(containerRef.current).setup({
-          playlist: jwPlaylistUrl(mediaId),
-          width: '100%',
-          aspectratio: '9:16',
-          stretching: 'uniform',
-          responsive: true,
+    const attachListeners = () => {
+      const jw = getJw();
+      if (!jw) return;
+      let player: JWPlayerInstance;
+      try {
+        player = jw(botrId);
+      } catch {
+        return;
+      }
+      if (onTimeRef.current) {
+        player.on('time', (e) => {
+          const ev = e as { position?: number; duration?: number };
+          const cb = onTimeRef.current;
+          if (
+            cb &&
+            typeof ev?.position === 'number' &&
+            typeof ev?.duration === 'number'
+          ) {
+            cb(ev.position, ev.duration);
+          }
         });
+      }
+      if (onCompleteRef.current) {
+        player.on('complete', () => onCompleteRef.current?.());
+      }
+    };
 
-        playerRef.current = player;
+    script.onload = () => {
+      queueMicrotask(attachListeners);
+    };
 
-        if (onTimeRef.current) {
-          player.on('time', (e) => {
-            const ev = e as { position?: number; duration?: number };
-            const cb = onTimeRef.current;
-            if (
-              cb &&
-              typeof ev?.position === 'number' &&
-              typeof ev?.duration === 'number'
-            ) {
-              cb(ev.position, ev.duration);
-            }
-          });
-        }
-        if (onCompleteRef.current) {
-          player.on('complete', () => onCompleteRef.current?.());
-        }
-      })
-      .catch(() => {
-        /* leave black box; optional: surface error UI later */
-      });
+    document.head.appendChild(script);
 
     return () => {
-      cancelled = true;
-      playerRef.current?.remove();
-      playerRef.current = null;
+      try {
+        getJw()?.(botrId)?.remove();
+      } catch {
+        /* ignore */
+      }
+      script.remove();
     };
   }, [mediaId]);
 
@@ -102,7 +88,7 @@ export default function JWPlayer({ mediaId, wineryName, onTime, onComplete }: JW
       className="absolute inset-0 overflow-hidden bg-black"
       aria-label={wineryName ? `${wineryName} — The Dirt video` : 'The Dirt video player'}
     >
-      <div ref={containerRef} className="absolute inset-0 h-full min-h-0 w-full min-w-0" />
+      <div id={botrId} className="absolute inset-0 h-full min-h-0 w-full min-w-0" />
     </div>
   );
 }
