@@ -2,30 +2,16 @@
 
 import { useEffect, useRef } from 'react';
 
-export interface JWPlayerProps {
+interface JWPlayerProps {
   mediaId: string;
   playerId?: string;
   onTime?: (currentTime: number, duration: number) => void;
   onComplete?: () => void;
 }
 
-type TimeEvent = {
-  position?: number;
-  duration?: number;
-};
-
-type JWInstance = {
-  remove: () => void;
-  on: (event: string, callback: (e: TimeEvent) => void) => void;
-};
-
-type JWFactory = (id: string) => {
-  setup: (config: Record<string, unknown>) => JWInstance;
-};
-
 declare global {
   interface Window {
-    jwplayer?: JWFactory;
+    jwplayer?: any;
   }
 }
 
@@ -36,43 +22,27 @@ export default function JWPlayer({
   onComplete,
 }: JWPlayerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const playerInstanceRef = useRef<JWInstance | null>(null);
-  const cancelledRef = useRef(false);
-  const onTimeRef = useRef(onTime);
-  const onCompleteRef = useRef(onComplete);
+  const playerInstanceRef = useRef<any>(null);
+  const containerIdRef = useRef<string>(`jw-${mediaId}-${Math.random().toString(36).slice(2, 9)}`);
 
   useEffect(() => {
-    onTimeRef.current = onTime;
-  }, [onTime]);
-
-  useEffect(() => {
-    onCompleteRef.current = onComplete;
-  }, [onComplete]);
-
-  useEffect(() => {
-    cancelledRef.current = false;
-    const containerId = `jw-player-${mediaId}-${Math.random().toString(36).slice(2)}`;
+    const containerId = containerIdRef.current;
     if (containerRef.current) {
       containerRef.current.id = containerId;
     }
 
-    const scriptId = `jwplayer-script-${playerId}`;
+    const scriptSrc = `https://cdn.jwplayer.com/players/${mediaId}-${playerId}.js`;
+    const scriptId = `jw-script-${mediaId}-${playerId}`;
+
     let script = document.getElementById(scriptId) as HTMLScriptElement | null;
 
     const initPlayer = () => {
-      if (cancelledRef.current || !window.jwplayer || !containerRef.current) return;
+      if (!window.jwplayer || !containerRef.current) return;
 
       try {
-        if (playerInstanceRef.current) {
-          try {
-            playerInstanceRef.current.remove();
-          } catch {
-            /* ignore */
-          }
-          playerInstanceRef.current = null;
-        }
-
-        const player = window.jwplayer(containerId).setup({
+        // The cloud-hosted script auto-creates a player on a div whose id matches
+        // a "botr_" pattern. To take manual control, we use jwplayer(containerId).setup().
+        const instance = window.jwplayer(containerId).setup({
           playlist: `https://cdn.jwplayer.com/v2/media/${mediaId}`,
           width: '100%',
           height: '100%',
@@ -80,19 +50,19 @@ export default function JWPlayer({
           stretching: 'uniform',
           autostart: false,
           mute: false,
+          controls: true,
         });
 
-        playerInstanceRef.current = player;
+        playerInstanceRef.current = instance;
 
-        player.on('time', (e: TimeEvent) => {
-          const position = typeof e?.position === 'number' ? e.position : 0;
-          const duration = typeof e?.duration === 'number' ? e.duration : 0;
-          onTimeRef.current?.(position, duration);
-        });
-
-        player.on('complete', () => {
-          onCompleteRef.current?.();
-        });
+        if (onTime) {
+          instance.on('time', (event: any) => {
+            onTime(event.position, event.duration);
+          });
+        }
+        if (onComplete) {
+          instance.on('complete', () => onComplete());
+        }
       } catch (e) {
         console.error('JW Player setup failed', e);
       }
@@ -101,33 +71,34 @@ export default function JWPlayer({
     if (!script) {
       script = document.createElement('script');
       script.id = scriptId;
-      script.src = `https://cdn.jwplayer.com/libraries/${playerId}.js`;
+      script.src = scriptSrc;
       script.async = true;
       script.onload = initPlayer;
       document.body.appendChild(script);
     } else if (window.jwplayer) {
-      queueMicrotask(initPlayer);
+      // Script already loaded — init immediately
+      initPlayer();
     } else {
+      // Script tag exists but hasn't loaded yet — wait for it
       script.addEventListener('load', initPlayer);
     }
 
     return () => {
-      cancelledRef.current = true;
       if (playerInstanceRef.current) {
         try {
           playerInstanceRef.current.remove();
-        } catch {
-          /* ignore */
+        } catch (e) {
+          // ignore teardown errors
         }
         playerInstanceRef.current = null;
       }
     };
-  }, [mediaId, playerId]);
+  }, [mediaId, playerId, onTime, onComplete]);
 
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 h-full w-full"
+      className="absolute inset-0 w-full h-full"
       style={{ backgroundColor: '#000' }}
     />
   );
