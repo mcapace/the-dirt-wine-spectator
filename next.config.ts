@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com",
               "font-src 'self' https://fonts.gstatic.com",
               "img-src 'self' data: https: blob: https://*.elfsight.com https://*.instagram.com https://cdn.jwplayer.com https://*.jwplayer.com",
-              "media-src 'self' https://cdn.jwplayer.com https://*.jwplayer.com",
+              "media-src 'self' blob: https://cdn.jwplayer.com https://*.jwplayer.com",
               "connect-src 'self' https://static.elfsight.com https://www.google-analytics.com https://*.elfsight.com https://*.instagram.com https://cdn.jwplayer.com https://*.jwplayer.com",
               "frame-src 'self' https://static.elfsight.com https://*.elfsight.com https://*.instagram.com https://cdn.jwplayer.com https://*.jwplayer.com",
               "object-src 'none'",
