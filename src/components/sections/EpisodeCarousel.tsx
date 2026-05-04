@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
 import JWPlayer from '@/components/JWPlayer';
 import {
   getOrderedVideos,
@@ -49,11 +48,12 @@ export default function EpisodeCarousel() {
     }
   }, [activeIndex, allVideos]);
 
-  function renderCard(video: TheDirtJwVideo) {
+  const renderCard = (video: TheDirtJwVideo) => {
     const isActive = video.id === activeVideo?.id;
     const pos = getThumbnailObjectPosition(video.id);
+
     return (
-      <motion.button
+      <button
         key={video.id}
         type="button"
         ref={(el) => {
@@ -63,21 +63,21 @@ export default function EpisodeCarousel() {
           const idx = allVideos.findIndex((v) => v.id === video.id);
           if (idx !== -1) setActiveIndex(idx);
         }}
-        className={`relative block shrink-0 overflow-hidden rounded-md bg-neutral-900 transition-[filter] duration-500 ${
-          isActive ? '' : 'brightness-[0.55] saturate-[0.7] hover:brightness-75 hover:saturate-90'
-        }`}
+        className="relative block shrink-0 overflow-hidden bg-neutral-900"
         style={{
-          width: isActive ? 240 : 180,
+          width: isActive ? 280 : 180,
           aspectRatio: '9/16',
           scrollSnapAlign: 'start',
-          animation: isActive
-            ? 'ws-glow-pulse 2.4s ease-in-out infinite, ws-breathe 3.6s ease-in-out infinite'
-            : undefined,
-          transform: !isActive ? 'translateY(0)' : undefined,
+          borderRadius: '8px',
+          transition:
+            'width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.5s ease',
+          transform: isActive ? 'translateY(-12px)' : 'translateY(0)',
+          filter: isActive ? 'none' : 'brightness(0.55) saturate(0.7)',
+          animation: isActive ? 'wsGlowPulse 2.4s ease-in-out infinite' : 'none',
+          boxShadow: isActive
+            ? '0 0 0 0 rgba(152,35,31,0.55), 0 24px 50px rgba(152,35,31,0.35), 0 0 60px rgba(152,35,31,0.25)'
+            : 'none',
         }}
-        animate={!isActive ? { y: 0 } : undefined}
-        transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
-        whileHover={!isActive ? { y: -4 } : undefined}
       >
         <div className="absolute inset-0 overflow-hidden">
           <img
@@ -90,30 +90,40 @@ export default function EpisodeCarousel() {
         <div
           className="absolute inset-0"
           style={{
-            background:
-              'linear-gradient(180deg, transparent 0%, transparent 50%, rgba(0,0,0,0.85) 100%)',
+            background: 'linear-gradient(180deg, transparent 0%, transparent 50%, rgba(0,0,0,0.85) 100%)',
           }}
         />
 
         <div className="absolute left-2.5 top-4">
           {isActive ? (
-            <div className="flex items-center gap-1.5 rounded-full bg-ws-red px-2.5 py-1 font-mono text-[9px] text-ws-cream">
+            <div
+              className="flex items-center gap-1.5 rounded-full px-2.5 py-1 font-mono text-[9px]"
+              style={{
+                backgroundColor: '#98231f',
+                color: '#faf6ee',
+                boxShadow: '0 2px 8px rgba(152,35,31,0.5)',
+              }}
+            >
               <span
-                className="h-1.5 w-1.5 rounded-full bg-ws-cream"
+                className="h-1.5 w-1.5 rounded-full"
                 style={{
-                  animation: 'ws-pulse 1.6s ease-in-out infinite',
+                  backgroundColor: '#faf6ee',
+                  animation: 'wsPulseDot 1.6s ease-in-out infinite',
                 }}
               />
               NOW PLAYING
             </div>
           ) : (
-            <div className="rounded-full bg-ws-cream/95 px-2 py-0.5 font-mono text-[9px] font-medium text-ws-ink">
+            <div
+              className="rounded-full px-2 py-0.5 font-mono text-[9px] font-medium"
+              style={{ backgroundColor: 'rgba(250,246,238,0.95)', color: '#1a1410' }}
+            >
               S{video.season}
             </div>
           )}
         </div>
 
-        {!isActive ? (
+        {!isActive && (
           <div className="absolute left-1/2 top-[38%] flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-white/40 backdrop-blur-md">
             <div
               style={{
@@ -126,16 +136,21 @@ export default function EpisodeCarousel() {
               }}
             />
           </div>
-        ) : null}
+        )}
 
         <div className="absolute bottom-0 left-0 right-0 p-3">
           <div className="font-mono text-[9px] text-ws-gold">{video.region?.toUpperCase()}</div>
-          <div className="font-serif mt-0.5 text-sm leading-tight text-ws-cream">{video.winery}</div>
+          <div
+            className="font-serif mt-0.5 leading-tight text-ws-cream"
+            style={{ fontSize: isActive ? '15px' : '13px' }}
+          >
+            {video.winery}
+          </div>
           <div className="font-mono mt-1 text-[9px] text-white/60">{formatDuration(video.duration)}</div>
         </div>
-      </motion.button>
+      </button>
     );
-  }
+  };
 
   return (
     <section id="about" className="bg-ws-cream py-12 md:py-16">
