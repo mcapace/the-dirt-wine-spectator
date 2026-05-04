@@ -18,6 +18,11 @@ export function jwEmbedUrl(mediaId: string): string {
   return url.toString()
 }
 
+/** Delivery API playlist JSON for `jwplayer().setup({ playlist })` (library embed, not iframe). */
+export function jwPlaylistUrl(mediaId: string): string {
+  return `https://cdn.jwplayer.com/v2/media/${mediaId}`
+}
+
 export function jwThumbnailUrl(mediaId: string): string {
   return `https://cdn.jwplayer.com/thumbs/${mediaId}-720.jpg`
 }
