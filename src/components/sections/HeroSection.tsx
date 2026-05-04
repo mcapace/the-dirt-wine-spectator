@@ -260,7 +260,9 @@ const HeroSection = () => {
               className="font-sans mt-[14px] max-w-[520px] text-center leading-[1.7] text-[rgba(250,246,238,0.7)]"
               style={{ fontSize: 14, fontWeight: 300, marginTop: 14 }}
             >
-              Seven winemakers. Two seasons. Told from the ground up by the people who farm it.
+              Seven winemakers. Two seasons. Told from the ground up
+              <br />
+              by the people who farm it.
             </p>
 
             <div className="mt-7 flex flex-wrap justify-center gap-[10px]" style={{ marginTop: 28 }}>
