@@ -200,11 +200,11 @@ export default function EpisodeCarousel() {
                 }}
               />
 
-              <div className="relative z-10 flex h-full min-h-0 w-full items-stretch justify-center px-2">
+              <div className="relative z-10 flex h-full min-h-0 w-full items-center justify-center px-2">
                 <div
-                  className="relative mx-auto aspect-[9/16] h-full min-h-[min(50vh,520px)] w-auto min-w-0 max-w-full shrink-0 overflow-hidden rounded-md bg-black ring-1 ring-white/10"
+                  className="relative mx-auto h-full min-h-0 min-w-0 max-h-full w-auto max-w-full overflow-hidden rounded-md bg-black ring-1 ring-white/10"
                   style={{
-                    maxHeight: '100%',
+                    aspectRatio: '9 / 16',
                     boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
                   }}
                 >
