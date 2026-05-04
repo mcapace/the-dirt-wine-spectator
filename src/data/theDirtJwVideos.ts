@@ -18,18 +18,6 @@ export function jwEmbedUrl(mediaId: string): string {
   return url.toString()
 }
 
-/**
- * JW Cloud `players/{media}-{player}.js` calls `jwplayer("botr_{media}_{player}_div").setup(...)`.
- * The container div must use this exact id (see script tail on the CDN).
- */
-export function jwBotrDivId(mediaId: string, playerId: string = JW_PLAYER_ID): string {
-  return `botr_${mediaId}_${playerId}_div`
-}
-
-export function jwPerMediaScriptUrl(mediaId: string, playerId: string = JW_PLAYER_ID): string {
-  return `https://cdn.jwplayer.com/players/${mediaId}-${playerId}.js`
-}
-
 export function jwThumbnailUrl(mediaId: string): string {
   return `https://cdn.jwplayer.com/thumbs/${mediaId}-720.jpg`
 }
