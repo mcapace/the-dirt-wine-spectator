@@ -18,62 +18,122 @@ function formatDuration(seconds: number) {
 
 export default function EpisodeCarousel() {
   const allVideos = useMemo(() => getOrderedVideos(), []);
-  const [seasonFilter, setSeasonFilter] = useState<'01' | '02'>('02');
-  const [activeIndex, setActiveIndex] = useState(0);
-  const cardRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const s2Videos = useMemo(
+    () => allVideos.filter((v) => v.season === '02'),
+    [allVideos],
+  );
+  const s1Videos = useMemo(
+    () => allVideos.filter((v) => v.season === '01'),
+    [allVideos],
+  );
 
-  const videos = useMemo(
-    () => allVideos.filter((v) => v.season === seasonFilter),
-    [allVideos, seasonFilter],
+  const [activeIndex, setActiveIndex] = useState(0);
+  const cardRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+
+  const activeVideo = useMemo(
+    () => (allVideos.length > 0 ? allVideos[activeIndex] : undefined),
+    [allVideos, activeIndex],
   );
 
   useEffect(() => {
-    setActiveIndex(0);
-  }, [seasonFilter]);
-
-  useEffect(() => {
+    const id = allVideos[activeIndex]?.id;
+    if (!id) return;
     try {
-      cardRefs.current[activeIndex]?.scrollIntoView({
+      cardRefs.current[id]?.scrollIntoView({
         behavior: 'smooth',
         inline: 'center',
         block: 'nearest',
       });
     } catch {
-      /* ignore scroll edge cases */
+      /* ignore */
     }
-  }, [activeIndex, videos.length]);
+  }, [activeIndex, allVideos]);
 
-  const activeVideo = useMemo(
-    () => (videos.length > 0 ? videos[activeIndex] : undefined),
-    [videos, activeIndex],
-  );
+  function renderCard(video: TheDirtJwVideo) {
+    const isActive = video.id === activeVideo?.id;
+    const pos = getThumbnailObjectPosition(video.id);
+    return (
+      <motion.button
+        key={video.id}
+        type="button"
+        ref={(el) => {
+          cardRefs.current[video.id] = el;
+        }}
+        onClick={() => {
+          const idx = allVideos.findIndex((v) => v.id === video.id);
+          if (idx !== -1) setActiveIndex(idx);
+        }}
+        className="relative block shrink-0 overflow-hidden rounded-md bg-neutral-900"
+        style={{
+          width: isActive ? 260 : 200,
+          aspectRatio: '9/16',
+          scrollSnapAlign: 'start',
+        }}
+        animate={{ y: isActive ? -8 : 0 }}
+        transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
+        whileHover={{ y: isActive ? -8 : -4 }}
+      >
+        <div className="absolute inset-0 overflow-hidden">
+          <img
+            src={jwThumbnailUrl(video.id)}
+            alt={video.winery}
+            className="h-full w-full object-cover"
+            style={pos ? { objectPosition: pos } : undefined}
+          />
+        </div>
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(180deg, transparent 0%, transparent 50%, rgba(0,0,0,0.85) 100%)',
+          }}
+        />
 
-  const seasonButtons = (
-    <>
-      <button
-        type="button"
-        onClick={() => setSeasonFilter('02')}
-        className={`rounded-full px-3 py-1.5 font-mono text-[10px] tracking-widest transition-colors ${
-          seasonFilter === '02'
-            ? 'bg-ws-red text-ws-cream'
-            : 'text-ws-ink/60 hover:text-ws-ink'
-        }`}
-      >
-        SEASON 02
-      </button>
-      <button
-        type="button"
-        onClick={() => setSeasonFilter('01')}
-        className={`rounded-full px-3 py-1.5 font-mono text-[10px] tracking-widest transition-colors ${
-          seasonFilter === '01'
-            ? 'bg-ws-red text-ws-cream'
-            : 'text-ws-ink/60 hover:text-ws-ink'
-        }`}
-      >
-        SEASON 01
-      </button>
-    </>
-  );
+        <div className="absolute left-2.5 top-4">
+          {isActive ? (
+            <div className="flex items-center gap-1.5 rounded-full bg-ws-red px-2.5 py-1 font-mono text-[9px] text-ws-cream">
+              <span
+                className="h-1.5 w-1.5 rounded-full bg-ws-cream"
+                style={{
+                  animation: 'ws-pulse 1.6s ease-in-out infinite',
+                }}
+              />
+              NOW PLAYING
+            </div>
+          ) : (
+            <div className="rounded-full bg-ws-cream/95 px-2 py-0.5 font-mono text-[9px] font-medium text-ws-ink">
+              S{video.season}
+            </div>
+          )}
+        </div>
+
+        {!isActive ? (
+          <div className="absolute left-1/2 top-[38%] flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-white/40 backdrop-blur-md">
+            <div
+              style={{
+                width: 0,
+                height: 0,
+                borderLeft: '12px solid #faf6ee',
+                borderTop: '8px solid transparent',
+                borderBottom: '8px solid transparent',
+                marginLeft: '3px',
+              }}
+            />
+          </div>
+        ) : null}
+
+        <div className="absolute bottom-0 left-0 right-0 p-3">
+          <div className="font-mono text-[9px] text-ws-gold">{video.region?.toUpperCase()}</div>
+          <div className="font-serif mt-0.5 text-sm leading-tight text-ws-cream">{video.winery}</div>
+          <div className="font-mono mt-1 text-[9px] text-white/60">{formatDuration(video.duration)}</div>
+        </div>
+
+        {isActive ? (
+          <div className="pointer-events-none absolute inset-0 rounded-md ring-1 ring-ws-red/40" />
+        ) : null}
+      </motion.button>
+    );
+  }
 
   return (
     <section id="about" className="bg-ws-cream py-12 md:py-16">
@@ -91,30 +151,27 @@ export default function EpisodeCarousel() {
             </h2>
           </div>
           <div className="mb-0.5 flex flex-wrap items-center gap-2">
-            {seasonButtons}
-            <div className="ml-0 flex gap-2 sm:ml-3">
-              <button
-                type="button"
-                aria-label="Previous story"
-                disabled={activeIndex <= 0}
-                onClick={() => setActiveIndex((i) => Math.max(0, i - 1))}
-                className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full border text-lg leading-none text-ws-red disabled:opacity-40"
-                style={{ borderColor: 'rgba(152,35,31,0.3)' }}
-              >
-                ‹
-              </button>
-              <button
-                type="button"
-                aria-label="Next story"
-                disabled={activeIndex >= videos.length - 1}
-                onClick={() =>
-                  setActiveIndex((i) => Math.min(videos.length - 1, i + 1))
-                }
-                className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-ws-red text-lg leading-none text-[#faf6ee] shadow-[0_4px_12px_rgba(152,35,31,0.3)] disabled:opacity-40"
-              >
-                ›
-              </button>
-            </div>
+            <button
+              type="button"
+              aria-label="Previous story"
+              disabled={activeIndex <= 0}
+              onClick={() => setActiveIndex((i) => Math.max(0, i - 1))}
+              className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full border text-lg leading-none text-ws-red disabled:opacity-40"
+              style={{ borderColor: 'rgba(152,35,31,0.3)' }}
+            >
+              ‹
+            </button>
+            <button
+              type="button"
+              aria-label="Next story"
+              disabled={activeIndex >= allVideos.length - 1}
+              onClick={() =>
+                setActiveIndex((i) => Math.min(allVideos.length - 1, i + 1))
+              }
+              className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-ws-red text-lg leading-none text-[#faf6ee] shadow-[0_4px_12px_rgba(152,35,31,0.3)] disabled:opacity-40"
+            >
+              ›
+            </button>
           </div>
         </div>
 
@@ -151,13 +208,15 @@ export default function EpisodeCarousel() {
                     boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
                   }}
                 >
-                  <JWPlayer mediaId={activeVideo.id} />
+                  <JWPlayer
+                    key={activeVideo.id}
+                    mediaId={activeVideo.id}
+                    wineryName={activeVideo.winery}
+                  />
                 </div>
               </div>
 
-              <div
-                className="absolute left-[5%] top-1/2 z-20 hidden max-w-[200px] -translate-y-1/2 lg:block"
-              >
+              <div className="absolute left-[5%] top-1/2 z-20 hidden max-w-[200px] -translate-y-1/2 lg:block">
                 <div className="font-mono mb-2 text-[10px] text-ws-gold">
                   SEASON {activeVideo.season}
                 </div>
@@ -205,106 +264,43 @@ export default function EpisodeCarousel() {
           </>
         ) : null}
 
-        <div
-          className="-mx-6 overflow-x-auto px-6 pb-5"
-          style={{ scrollSnapType: 'x mandatory' }}
-        >
-          <div className="flex gap-4">
-            {videos.map((video: TheDirtJwVideo, index: number) => {
-              const isActive = index === activeIndex;
-              const pos = getThumbnailObjectPosition(video.id);
-              return (
-                <motion.button
-                  key={video.id}
-                  type="button"
-                  ref={(el) => {
-                    cardRefs.current[index] = el;
-                  }}
-                  onClick={() => setActiveIndex(index)}
-                  className="relative block shrink-0 overflow-hidden rounded-md bg-neutral-900"
-                  style={{
-                    width: isActive ? 290 : 200,
-                    aspectRatio: '9/16',
-                    scrollSnapAlign: 'center',
-                  }}
-                  animate={{ y: isActive ? -14 : 0 }}
-                  transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
-                  whileHover={{ y: isActive ? -14 : -6 }}
-                >
-                  <div className="absolute inset-0 overflow-hidden">
-                    <img
-                      src={jwThumbnailUrl(video.id)}
-                      alt={video.winery}
-                      className="h-full w-full object-cover"
-                      style={pos ? { objectPosition: pos } : undefined}
-                    />
-                  </div>
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      background:
-                        'linear-gradient(180deg, transparent 0%, transparent 50%, rgba(0,0,0,0.85) 100%)',
-                    }}
-                  />
-
-                  <div className="absolute left-2.5 top-4">
-                    {isActive ? (
-                      <div className="flex items-center gap-1.5 rounded-full bg-ws-red px-2.5 py-1 font-mono text-[9px] text-ws-cream">
-                        <span
-                          className="h-1.5 w-1.5 rounded-full bg-ws-cream"
-                          style={{
-                            animation: 'ws-pulse 1.6s ease-in-out infinite',
-                          }}
-                        />
-                        NOW PLAYING
-                      </div>
-                    ) : (
-                      <div className="rounded-full bg-ws-cream/95 px-2 py-0.5 font-mono text-[9px] font-medium text-ws-ink">
-                        S{video.season}
-                      </div>
-                    )}
-                  </div>
-
-                  {!isActive ? (
-                    <div className="absolute left-1/2 top-[38%] flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-white/40 backdrop-blur-md">
-                      <div
-                        style={{
-                          width: 0,
-                          height: 0,
-                          borderLeft: '12px solid #faf6ee',
-                          borderTop: '8px solid transparent',
-                          borderBottom: '8px solid transparent',
-                          marginLeft: '3px',
-                        }}
-                      />
-                    </div>
-                  ) : null}
-
-                  <div className="absolute bottom-0 left-0 right-0 p-3">
-                    <div className="font-mono text-[9px] text-ws-gold">
-                      {video.region?.toUpperCase()}
-                    </div>
-                    <div className="font-serif mt-0.5 text-sm leading-tight text-ws-cream">
-                      {video.winery}
-                    </div>
-                    <div className="font-mono mt-1 text-[9px] text-white/60">
-                      {formatDuration(video.duration)}
-                    </div>
-                  </div>
-
-                  {isActive ? (
-                    <div className="pointer-events-none absolute inset-0 rounded-md ring-1 ring-ws-red/40" />
-                  ) : null}
-                </motion.button>
-              );
-            })}
+        {/* Season 02 row */}
+        <div className="mb-10">
+          <div className="mb-4 flex items-center gap-3 px-1">
+            <span className="font-mono text-[11px] font-medium tracking-widest text-ws-red">SEASON 02</span>
+            <span className="rounded-full bg-ws-red px-2 py-0.5 font-mono text-[9px] tracking-widest text-ws-cream">
+              NEW
+            </span>
+            <div className="h-px flex-1 bg-ws-red/20" />
+            <span className="font-mono text-[10px] tracking-wider text-ws-ink/50">
+              {s2Videos.length} EPISODES
+            </span>
+          </div>
+          <div
+            className="-mx-6 flex gap-4 overflow-x-auto px-6 pb-3"
+            style={{ scrollSnapType: 'x mandatory' }}
+          >
+            {s2Videos.map((video) => renderCard(video))}
           </div>
         </div>
 
-        <div className="mt-8 flex items-center gap-2">
-          <span className="font-mono text-[10px] tracking-widest text-ws-ink/40">SEASON 02</span>
-          <div className="h-px flex-1 bg-ws-ink/15" />
-          <span className="font-mono text-[10px] tracking-widest text-ws-ink/40">SEASON 01</span>
+        {/* Season 01 row */}
+        <div className="mb-6">
+          <div className="mb-4 flex items-center gap-3 px-1">
+            <span className="font-mono text-[11px] font-medium tracking-widest text-ws-ink/70">
+              SEASON 01
+            </span>
+            <div className="h-px flex-1 bg-ws-ink/15" />
+            <span className="font-mono text-[10px] tracking-wider text-ws-ink/50">
+              {s1Videos.length} EPISODES
+            </span>
+          </div>
+          <div
+            className="-mx-6 flex gap-4 overflow-x-auto px-6 pb-3"
+            style={{ scrollSnapType: 'x mandatory' }}
+          >
+            {s1Videos.map((video) => renderCard(video))}
+          </div>
         </div>
       </div>
     </section>

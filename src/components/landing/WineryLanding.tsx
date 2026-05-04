@@ -136,6 +136,7 @@ export default function WineryLanding({ mediaId, title, heroDescription }: Winer
               >
                 <JWPlayer
                   mediaId={mediaId}
+                  wineryName={meta.winery}
                   onTime={handleJWTime}
                   onComplete={handleJWComplete}
                 />

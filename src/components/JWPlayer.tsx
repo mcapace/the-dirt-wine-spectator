@@ -5,11 +5,12 @@ import { jwEmbedUrl } from '@/data/theDirtJwVideos';
 
 interface JWPlayerProps {
   mediaId: string;
+  wineryName?: string;
   onTime?: (currentTime: number, duration: number) => void;
   onComplete?: () => void;
 }
 
-export default function JWPlayer({ mediaId, onTime, onComplete }: JWPlayerProps) {
+export default function JWPlayer({ mediaId, wineryName, onTime, onComplete }: JWPlayerProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   // Listen for postMessage events from the JW iframe to wire onTime/onComplete callbacks.
@@ -59,7 +60,7 @@ export default function JWPlayer({ mediaId, onTime, onComplete }: JWPlayerProps)
           border: 0,
           backgroundColor: '#000',
         }}
-        title={`Video player for ${mediaId}`}
+        title={wineryName ? `${wineryName} — The Dirt` : 'The Dirt video player'}
       />
     </div>
   );
