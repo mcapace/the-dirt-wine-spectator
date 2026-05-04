@@ -3,12 +3,12 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import type { ReactNode } from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Footer from '@/components/Footer/Footer';
+import JWPlayer from '@/components/JWPlayer';
 import {
   getThumbnailObjectPosition,
   getVideoByMediaId,
-  jwEmbedUrl,
   jwThumbnailUrl,
   theDirtJwVideos,
 } from '@/data/theDirtJwVideos';
@@ -37,18 +37,22 @@ export default function WineryLanding({ mediaId, title, heroDescription }: Winer
   const meta = getVideoByMediaId(mediaId);
   const wineryRow = wineries.find((w) => w.mediaId === mediaId);
   const [showCTA, setShowCTA] = useState(false);
-  const ctaTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    if (!meta) return;
-    if (ctaTimerRef.current) clearTimeout(ctaTimerRef.current);
     setShowCTA(false);
-    const delayMs = Math.max(0, (meta.duration - 15) * 1000);
-    ctaTimerRef.current = setTimeout(() => setShowCTA(true), delayMs);
-    return () => {
-      if (ctaTimerRef.current) clearTimeout(ctaTimerRef.current);
-    };
-  }, [mediaId, meta]);
+  }, [mediaId]);
+
+  const handleJWTime = useCallback(
+    (currentTime: number, duration: number) => {
+      if (!meta?.cta || duration <= 0) return;
+      if (currentTime >= duration - 15) setShowCTA(true);
+    },
+    [meta?.cta],
+  );
+
+  const handleJWComplete = useCallback(() => {
+    if (meta?.cta) setShowCTA(true);
+  }, [meta?.cta]);
 
   if (!meta || !wineryRow) return null;
 
@@ -92,67 +96,58 @@ export default function WineryLanding({ mediaId, title, heroDescription }: Winer
 
         {/* Player */}
         <section className="mb-10 px-4 sm:px-6 lg:px-8">
-          <div className="relative mx-auto w-full max-w-5xl overflow-hidden rounded-lg">
+          <div
+            className="relative mx-auto mb-6 w-full max-w-5xl overflow-hidden rounded-lg bg-black"
+            style={{ height: 'min(70vh, 600px)' }}
+          >
             <div
-              className="relative w-full overflow-hidden rounded-lg"
+              className="absolute inset-0"
               style={{
-                aspectRatio: '16/9',
-                maxHeight: 'min(85vh, 720px)',
+                backgroundImage: `url(${jwThumbnailUrl(mediaId)})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                filter: 'blur(60px) brightness(0.55) saturate(1.3)',
+                transform: 'scale(1.3)',
               }}
-            >
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.4) 100%)',
+              }}
+            />
+            <div className="relative z-10 flex h-full items-center justify-center">
               <div
-                className="absolute inset-0"
+                className="relative h-full min-h-0 overflow-hidden rounded-md bg-black ring-1 ring-white/10"
                 style={{
-                  backgroundImage: `url(${jwThumbnailUrl(mediaId)})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  filter: 'blur(60px) brightness(0.55) saturate(1.3)',
-                  transform: 'scale(1.3)',
+                  aspectRatio: '9 / 16',
+                  boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
                 }}
-              />
-              <div
-                className="absolute inset-0"
-                style={{
-                  background:
-                    'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.4) 100%)',
-                }}
-              />
-              <div className="relative z-10 flex h-full min-h-0 items-center justify-center p-2 md:p-0">
-                <div
-                  className="relative h-full max-h-full w-auto overflow-hidden rounded-md bg-black ring-1 ring-white/10"
-                  style={{
-                    aspectRatio: '9/16',
-                    maxHeight: '100%',
-                    boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
-                  }}
-                >
-                  <iframe
-                    key={mediaId}
-                    src={jwEmbedUrl(mediaId)}
-                    allow="autoplay; fullscreen; picture-in-picture"
-                    allowFullScreen
-                    title={meta.winery}
-                    className="absolute inset-0 h-full w-full"
-                    style={{ border: 0 }}
-                  />
-                  {showCTA && meta.cta ? (
-                    <motion.div
-                      initial={{ opacity: 0, y: 24 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.45 }}
-                      className="pointer-events-none absolute bottom-10 left-0 right-0 z-10 flex justify-center px-4"
+              >
+                <JWPlayer
+                  key={mediaId}
+                  mediaId={mediaId}
+                  onTime={handleJWTime}
+                  onComplete={handleJWComplete}
+                />
+                {showCTA && meta.cta ? (
+                  <motion.div
+                    initial={{ opacity: 0, y: 24 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.45 }}
+                    className="pointer-events-none absolute bottom-10 left-0 right-0 z-10 flex justify-center px-4"
+                  >
+                    <a
+                      href={meta.cta.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="pointer-events-auto font-mono rounded-[2px] bg-ws-red px-6 py-3 text-[11px] uppercase tracking-widest text-ws-cream shadow-lg transition-colors hover:bg-ws-red-deep"
                     >
-                      <a
-                        href={meta.cta.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="pointer-events-auto font-mono rounded-[2px] bg-ws-red px-6 py-3 text-[11px] uppercase tracking-widest text-ws-cream shadow-lg transition-colors hover:bg-ws-red-deep"
-                      >
-                        {meta.cta.text}
-                      </a>
-                    </motion.div>
-                  ) : null}
-                </div>
+                      {meta.cta.text}
+                    </a>
+                  </motion.div>
+                ) : null}
               </div>
             </div>
           </div>

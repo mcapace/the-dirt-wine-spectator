@@ -2,10 +2,10 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import JWPlayer from '@/components/JWPlayer';
 import {
   CAROUSEL_PIN_FIRST,
   getThumbnailObjectPosition,
-  jwEmbedUrl,
   jwThumbnailUrl,
   theDirtJwVideos,
   type TheDirtJwVideo,
@@ -129,21 +129,13 @@ export default function EpisodeCarousel() {
               {/* Vertical 9:16 player, sized by height */}
               <div className="relative z-10 h-full flex items-center justify-center">
                 <div
-                  className="relative h-full overflow-hidden rounded-md bg-black ring-1 ring-white/10"
+                  className="relative h-full min-h-0 overflow-hidden rounded-md bg-black ring-1 ring-white/10"
                   style={{
                     aspectRatio: '9 / 16',
                     boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
                   }}
                 >
-                  <iframe
-                    key={activeVideo.id}
-                    src={jwEmbedUrl(activeVideo.id)}
-                    allow="autoplay; fullscreen; picture-in-picture"
-                    allowFullScreen
-                    className="absolute inset-0 w-full h-full"
-                    title={activeVideo.winery}
-                    style={{ border: 0 }}
-                  />
+                  <JWPlayer key={activeVideo.id} mediaId={activeVideo.id} />
                 </div>
               </div>
 
