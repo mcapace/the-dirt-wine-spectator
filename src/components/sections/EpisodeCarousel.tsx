@@ -243,7 +243,7 @@ export default function EpisodeCarousel() {
                     }}
                   />
 
-                  <div className="absolute left-2.5 top-2.5">
+                  <div className="absolute left-2.5 top-4">
                     {isActive ? (
                       <div className="font-mono flex items-center gap-1.5 rounded-full bg-ws-red px-2.5 py-1 text-[9px] text-ws-cream">
                         <span

@@ -252,7 +252,7 @@ const HeroSection = () => {
           >
             <div className="mb-[22px] flex items-center gap-3" style={{ marginBottom: 22 }}>
               <span className="h-px w-[60px] bg-[#98231f]" />
-              <span className="font-mono text-[10px] text-[#98231f]">
+              <span className="font-mono text-[10px] text-ws-cream">
                 A&nbsp;&nbsp;V&nbsp;&nbsp;I&nbsp;&nbsp;D&nbsp;&nbsp;E&nbsp;&nbsp;O&nbsp;&nbsp;&nbsp;&nbsp;S&nbsp;&nbsp;E&nbsp;&nbsp;R&nbsp;&nbsp;I&nbsp;&nbsp;E&nbsp;&nbsp;S
               </span>
               <span className="h-px w-[60px] bg-[#98231f]" />
