@@ -6,32 +6,37 @@
  * then update id, metadata, and thumbnail crop (see THUMBNAIL_OBJECT_POSITION).
  */
 
-const JW_PLAYER_ID = 'O0V5rBgo';
+const JW_PLAYER_ID = 'O0V5rBgo'
 
-export function jwEmbedUrl(mediaId: string) {
-  return `https://cdn.jwplayer.com/players/${mediaId}-${JW_PLAYER_ID}.html`;
+export function jwEmbedUrl(mediaId: string): string {
+  return `https://cdn.jwplayer.com/players/${mediaId}-${JW_PLAYER_ID}.html`
 }
 
-export function jwThumbnailUrl(mediaId: string) {
-  return `https://cdn.jwplayer.com/thumbs/${mediaId}-720.jpg`;
+export function jwThumbnailUrl(mediaId: string): string {
+  return `https://cdn.jwplayer.com/thumbs/${mediaId}-720.jpg`
 }
 
 export interface TheDirtJwVideo {
-  id: string;
-  title: string;
-  winery: string;
-  duration: number;
-  description: string;
-  /** Dedicated email/social landing page (append ?lid= for list tracking). */
-  landingPath: string;
+  id: string
+  title: string
+  winery: string
+  duration: number
+  description: string
+  /** Dedicated landing route */
+  landingPath: string
   cta?: {
-    text: string;
-    url: string;
-  };
+    text: string
+    url: string
+  }
+  episodeNumber?: string
+  region?: string
+  state?: string
+  soilType?: string
+  founded?: string
 }
 
-/** How many episodes stay fixed at the front of the homepage carousel (newest first). */
-export const CAROUSEL_PIN_FIRST = 2;
+/** JW media id pinned as the first carousel tile (episode 01). */
+export const CAROUSEL_PIN_FIRST = 'J4mjNPcy'
 
 export const theDirtJwVideos: TheDirtJwVideo[] = [
   {
@@ -46,19 +51,29 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
       text: 'Shop Now',
       url: 'https://rockypondwinery.orderport.net/product-details/1140/2023-11-dams',
     },
+    episodeNumber: '01',
+    region: 'Columbia Valley',
+    state: 'Washington',
+    soilType: 'Volcanic basalt, glacial silt',
+    founded: '2009',
   },
   {
     id: 'nsF12zfB',
     title: 'Robert Hall',
     winery: 'Robert Hall Winery',
     landingPath: '/robert-hall',
-    duration: 45,
+    duration: 44,
     description:
       'Step into Robert Hall Winery and the Paso Robles story behind the bottle.',
     cta: {
       text: 'Discover Robert Hall',
       url: 'https://www.roberthallwinery.com/regenerative-organic-viticulture/',
     },
+    episodeNumber: '02',
+    region: 'Paso Robles',
+    state: 'California',
+    soilType: 'Calcareous shale',
+    founded: '1999',
   },
   {
     id: 'bE41U3pF',
@@ -72,6 +87,11 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
       text: 'Inquire for Availability',
       url: 'https://sullivanwine.com/estate-experiences/',
     },
+    episodeNumber: '03',
+    region: 'Rutherford, Napa',
+    state: 'California',
+    soilType: 'Rutherford dust, alluvial loam',
+    founded: '1972',
   },
   {
     id: 'oPFkkAfZ',
@@ -84,6 +104,11 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
       text: 'Come See Us!',
       url: 'https://www.hallwines.com/',
     },
+    episodeNumber: '04',
+    region: 'St. Helena, Napa',
+    state: 'California',
+    soilType: 'Bale clay loam',
+    founded: '2003',
   },
   {
     id: 'L6WSfCgB',
@@ -96,6 +121,11 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
       text: 'Learn More',
       url: 'https://whitehavenwine.com',
     },
+    episodeNumber: '05',
+    region: 'Marlborough',
+    state: 'New Zealand',
+    soilType: 'Stony alluvial gravel',
+    founded: '1994',
   },
   {
     id: 'kncdFPTD',
@@ -108,6 +138,11 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
       text: '❤️ Follow Us',
       url: 'https://www.instagram.com/jwinery/',
     },
+    episodeNumber: '06',
+    region: 'Russian River Valley',
+    state: 'California',
+    soilType: 'Goldridge sandy loam',
+    founded: '1986',
   },
   {
     id: 'FSUUFWTG',
@@ -120,19 +155,28 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
       text: '🛒 Buy This Wine',
       url: 'https://www.trefethen.com/',
     },
+    episodeNumber: '07',
+    region: 'Oak Knoll, Napa',
+    state: 'California',
+    soilType: 'Volcanic ash, sedimentary clay',
+    founded: '1968',
   },
-];
+]
 
 /**
  * CTA + duration for a JW media id. Landing pages use this so buttons stay in sync
  * with the home carousel — edit URLs once in `theDirtJwVideos` above.
  */
 export function getCtaForMediaId(
-  mediaId: string
+  mediaId: string,
 ): { text: string; url: string; duration: number } | null {
-  const v = theDirtJwVideos.find((x) => x.id === mediaId);
-  if (!v?.cta) return null;
-  return { text: v.cta.text, url: v.cta.url, duration: v.duration };
+  const v = theDirtJwVideos.find((x) => x.id === mediaId)
+  if (!v?.cta) return null
+  return { text: v.cta.text, url: v.cta.url, duration: v.duration }
+}
+
+export function getVideoByMediaId(mediaId: string): TheDirtJwVideo | undefined {
+  return theDirtJwVideos.find((v) => v.id === mediaId)
 }
 
 /** Thumbnail crop in the homepage carousel (object-position). Defaults to center. */
@@ -144,8 +188,8 @@ export const THUMBNAIL_OBJECT_POSITION: Record<string, string> = {
   FSUUFWTG: 'center 38%',
   J4mjNPcy: 'center 40%',
   nsF12zfB: 'center 40%',
-};
+}
 
 export function getThumbnailObjectPosition(videoId: string): string {
-  return THUMBNAIL_OBJECT_POSITION[videoId] ?? 'center center';
+  return THUMBNAIL_OBJECT_POSITION[videoId] ?? 'center center'
 }
