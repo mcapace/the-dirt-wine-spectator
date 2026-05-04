@@ -58,8 +58,9 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
     season: '02',
     region: 'Columbia Valley',
     state: 'Washington',
-    soilType: 'Volcanic basalt, glacial silt',
-    founded: '2009',
+    soilType:
+      'Wind-deposited sand and silt over cobblestone gravel, deposited by ice-age floods 18,000 years ago',
+    founded: '2013',
   },
   {
     id: 'nsF12zfB',
@@ -76,7 +77,7 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
     season: '02',
     region: 'Paso Robles',
     state: 'California',
-    soilType: 'Calcareous shale',
+    soilType: 'Diverse soils ranging from silts and silt loams to clay and limestone',
     founded: '1999',
   },
   {
@@ -94,7 +95,7 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
     season: '01',
     region: 'Rutherford, Napa',
     state: 'California',
-    soilType: 'Rutherford dust, alluvial loam',
+    soilType: 'Rocky, gravel-streaked Rutherford dust on the famed Rutherford bench',
     founded: '1972',
   },
   {
@@ -111,7 +112,7 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
     season: '01',
     region: 'St. Helena, Napa',
     state: 'California',
-    soilType: 'Bale clay loam',
+    soilType: 'Alluvial valley floor (St. Helena) and volcanic ash tuff (Sacrashe)',
     founded: '2003',
   },
   {
@@ -128,7 +129,7 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
     season: '01',
     region: 'Marlborough',
     state: 'New Zealand',
-    soilType: 'Stony alluvial gravel',
+    soilType: 'Greywacke gravel with sandy loam topsoil across Marlborough',
     founded: '1994',
   },
   {
@@ -145,7 +146,7 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
     season: '01',
     region: 'Russian River Valley',
     state: 'California',
-    soilType: 'Goldridge sandy loam',
+    soilType: 'Goldridge sandy loam over fractured sandstone',
     founded: '1986',
   },
   {
@@ -162,7 +163,8 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
     season: '01',
     region: 'Oak Knoll, Napa',
     state: 'California',
-    soilType: 'Volcanic ash, sedimentary clay',
+    soilType:
+      'Dry Creek alluvial fan: gravel from the Mayacamas over ancient ocean clay and loam (20+ soil types across the estate)',
     founded: '1968',
   },
 ]
@@ -222,60 +224,64 @@ export interface SoilLayer {
 
 export const SOIL_PROFILES: Record<string, { layers: SoilLayer[]; speckles?: boolean }> = {
   J4mjNPcy: {
-    // Rocky Pond - Volcanic basalt over glacial silt
+    // Rocky Pond — sand/silt over cobblestone
     layers: [
-      { color: '#d4c4a0', ratio: 0.25 },
-      { color: '#6a5e4a', ratio: 0.35 },
-      { color: '#2a2018', ratio: 0.4 },
+      { color: '#d8c89a', ratio: 0.3 },
+      { color: '#9e8662', ratio: 0.25 },
+      { color: '#5a4a3a', ratio: 0.45 },
     ],
+    speckles: true,
   },
   nsF12zfB: {
-    // Robert Hall - Calcareous shale
+    // Robert Hall — silts through clay and limestone
     layers: [
-      { color: '#e8dcc8', ratio: 0.35 },
-      { color: '#c2a878', ratio: 0.35 },
-      { color: '#8b6e44', ratio: 0.3 },
+      { color: '#e8dcc0', ratio: 0.3 },
+      { color: '#c4a878', ratio: 0.3 },
+      { color: '#8e7050', ratio: 0.25 },
+      { color: '#d8d0bc', ratio: 0.15 },
     ],
   },
   bE41U3pF: {
-    // Sullivan - Rutherford dust, alluvial loam
+    // Sullivan — Rutherford dust, gravel streaks
     layers: [
-      { color: '#c9a878', ratio: 0.3 },
-      { color: '#8b6840', ratio: 0.35 },
-      { color: '#4a3220', ratio: 0.35 },
+      { color: '#cfa980', ratio: 0.35 },
+      { color: '#9e7448', ratio: 0.4 },
+      { color: '#5e3e22', ratio: 0.25 },
     ],
+    speckles: true,
   },
   oPFkkAfZ: {
-    // HALL Napa Valley - Bale clay loam
+    // HALL — alluvial valley floor & volcanic Sacrashe
     layers: [
-      { color: '#b8907a', ratio: 0.4 },
-      { color: '#8b5e3e', ratio: 0.35 },
-      { color: '#4a2818', ratio: 0.25 },
+      { color: '#b89878', ratio: 0.4 },
+      { color: '#8e6a48', ratio: 0.3 },
+      { color: '#6e5240', ratio: 0.3 },
     ],
   },
   L6WSfCgB: {
-    // Whitehaven - Stony alluvial gravel
+    // Whitehaven — greywacke & sandy loam
     layers: [
-      { color: '#d4d4d0', ratio: 0.5 },
-      { color: '#8b8b80', ratio: 0.3 },
-      { color: '#4a4a40', ratio: 0.2 },
+      { color: '#d8d4c8', ratio: 0.2 },
+      { color: '#9e9890', ratio: 0.4 },
+      { color: '#4e4842', ratio: 0.4 },
     ],
     speckles: true,
   },
   kncdFPTD: {
-    // J Vineyards - Goldridge sandy loam
+    // J Vineyards — Goldridge over fractured sandstone
     layers: [
-      { color: '#e8c896', ratio: 0.35 },
-      { color: '#b8946a', ratio: 0.35 },
-      { color: '#6a4e2c', ratio: 0.3 },
+      { color: '#e8d4a8', ratio: 0.45 },
+      { color: '#bf9b62', ratio: 0.3 },
+      { color: '#7a5530', ratio: 0.25 },
     ],
   },
   FSUUFWTG: {
-    // Trefethen - Volcanic ash, sedimentary clay
+    // Trefethen — Dry Creek alluvial fan, gravel over clay/loam
     layers: [
-      { color: '#a8a098', ratio: 0.3 },
-      { color: '#6a5a48', ratio: 0.3 },
-      { color: '#4a3a24', ratio: 0.4 },
+      { color: '#c8a87a', ratio: 0.2 },
+      { color: '#9e7a52', ratio: 0.25 },
+      { color: '#7e6850', ratio: 0.25 },
+      { color: '#5a4a38', ratio: 0.3 },
     ],
   },
 }

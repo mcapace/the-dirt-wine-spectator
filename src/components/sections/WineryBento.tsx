@@ -92,7 +92,9 @@ export default function WineryBento() {
                       <div className="font-serif text-lg leading-tight text-ws-ink">{winery.name}</div>
 
                       <div className="mt-2 text-xs leading-relaxed text-ws-ink/65">
-                        <span className="font-medium text-ws-ink/85">{meta.soilType}</span>
+                        <span className="block font-medium text-ws-ink/85 line-clamp-3">
+                          {meta.soilType}
+                        </span>
                       </div>
                     </div>
 
