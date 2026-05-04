@@ -22,7 +22,7 @@ export const wineries: Winery[] = [
     name: 'Rocky Pond',
     mediaId: 'J4mjNPcy',
     logo: '/Logos/Rocky-Pond-logo.png',
-    landingPath: '/videos/J4mjNPcy',
+    landingPath: '/rocky-pond',
     website: 'https://www.rockypondvineyards.com/',
     social: {
       instagram: 'https://www.instagram.com/rockypondvineyards/',
@@ -34,7 +34,7 @@ export const wineries: Winery[] = [
     name: 'Robert Hall',
     mediaId: 'nsF12zfB',
     logo: '/Logos/Robert-Hall-logo.png',
-    landingPath: '/videos/nsF12zfB',
+    landingPath: '/robert-hall',
     website: 'https://www.rhwine.com/',
     social: {
       instagram: 'https://www.instagram.com/roberthallwines/',
