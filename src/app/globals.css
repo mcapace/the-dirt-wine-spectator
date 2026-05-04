@@ -1,3 +1,30 @@
+:root {
+  --ws-cream: #faf6ee;
+  --ws-cream-warm: #f5efe6;
+  --ws-ink: #1a1410;
+  --ws-red: #98231f;
+  --ws-red-deep: #6b1612;
+  --ws-gold: #c9a96a;
+  --ws-soil-light: #d4a87a;
+  --ws-soil-mid: #a8754a;
+  --ws-soil-deep: #6b4226;
+  --ws-soil-dark: #3a2418;
+}
+
+.font-serif { font-family: var(--font-serif), Georgia, serif; }
+.font-sans { font-family: var(--font-sans), system-ui, sans-serif; }
+.font-mono { font-family: var(--font-mono), ui-monospace, monospace; letter-spacing: 0.08em; }
+
+@keyframes ws-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes ws-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,7 +32,7 @@
 /* Minimalist Design System */
   :root {
   /* Typography */
-  --font-primary: var(--font-inter), 'Inter', sans-serif;
+  --font-primary: var(--font-sans), 'Inter', sans-serif;
   
   /* Enhanced Color Palette with Better Contrast */
   --color-black: #000000;

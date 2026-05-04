@@ -1,15 +1,26 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, JetBrains_Mono, Playfair_Display } from 'next/font/google'
 import Script from 'next/script'
-import { Suspense } from 'react'
 import Navigation from '@/components/Navigation/Navbar'
-import GAListener from './ga-listener'
 import './globals.css'
 
-const inter = Inter({ 
+const playfairDisplay = Playfair_Display({
   subsets: ['latin'],
-  weight: ['100', '200', '300', '400', '500'],
-  variable: '--font-inter',
+  weight: ['400', '500'],
+  style: ['normal', 'italic'],
+  variable: '--font-serif',
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600'],
+  variable: '--font-sans',
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-mono',
 })
 
 export const metadata: Metadata = {
@@ -105,7 +116,9 @@ export default function RootLayout({
         <meta name="format-detection" content="address=no" />
         <meta name="format-detection" content="email=no" />
       </head>
-      <body className={inter.variable}>
+      <body
+        className={`${playfairDisplay.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+      >
         {/* Google tag (gtag.js) */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-0SX1LL4XNX"
