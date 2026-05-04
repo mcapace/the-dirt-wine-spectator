@@ -126,11 +126,15 @@ export default function WineryLanding({ mediaId, title, heroDescription }: Winer
                   'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.4) 100%)',
               }}
             />
-            <div className="relative z-10 flex h-full items-center justify-center">
+            <div className="relative z-10 flex h-full min-h-0 items-center justify-center px-2">
               <div
-                className="relative h-full min-h-0 overflow-hidden rounded-md bg-black ring-1 ring-white/10"
+                className="relative mx-auto min-h-0 min-w-0 overflow-hidden rounded-md bg-black ring-1 ring-white/10"
                 style={{
                   aspectRatio: '9 / 16',
+                  height: 'auto',
+                  maxHeight: '100%',
+                  width: 'auto',
+                  maxWidth: '100%',
                   boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
                 }}
               >
