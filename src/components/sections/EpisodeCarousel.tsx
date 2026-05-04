@@ -28,6 +28,8 @@ export default function EpisodeCarousel() {
 
   const [activeIndex, setActiveIndex] = useState(0);
   const cardRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  /** Avoid scrollIntoView on first paint — it scrolls the whole page down to the carousel. */
+  const hasSyncedCardScroll = useRef(false);
 
   const activeVideo = useMemo(
     () => (allVideos.length > 0 ? allVideos[activeIndex] : undefined),
@@ -35,6 +37,10 @@ export default function EpisodeCarousel() {
   );
 
   useEffect(() => {
+    if (!hasSyncedCardScroll.current) {
+      hasSyncedCardScroll.current = true;
+      return;
+    }
     const id = allVideos[activeIndex]?.id;
     if (!id) return;
     try {
