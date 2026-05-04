@@ -262,9 +262,7 @@ const HeroSection = () => {
             >
               Seven winemakers. Two seasons.
               <br />
-              Told from the ground up
-              <br />
-              by the people who farm it.
+              Told from the ground up by the people who farm it.
             </p>
 
             <div className="mt-7 flex flex-wrap justify-center gap-[10px]" style={{ marginTop: 28 }}>

@@ -13,7 +13,8 @@ export function jwEmbedUrl(mediaId: string): string {
   const url = new URL(
     `https://cdn.jwplayer.com/players/${mediaId}-${JW_PLAYER_ID}.html`,
   )
-  /** Omit stretching — some JW cloud `.html` builds crop/zoom oddly with `stretching=uniform`. Fit is handled by our iframe + shell sizing. */
+  /** Letterbox inside JW (uniform) so video isn’t cropped when iframe is 9:16 */
+  url.searchParams.set('stretching', 'uniform')
   return url.toString()
 }
 

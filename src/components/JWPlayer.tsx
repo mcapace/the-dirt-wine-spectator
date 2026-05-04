@@ -43,23 +43,15 @@ export default function JWPlayer({ mediaId, wineryName, onTime, onComplete }: JW
   }, [onTime, onComplete]);
 
   return (
-    <div className="absolute inset-0 flex min-h-0 min-w-0 items-center justify-center overflow-hidden bg-black">
+    <div className="absolute inset-0 overflow-hidden bg-black">
       <iframe
         ref={iframeRef}
         key={mediaId}
         src={jwEmbedUrl(mediaId)}
         allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
         allowFullScreen
-        className="block max-h-full max-w-full border-0 bg-black"
-        style={{
-          aspectRatio: '9 / 16',
-          width: 'auto',
-          height: 'auto',
-          maxHeight: '100%',
-          maxWidth: '100%',
-          border: 0,
-          backgroundColor: '#000',
-        }}
+        className="absolute inset-0 block h-full w-full border-0 bg-black"
+        style={{ border: 0, backgroundColor: '#000' }}
         title={wineryName ? `${wineryName} — The Dirt` : 'The Dirt video player'}
       />
     </div>

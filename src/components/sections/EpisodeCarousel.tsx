@@ -201,18 +201,19 @@ export default function EpisodeCarousel() {
               />
 
               <div className="relative z-10 flex h-full min-h-0 w-full items-center justify-center px-2">
+                {/* Fixed 9:16 frame via padding-bottom so JW iframe gets exact dimensions (avoids zoom/crop) */}
                 <div
-                  className="relative mx-auto h-full min-h-0 min-w-0 max-h-full w-auto max-w-full overflow-hidden rounded-md bg-black ring-1 ring-white/10"
-                  style={{
-                    aspectRatio: '9 / 16',
-                    boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
-                  }}
+                  className="relative w-[min(100%,calc(min(70vh,600px)*9/16))] max-w-full overflow-hidden rounded-md bg-black ring-1 ring-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
                 >
-                  <JWPlayer
-                    key={activeVideo.id}
-                    mediaId={activeVideo.id}
-                    wineryName={activeVideo.winery}
-                  />
+                  <div className="relative w-full pb-[177.78%]">
+                    <div className="absolute inset-0">
+                      <JWPlayer
+                        key={activeVideo.id}
+                        mediaId={activeVideo.id}
+                        wineryName={activeVideo.winery}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
 

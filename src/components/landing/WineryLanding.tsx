@@ -127,19 +127,17 @@ export default function WineryLanding({ mediaId, title, heroDescription }: Winer
               }}
             />
             <div className="relative z-10 flex h-full min-h-0 w-full items-center justify-center px-2">
-              <div
-                className="relative mx-auto h-full min-h-0 min-w-0 max-h-full w-auto max-w-full overflow-hidden rounded-md bg-black ring-1 ring-white/10"
-                style={{
-                  aspectRatio: '9 / 16',
-                  boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
-                }}
-              >
-                <JWPlayer
-                  mediaId={mediaId}
-                  wineryName={meta.winery}
-                  onTime={handleJWTime}
-                  onComplete={handleJWComplete}
-                />
+              <div className="relative w-[min(100%,calc(min(70vh,600px)*9/16))] max-w-full overflow-hidden rounded-md bg-black ring-1 ring-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+                <div className="relative w-full pb-[177.78%]">
+                  <div className="absolute inset-0">
+                    <JWPlayer
+                      mediaId={mediaId}
+                      wineryName={meta.winery}
+                      onTime={handleJWTime}
+                      onComplete={handleJWComplete}
+                    />
+                  </div>
+                </div>
                 {showCTA && meta.cta ? (
                   <motion.div
                     initial={{ opacity: 0, y: 24 }}
