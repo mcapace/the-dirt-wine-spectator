@@ -24,10 +24,19 @@ export function getSubmitStoryMailtoHref(): string {
 }
 
 /**
- * Opens the default mail client. Avoids `window.open(..., '_blank')`, which browsers
- * often block for mailto and prevents the composer from opening.
+ * Opens the default mail client without navigating the app tab to `mailto:`.
+ * `location.assign(mailto:…)` unloads the SPA and is unreliable; a real link click
+ * does not replace the page URL in most browsers.
  */
 export function openSubmitStoryMailto(): void {
-  if (typeof window === 'undefined') return
-  window.location.assign(getSubmitStoryMailtoHref())
+  if (typeof document === 'undefined') return
+  const href = getSubmitStoryMailtoHref()
+  const a = document.createElement('a')
+  a.href = href
+  a.setAttribute('aria-hidden', 'true')
+  a.tabIndex = -1
+  a.style.cssText = 'position:fixed;left:-9999px;top:0;'
+  document.body.appendChild(a)
+  a.click()
+  a.remove()
 }
