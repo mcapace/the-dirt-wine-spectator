@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Footer() {
@@ -14,6 +15,13 @@ export default function Footer() {
     >
       <div className="container-minimal mx-auto max-w-5xl px-4">
         <div className="mb-8 text-center md:text-left">
+          <Image
+            src="/images/ws-spectator-dark.png"
+            alt="Wine Spectator"
+            width={160}
+            height={32}
+            className="mx-auto mb-4 h-7 w-auto object-contain object-left md:mx-0"
+          />
           <div className="font-serif text-xl text-ws-ink">The Dirt</div>
           <div className="font-serif mt-1 text-xs italic text-ws-ink/60">
             A Wine Spectator Series

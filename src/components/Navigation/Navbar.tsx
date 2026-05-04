@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
@@ -72,9 +73,14 @@ export default function Navbar() {
               </Link>
             ) : null}
             <Link href="/" className="flex min-w-0 items-center gap-3">
-              <span className="font-serif shrink-0 text-sm font-medium text-ws-red md:text-[14px]">
-                Wine Spectator
-              </span>
+              <Image
+                src="/images/ws-spectator-dark.png"
+                alt="Wine Spectator"
+                width={140}
+                height={28}
+                className="h-6 w-auto max-w-[118px] shrink-0 object-contain object-left sm:h-7 sm:max-w-[140px]"
+                priority
+              />
               <span
                 className="hidden h-3.5 w-px shrink-0 bg-ws-ink/20 sm:block"
                 style={{ height: 14 }}

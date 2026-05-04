@@ -87,7 +87,7 @@ const Navigation = () => {
             whileTap={{ scale: 0.95 }}
           >
             <Image 
-              src="/images/WS White.png" 
+              src="/images/ws-spectator-light.png" 
               alt="Wine Spectator" 
               width={180}
               height={45}

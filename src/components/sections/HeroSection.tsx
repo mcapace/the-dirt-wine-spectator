@@ -96,7 +96,7 @@ const HeroSection = () => {
         <header className="relative z-20 flex w-full shrink-0 items-center justify-between border-b border-[rgba(250,246,238,0.12)] px-9 py-[22px]">
           <div className="flex min-w-0 flex-1 items-center gap-3">
             <Image
-              src="/images/WS White.png"
+              src="/images/ws-spectator-light.png"
               alt="Wine Spectator"
               width={140}
               height={28}

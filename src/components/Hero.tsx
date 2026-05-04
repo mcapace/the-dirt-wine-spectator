@@ -98,7 +98,7 @@ export default function Hero() {
         className="absolute top-10 z-10"
       >
         <Image
-          src="/images/WS White.png"
+          src="/images/ws-spectator-light.png"
           alt="Wine Spectator"
           width={120}
           height={30}
