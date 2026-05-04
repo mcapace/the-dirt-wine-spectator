@@ -15,6 +15,8 @@ export function jwEmbedUrl(mediaId: string): string {
   )
   /** Letterbox inside JW (uniform) so video isn’t cropped when iframe is 9:16 */
   url.searchParams.set('stretching', 'uniform')
+  /** Let the iframe container drive sizing instead of the player’s baked aspect ratio */
+  url.searchParams.set('aspectratio', 'false')
   return url.toString()
 }
 
