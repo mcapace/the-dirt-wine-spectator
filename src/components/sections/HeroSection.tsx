@@ -40,16 +40,30 @@ const HeroSection = () => {
   useEffect(() => {
     const el = videoRef.current;
     if (!el) return;
+
     el.muted = true;
     el.defaultMuted = true;
     el.setAttribute('muted', '');
     el.setAttribute('playsinline', '');
-    const p = el.play();
-    if (p !== undefined) {
-      p.catch(() => {
-        /* autoplay blocked */
-      });
-    }
+
+    const safePlay = () => {
+      try {
+        const p = el.play();
+        if (p !== undefined) {
+          void p.catch(() => {
+            /* autoplay blocked, interrupted, or policy — ignore */
+          });
+        }
+      } catch {
+        /* sync throw from play() in legacy browsers */
+      }
+    };
+
+    safePlay();
+
+    return () => {
+      el.pause();
+    };
   }, []);
 
   const marqueeDoubled = [

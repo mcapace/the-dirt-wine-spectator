@@ -33,11 +33,15 @@ export default function EpisodeCarousel() {
   }, []);
 
   useEffect(() => {
-    cardRefs.current[activeIndex]?.scrollIntoView({
-      behavior: 'smooth',
-      inline: 'center',
-      block: 'nearest',
-    });
+    try {
+      cardRefs.current[activeIndex]?.scrollIntoView({
+        behavior: 'smooth',
+        inline: 'center',
+        block: 'nearest',
+      });
+    } catch {
+      /* ignore scroll edge cases */
+    }
   }, [activeIndex, videos.length]);
 
   const activeVideo = useMemo(
@@ -98,9 +102,10 @@ export default function EpisodeCarousel() {
           <>
             {/* Player block */}
             <div
-              className="relative mx-auto mb-6 w-full max-w-5xl overflow-hidden rounded-lg"
-              style={{ aspectRatio: '16/9' }}
+              className="relative w-full mx-auto max-w-5xl rounded-lg overflow-hidden mb-6 bg-black"
+              style={{ height: 'min(70vh, 600px)' }}
             >
+              {/* Blurred backdrop */}
               <div
                 className="absolute inset-0"
                 style={{
@@ -111,6 +116,8 @@ export default function EpisodeCarousel() {
                   transform: 'scale(1.3)',
                 }}
               />
+
+              {/* Vignette */}
               <div
                 className="absolute inset-0"
                 style={{
@@ -118,12 +125,13 @@ export default function EpisodeCarousel() {
                     'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.4) 100%)',
                 }}
               />
-              <div className="relative z-10 flex h-full items-center justify-center">
+
+              {/* Vertical 9:16 player, sized by height */}
+              <div className="relative z-10 h-full flex items-center justify-center">
                 <div
                   className="relative h-full overflow-hidden rounded-md bg-black ring-1 ring-white/10"
                   style={{
-                    aspectRatio: '9/16',
-                    maxHeight: '100%',
+                    aspectRatio: '9 / 16',
                     boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
                   }}
                 >
@@ -132,46 +140,46 @@ export default function EpisodeCarousel() {
                     src={jwEmbedUrl(activeVideo.id)}
                     allow="autoplay; fullscreen; picture-in-picture"
                     allowFullScreen
-                    className="absolute inset-0 h-full w-full"
+                    className="absolute inset-0 w-full h-full"
                     title={activeVideo.winery}
                     style={{ border: 0 }}
                   />
                 </div>
               </div>
 
+              {/* Left metadata panel — positioned in empty space */}
               <div
-                className="absolute left-6 top-1/2 z-20 hidden max-w-[180px] -translate-y-1/2 md:block"
+                className="hidden lg:block absolute top-1/2 -translate-y-1/2 z-20"
+                style={{ left: '5%', maxWidth: '200px' }}
               >
-                <div className="font-mono mb-2 text-[10px] text-ws-gold">
+                <div className="font-mono text-[10px] text-ws-gold mb-2">
                   EP {activeVideo.episodeNumber}
                 </div>
-                <div className="font-serif text-2xl leading-tight text-white">
-                  {activeVideo.winery}
-                </div>
-                <div className="font-mono mt-2 text-[10px] text-white/70">
-                  {activeVideo.region?.toUpperCase()}
-                </div>
-                <div className="mt-3 text-xs leading-relaxed text-white/80">
-                  {activeVideo.description}
-                </div>
+                <div className="font-serif text-2xl text-white leading-tight">{activeVideo.winery}</div>
+                <div className="font-mono text-[10px] text-white/70 mt-2">{activeVideo.region?.toUpperCase()}</div>
+                <div className="text-xs text-white/80 mt-3 leading-relaxed">{activeVideo.description}</div>
               </div>
 
-              {activeVideo.cta ? (
-                <div className="absolute bottom-6 right-6 z-20 hidden md:block">
+              {/* Right CTA panel */}
+              {activeVideo.cta && (
+                <div
+                  className="absolute z-20 hidden lg:block"
+                  style={{ right: '5%', bottom: '8%' }}
+                >
                   <a
                     href={activeVideo.cta.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-sm bg-ws-red px-4 py-2.5 font-mono text-[10px] tracking-widest text-ws-cream transition-colors hover:bg-ws-red-deep"
+                    className="inline-flex items-center gap-2 bg-ws-red text-ws-cream px-4 py-2.5 rounded-sm font-mono text-[10px] tracking-widest hover:bg-ws-red-deep transition-colors"
                   >
                     {activeVideo.cta.text.toUpperCase()} →
                   </a>
                 </div>
-              ) : null}
+              )}
             </div>
 
-            {/* Mobile metadata */}
-            <div className="mb-6 rounded-md bg-ws-cream-warm p-4 md:hidden">
+            {/* Mobile metadata (below lg only — desktop copy lives inside player block) */}
+            <div className="mb-6 rounded-md bg-ws-cream-warm p-4 lg:hidden">
               <div className="font-mono mb-2 inline-block rounded-full bg-ws-red/10 px-2 py-0.5 text-[9px] text-ws-red">
                 EP {activeVideo.episodeNumber}
               </div>
@@ -213,7 +221,7 @@ export default function EpisodeCarousel() {
                     cardRefs.current[index] = el;
                   }}
                   onClick={() => setActiveIndex(index)}
-                  className="relative flex-shrink-0 overflow-hidden rounded-md"
+                  className="relative block shrink-0 overflow-hidden rounded-md bg-neutral-900"
                   style={{
                     width: isActive ? 290 : 200,
                     aspectRatio: '9/16',
@@ -223,16 +231,18 @@ export default function EpisodeCarousel() {
                   transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
                   whileHover={{ y: isActive ? -14 : -6 }}
                 >
-                  <img
-                    src={jwThumbnailUrl(video.id)}
-                    alt={video.winery}
-                    className="absolute inset-0 h-full w-full object-cover"
-                    style={
-                      pos
-                        ? { objectPosition: pos }
-                        : undefined
-                    }
-                  />
+                  <div className="absolute inset-0 overflow-hidden">
+                    <img
+                      src={jwThumbnailUrl(video.id)}
+                      alt={video.winery}
+                      className="h-full w-full object-cover"
+                      style={
+                        pos
+                          ? { objectPosition: pos }
+                          : undefined
+                      }
+                    />
+                  </div>
                   <div
                     className="absolute inset-0"
                     style={{

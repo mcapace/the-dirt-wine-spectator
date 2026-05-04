@@ -81,6 +81,12 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Default anchor reset — Next.js <Link> inherits color; components override where needed */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 /* Enhanced Typography Scale with Better Legibility - Reduced */
 .text-display {
   font-size: 56px;

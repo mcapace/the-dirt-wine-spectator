@@ -7,12 +7,14 @@ import { wineries } from '@/data/wineries';
 
 const FEATURED_MEDIA_ID = 'nsF12zfB';
 
+/** Robert Hall is featured; rail shows the other six wineries (no duplicates). */
 export default function WineryBento() {
   const featured = wineries.find((w) => w.mediaId === FEATURED_MEDIA_ID)!;
   const featuredMeta = getVideoByMediaId(featured.mediaId)!;
   const nonFeatured = wineries.filter((w) => w.mediaId !== FEATURED_MEDIA_ID);
+  // Order: Rocky Pond, Sullivan, Trefethen, HALL | J Vineyards, Whitehaven
   const firstFour = nonFeatured.slice(0, 4);
-  const lastTwo = nonFeatured.slice(4);
+  const lastTwo = nonFeatured.slice(4, 6);
 
   return (
     <section id="wineries" className="relative bg-ws-cream py-12 md:py-16">
@@ -56,6 +58,10 @@ export default function WineryBento() {
             style={{
               minHeight: 290,
               boxShadow: '0 8px 24px rgba(152,35,31,0.08)',
+              backgroundColor: '#ffffff',
+              border: '1px solid rgba(152,35,31,0.2)',
+              borderRadius: '8px',
+              overflow: 'hidden',
             }}
           >
             <Link
@@ -166,7 +172,11 @@ export default function WineryBento() {
               <Link
                 key={winery.id}
                 href={winery.landingPath}
-                className="flex min-h-[134px] flex-col justify-between rounded-lg border border-black/[0.08] bg-white p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-ws-red/30"
+                className="flex min-h-[134px] flex-col justify-between rounded-lg border border-ws-ink/8 bg-white p-4 text-ws-ink no-underline transition-all duration-300 hover:-translate-y-0.5 hover:border-ws-red/30"
+                style={{
+                  backgroundColor: '#ffffff',
+                  border: '1px solid rgba(26,20,16,0.08)',
+                }}
               >
                 <div className="font-mono text-[9px] text-ws-red">EP {meta.episodeNumber}</div>
                 <div>
@@ -195,7 +205,11 @@ export default function WineryBento() {
               <Link
                 key={winery.id}
                 href={winery.landingPath}
-                className="flex min-h-[134px] items-center justify-between rounded-lg border border-black/[0.08] bg-white p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-ws-red/30 md:col-span-2"
+                className="flex min-h-[134px] items-center justify-between rounded-lg border border-ws-ink/8 bg-white p-4 text-ws-ink no-underline transition-all duration-300 hover:-translate-y-0.5 hover:border-ws-red/30 md:col-span-2"
+                style={{
+                  backgroundColor: '#ffffff',
+                  border: '1px solid rgba(26,20,16,0.08)',
+                }}
               >
                 <div>
                   <div className="font-mono text-[9px] text-ws-red">EP {meta.episodeNumber}</div>

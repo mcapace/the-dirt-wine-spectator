@@ -4,7 +4,10 @@ import { motion } from 'framer-motion';
 
 const ClosingSection = () => {
   return (
-    <section className="relative bg-ws-ink py-12 text-white">
+    <section
+      className="relative bg-ws-ink py-12 text-white"
+      style={{ backgroundColor: '#1a1410' }}
+    >
       <svg
         className="pointer-events-none absolute left-0 right-0 top-0 w-full"
         style={{ height: 18 }}

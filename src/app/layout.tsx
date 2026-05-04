@@ -84,6 +84,25 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {process.env.NODE_ENV === 'development' ? (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+(function(){
+  function eventLikeReason(r){
+    if (r == null) return false;
+    if (typeof Event !== 'undefined' && r instanceof Event) return true;
+    return Object.prototype.toString.call(r) === '[object Event]';
+  }
+  window.addEventListener('unhandledrejection', function(ev){
+    if (!eventLikeReason(ev.reason)) return;
+    ev.preventDefault();
+    ev.stopImmediatePropagation();
+  }, true);
+})();`,
+            }}
+          />
+        ) : null}
         {/* Preconnect to optimize font loading */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />

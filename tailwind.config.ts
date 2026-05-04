@@ -5,7 +5,7 @@ const config: Config = {
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/data/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
@@ -21,6 +21,11 @@ const config: Config = {
         'ws-soil-deep': '#6b4226',
         'ws-soil-dark': '#3a2418',
       },
+      fontFamily: {
+        serif: ['var(--font-serif)', 'Georgia', 'serif'],
+        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
+      },
       animation: {
         'gradient-x': 'gradient-x 15s ease infinite',
         'gradient-y': 'gradient-y 15s ease infinite',
@@ -30,36 +35,37 @@ const config: Config = {
         'gradient-y': {
           '0%, 100%': {
             'background-size': '400% 400%',
-            'background-position': 'center top'
+            'background-position': 'center top',
           },
           '50%': {
             'background-size': '200% 200%',
-            'background-position': 'center center'
-          }
+            'background-position': 'center center',
+          },
         },
         'gradient-x': {
           '0%, 100%': {
             'background-size': '200% 200%',
-            'background-position': 'left center'
+            'background-position': 'left center',
           },
           '50%': {
             'background-size': '200% 200%',
-            'background-position': 'right center'
-          }
+            'background-position': 'right center',
+          },
         },
         'gradient-xy': {
           '0%, 100%': {
             'background-size': '400% 400%',
-            'background-position': 'left center'
+            'background-position': 'left center',
           },
           '50%': {
             'background-size': '200% 200%',
-            'background-position': 'right center'
-          }
-        }
+            'background-position': 'right center',
+          },
+        },
       },
     },
   },
   plugins: [],
 }
-export default config 
+
+export default config
