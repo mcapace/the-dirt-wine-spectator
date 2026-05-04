@@ -70,9 +70,10 @@ export default function EpisodeCarousel() {
             }
           }
         }}
-        className="relative block shrink-0 overflow-hidden bg-neutral-900"
+        className={`relative block shrink-0 overflow-hidden bg-neutral-900 ${
+          isActive ? 'w-[220px] md:w-[280px]' : 'w-[140px] md:w-[180px]'
+        }`}
         style={{
-          width: isActive ? 280 : 180,
           aspectRatio: '9/16',
           scrollSnapAlign: 'start',
           borderRadius: '8px',
@@ -160,8 +161,8 @@ export default function EpisodeCarousel() {
   };
 
   return (
-    <section id="about" className="bg-ws-cream py-12 md:py-16">
-      <div className="mx-auto max-w-7xl px-6">
+    <section id="about" className="bg-ws-cream py-8 md:py-16">
+      <div className="mx-auto max-w-7xl px-4 md:px-6">
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <div className="flex items-center gap-3">
@@ -202,8 +203,8 @@ export default function EpisodeCarousel() {
         {activeVideo ? (
           <>
             <div
-              className="relative mx-auto mb-6 max-w-5xl overflow-hidden rounded-lg bg-black"
-              style={{ height: 'min(70vh, 600px)' }}
+              className="relative mx-auto mb-6 max-w-5xl overflow-hidden bg-black sm:rounded-lg"
+              style={{ height: 'min(80vh, 600px)' }}
             >
               <div
                 className="absolute inset-0"
@@ -225,19 +226,15 @@ export default function EpisodeCarousel() {
               />
 
               <div className="relative z-10 flex h-full min-h-0 w-full items-center justify-center px-2">
-                {/* Fixed 9:16 frame via padding-bottom so JW iframe gets exact dimensions (avoids zoom/crop) */}
                 <div
-                  className="relative w-[min(100%,calc(min(70vh,600px)*9/16))] max-w-full overflow-hidden rounded-md bg-black ring-1 ring-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
+                  className="relative mx-auto h-full min-h-0 max-w-full overflow-hidden bg-black ring-1 ring-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.5)] sm:rounded-md"
+                  style={{ aspectRatio: '9/16' }}
                 >
-                  <div className="relative w-full pb-[177.78%]">
-                    <div className="absolute inset-0">
-                      <JWPlayer
-                        key={activeVideo.id}
-                        mediaId={activeVideo.id}
-                        wineryName={activeVideo.winery}
-                      />
-                    </div>
-                  </div>
+                  <JWPlayer
+                    key={activeVideo.id}
+                    mediaId={activeVideo.id}
+                    wineryName={activeVideo.winery}
+                  />
                 </div>
               </div>
 
@@ -266,7 +263,7 @@ export default function EpisodeCarousel() {
               ) : null}
             </div>
 
-            <div className="mb-6 rounded-md bg-ws-cream-warm p-4 lg:hidden">
+            <div className="mb-6 mx-auto max-w-2xl rounded-md bg-ws-cream-warm p-4 lg:hidden">
               <div className="font-mono mb-2 inline-block rounded-full bg-ws-red/10 px-2 py-0.5 text-[9px] text-ws-red">
                 SEASON {activeVideo.season}
               </div>
@@ -302,11 +299,11 @@ export default function EpisodeCarousel() {
             </span>
           </div>
           <div
-            className="-mx-6 flex gap-4 overflow-x-auto px-6"
+            className="-mx-4 flex gap-3 overflow-x-auto px-4 md:-mx-6 md:gap-4 md:px-6"
             style={{
               scrollSnapType: 'x mandatory',
-              paddingTop: '60px',
-              paddingBottom: '40px',
+              paddingTop: '40px',
+              paddingBottom: '24px',
             }}
           >
             {s2Videos.map((video) => renderCard(video))}
@@ -325,11 +322,11 @@ export default function EpisodeCarousel() {
             </span>
           </div>
           <div
-            className="-mx-6 flex gap-4 overflow-x-auto px-6"
+            className="-mx-4 flex gap-3 overflow-x-auto px-4 md:-mx-6 md:gap-4 md:px-6"
             style={{
               scrollSnapType: 'x mandatory',
-              paddingTop: '60px',
-              paddingBottom: '40px',
+              paddingTop: '40px',
+              paddingBottom: '24px',
             }}
           >
             {s1Videos.map((video) => renderCard(video))}

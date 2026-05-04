@@ -238,7 +238,7 @@ const HeroSection = () => {
             </div>
 
             <h1
-              className="font-serif text-center text-[clamp(64px,11vw,140px)] md:text-[clamp(72px,11vw,140px)]"
+              className="font-serif text-center text-[clamp(48px,13vw,140px)] md:text-[clamp(72px,11vw,140px)]"
               style={{
                 lineHeight: 0.92,
                 fontWeight: 400,
@@ -250,8 +250,8 @@ const HeroSection = () => {
             </h1>
 
             <p
-              className="font-serif mt-[18px] max-w-[540px] text-center italic leading-[1.3] text-[#c9a96a]"
-              style={{ fontSize: 22, marginTop: 18 }}
+              className="font-serif mt-[18px] max-w-[540px] text-center text-[18px] italic leading-[1.3] text-[#c9a96a] md:text-[22px]"
+              style={{ marginTop: 18 }}
             >
               Where great wine begins, beneath the soil.
             </p>
@@ -265,7 +265,10 @@ const HeroSection = () => {
               Told from the ground up by the people who farm it.
             </p>
 
-            <div className="mt-7 flex flex-wrap justify-center gap-[10px]" style={{ marginTop: 28 }}>
+            <div
+              className="mt-7 flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-[10px]"
+              style={{ marginTop: 28 }}
+            >
               <button
                 type="button"
                 onClick={() => smoothScrollToId('about')}
