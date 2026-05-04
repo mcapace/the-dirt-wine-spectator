@@ -61,7 +61,14 @@ export default function EpisodeCarousel() {
         }}
         onClick={() => {
           const idx = allVideos.findIndex((v) => v.id === video.id);
-          if (idx !== -1) setActiveIndex(idx);
+          if (idx !== -1) {
+            setActiveIndex(idx);
+            const playerSection = document.querySelector('#about');
+            if (playerSection) {
+              const top = playerSection.getBoundingClientRect().top + window.scrollY - 80;
+              window.scrollTo({ top, behavior: 'smooth' });
+            }
+          }
         }}
         className="relative block shrink-0 overflow-hidden bg-neutral-900"
         style={{
@@ -71,7 +78,7 @@ export default function EpisodeCarousel() {
           borderRadius: '8px',
           transition:
             'width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.5s ease',
-          transform: isActive ? 'translateY(-12px)' : 'translateY(0)',
+          transform: isActive ? 'translateY(-8px)' : 'translateY(0)',
           filter: isActive ? 'none' : 'brightness(0.55) saturate(0.7)',
           animation: isActive ? 'wsGlowPulse 2.4s ease-in-out infinite' : 'none',
           boxShadow: isActive
@@ -295,8 +302,12 @@ export default function EpisodeCarousel() {
             </span>
           </div>
           <div
-            className="-mx-6 flex gap-4 overflow-x-auto px-6 pb-3"
-            style={{ scrollSnapType: 'x mandatory' }}
+            className="-mx-6 flex gap-4 overflow-x-auto px-6"
+            style={{
+              scrollSnapType: 'x mandatory',
+              paddingTop: '60px',
+              paddingBottom: '40px',
+            }}
           >
             {s2Videos.map((video) => renderCard(video))}
           </div>
@@ -314,8 +325,12 @@ export default function EpisodeCarousel() {
             </span>
           </div>
           <div
-            className="-mx-6 flex gap-4 overflow-x-auto px-6 pb-3"
-            style={{ scrollSnapType: 'x mandatory' }}
+            className="-mx-6 flex gap-4 overflow-x-auto px-6"
+            style={{
+              scrollSnapType: 'x mandatory',
+              paddingTop: '60px',
+              paddingBottom: '40px',
+            }}
           >
             {s1Videos.map((video) => renderCard(video))}
           </div>
