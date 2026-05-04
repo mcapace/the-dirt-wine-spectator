@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
+import { jwEmbedUrl } from '@/data/theDirtJwVideos'
 
 interface Video {
   id: string
@@ -16,35 +17,35 @@ const videos: Video[] = [
     id: 'video1',
     mediaId: 'kncdFPTD',
     title: 'MARCA ORO V4.1 Sub Eng',
-    embedUrl: 'https://cdn.jwplayer.com/players/kncdFPTD-O0V5rBgo.html',
+    embedUrl: jwEmbedUrl('kncdFPTD'),
     thumbnail: 'https://cdn.jwplayer.com/thumbs/kncdFPTD-720.jpg'
   },
   {
     id: 'video2',
     mediaId: '2OKwwi9w',
     title: 'VALDO Tenuta Pradase',
-    embedUrl: 'https://cdn.jwplayer.com/players/2OKwwi9w-O0V5rBgo.html',
+    embedUrl: jwEmbedUrl('2OKwwi9w'),
     thumbnail: 'https://cdn.jwplayer.com/thumbs/2OKwwi9w-720.jpg'
   },
   {
     id: 'video3',
     mediaId: 'FSUUFWTG',
     title: 'Elegant Wine Pour',
-    embedUrl: 'https://cdn.jwplayer.com/players/FSUUFWTG-O0V5rBgo.html',
+    embedUrl: jwEmbedUrl('FSUUFWTG'),
     thumbnail: 'https://cdn.jwplayer.com/thumbs/FSUUFWTG-720.jpg'
   },
   {
     id: 'video4',
     mediaId: 'UPdMdryM',
     title: 'HarveyHarriet',
-    embedUrl: 'https://cdn.jwplayer.com/players/UPdMdryM-O0V5rBgo.html',
+    embedUrl: jwEmbedUrl('UPdMdryM'),
     thumbnail: 'https://cdn.jwplayer.com/thumbs/UPdMdryM-720.jpg'
   },
   {
     id: 'video5',
     mediaId: '7bnWKUei',
     title: 'Hhbib Culinary-bonds',
-    embedUrl: 'https://cdn.jwplayer.com/players/7bnWKUei-O0V5rBgo.html',
+    embedUrl: jwEmbedUrl('7bnWKUei'),
     thumbnail: 'https://cdn.jwplayer.com/thumbs/7bnWKUei-720.jpg'
   }
 ]

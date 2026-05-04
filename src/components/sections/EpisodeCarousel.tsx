@@ -135,7 +135,7 @@ export default function EpisodeCarousel() {
                     boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
                   }}
                 >
-                  <JWPlayer key={activeVideo.id} mediaId={activeVideo.id} />
+                  <JWPlayer mediaId={activeVideo.id} />
                 </div>
               </div>
 

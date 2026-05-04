@@ -6,7 +6,8 @@
  * then update id, metadata, and thumbnail crop (see THUMBNAIL_OBJECT_POSITION).
  */
 
-const JW_PLAYER_ID = 'O0V5rBgo'
+/** JW cloud player ID (vertical-optimized). Single source of truth for embed + iframe URLs. */
+export const JW_PLAYER_ID = '5hjWylbo'
 
 export function jwEmbedUrl(mediaId: string): string {
   return `https://cdn.jwplayer.com/players/${mediaId}-${JW_PLAYER_ID}.html`

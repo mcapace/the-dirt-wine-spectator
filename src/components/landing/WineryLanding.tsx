@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import type { ReactNode } from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Footer from '@/components/Footer/Footer';
 import JWPlayer from '@/components/JWPlayer';
 import {
@@ -37,10 +37,19 @@ export default function WineryLanding({ mediaId, title, heroDescription }: Winer
   const meta = getVideoByMediaId(mediaId);
   const wineryRow = wineries.find((w) => w.mediaId === mediaId);
   const [showCTA, setShowCTA] = useState(false);
+  const ctaTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Fallback CTA timing — JW iframe postMessage for time/complete is optional; timer matches episode duration.
   useEffect(() => {
     setShowCTA(false);
-  }, [mediaId]);
+    if (ctaTimerRef.current) clearTimeout(ctaTimerRef.current);
+    if (!meta?.cta) return;
+    const delayMs = Math.max(0, (meta.duration - 15) * 1000);
+    ctaTimerRef.current = setTimeout(() => setShowCTA(true), delayMs);
+    return () => {
+      if (ctaTimerRef.current) clearTimeout(ctaTimerRef.current);
+    };
+  }, [mediaId, meta?.cta, meta?.duration]);
 
   const handleJWTime = useCallback(
     (currentTime: number, duration: number) => {
@@ -126,7 +135,6 @@ export default function WineryLanding({ mediaId, title, heroDescription }: Winer
                 }}
               >
                 <JWPlayer
-                  key={mediaId}
                   mediaId={mediaId}
                   onTime={handleJWTime}
                   onComplete={handleJWComplete}

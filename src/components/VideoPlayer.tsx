@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Play } from 'lucide-react'
+import { jwEmbedUrl } from '@/data/theDirtJwVideos'
 
 interface Video {
   id: string
@@ -19,7 +20,7 @@ const videos: Video[] = [
     mediaId: 'kncdFPTD',
     title: 'The Limestone Legacy',
     brand: 'Château Margaux',
-    embedUrl: 'https://cdn.jwplayer.com/players/kncdFPTD-O0V5rBgo.html',
+    embedUrl: jwEmbedUrl('kncdFPTD'),
     thumbnail: 'https://cdn.jwplayer.com/thumbs/kncdFPTD-720.jpg'
   },
   {
@@ -27,7 +28,7 @@ const videos: Video[] = [
     mediaId: '2OKwwi9w',
     title: 'Volcanic Excellence',
     brand: 'Opus One',
-    embedUrl: 'https://cdn.jwplayer.com/players/2OKwwi9w-O0V5rBgo.html',
+    embedUrl: jwEmbedUrl('2OKwwi9w'),
     thumbnail: 'https://cdn.jwplayer.com/thumbs/2OKwwi9w-720.jpg'
   },
   {
@@ -35,7 +36,7 @@ const videos: Video[] = [
     mediaId: 'FSUUFWTG',
     title: 'Terra Rossa Tales',
     brand: 'Penfolds',
-    embedUrl: 'https://cdn.jwplayer.com/players/FSUUFWTG-O0V5rBgo.html',
+    embedUrl: jwEmbedUrl('FSUUFWTG'),
     thumbnail: 'https://cdn.jwplayer.com/thumbs/FSUUFWTG-720.jpg'
   },
   {
@@ -43,7 +44,7 @@ const videos: Video[] = [
     mediaId: 'UPdMdryM',
     title: 'Tuscan Traditions',
     brand: 'Antinori',
-    embedUrl: 'https://cdn.jwplayer.com/players/UPdMdryM-O0V5rBgo.html',
+    embedUrl: jwEmbedUrl('UPdMdryM'),
     thumbnail: 'https://cdn.jwplayer.com/thumbs/UPdMdryM-720.jpg'
   }
 ]
