@@ -7,10 +7,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Footer from '@/components/Footer/Footer';
 import JWPlayer from '@/components/JWPlayer';
 import {
+  getOrderedVideos,
   getThumbnailObjectPosition,
   getVideoByMediaId,
   jwThumbnailUrl,
-  theDirtJwVideos,
 } from '@/data/theDirtJwVideos';
 import { wineries } from '@/data/wineries';
 
@@ -19,9 +19,7 @@ function landingHrefForMediaId(mediaId: string): string {
 }
 
 function nextEpisodes(currentMediaId: string) {
-  const ordered = [...theDirtJwVideos].sort(
-    (a, b) => Number(a.episodeNumber ?? 0) - Number(b.episodeNumber ?? 0),
-  );
+  const ordered = getOrderedVideos();
   const idx = ordered.findIndex((v) => v.id === currentMediaId);
   if (idx === -1) return [];
   return [ordered[(idx + 1) % ordered.length], ordered[(idx + 2) % ordered.length]];
@@ -74,7 +72,9 @@ export default function WineryLanding({ mediaId, title, heroDescription }: Winer
         <section className="relative px-4 pb-10 pt-4 text-center sm:px-6 lg:px-8">
           <div className="mx-auto mb-8 max-w-4xl">
             <div className="mb-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
-              <span className="font-mono text-[10px] text-ws-red">EP {meta.episodeNumber}</span>
+              <span className="font-mono text-[10px] text-ws-red">
+                SEASON {meta.season}
+              </span>
               <span className="hidden h-px w-7 bg-ws-red sm:block" />
               <span className="font-mono text-[10px] text-ws-ink/60">
                 {meta.region?.toUpperCase()}
@@ -225,7 +225,7 @@ export default function WineryLanding({ mediaId, title, heroDescription }: Winer
                   href={href}
                   className="flex min-h-[134px] flex-col justify-between rounded-lg border border-black/[0.08] bg-white p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-ws-red/30"
                 >
-                  <div className="font-mono text-[9px] text-ws-red">EP {v.episodeNumber}</div>
+                  <div className="font-mono text-[9px] text-ws-red">SEASON {v.season}</div>
                   <div className="flex flex-1 gap-4">
                     <div className="relative h-20 w-14 shrink-0 overflow-hidden rounded-md">
                       <img

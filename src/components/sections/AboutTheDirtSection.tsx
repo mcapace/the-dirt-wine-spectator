@@ -3,8 +3,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import {
-  theDirtJwVideos,
-  CAROUSEL_PIN_FIRST,
+  getOrderedVideos,
   jwEmbedUrl,
   jwThumbnailUrl,
   getThumbnailObjectPosition,
@@ -35,7 +34,7 @@ const AboutTheDirtSection = () => {
 
   const videoData: Video[] = useMemo(
     () =>
-      theDirtJwVideos.map((v) => ({
+      getOrderedVideos().map((v) => ({
         id: v.id,
         mediaId: v.id,
         title: v.title,
@@ -45,7 +44,7 @@ const AboutTheDirtSection = () => {
         embedUrl: jwEmbedUrl(v.id),
         cta: v.cta,
       })),
-    []
+    [],
   );
 
   // Check if mobile on mount and resize
@@ -62,11 +61,8 @@ const AboutTheDirtSection = () => {
 
 
 
-  // Keep newest episodes first (see CAROUSEL_PIN_FIRST); shuffle the rest for variety
   useEffect(() => {
-    const pinned = videoData.slice(0, CAROUSEL_PIN_FIRST);
-    const rest = [...videoData.slice(CAROUSEL_PIN_FIRST)].sort(() => Math.random() - 0.5);
-    setVideos([...pinned, ...rest]);
+    setVideos(videoData);
     setCurrentVideoIndex(0);
   }, [videoData]);
 

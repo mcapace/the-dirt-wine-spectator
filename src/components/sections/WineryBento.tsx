@@ -1,12 +1,15 @@
 'use client';
 
+import { Fragment } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { wineries } from '@/data/wineries';
-import { getVideoByMediaId } from '@/data/theDirtJwVideos';
+import { getOrderedVideos } from '@/data/theDirtJwVideos';
 import SoilSwatch from '@/components/SoilSwatch';
 
 export default function WineryBento() {
+  const orderedVideos = getOrderedVideos();
+
   return (
     <section id="wineries" className="relative bg-ws-cream py-16 md:py-20">
       <svg
@@ -39,57 +42,71 @@ export default function WineryBento() {
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {wineries.map((winery) => {
-            const meta = getVideoByMediaId(winery.mediaId);
-            if (!meta) return null;
+          {orderedVideos.map((meta, index) => {
+            const winery = wineries.find((w) => w.mediaId === meta.id);
+            if (!winery) return null;
 
             return (
-              <Link
-                key={winery.id}
-                href={winery.landingPath}
-                className="group flex min-h-[180px] overflow-hidden rounded-lg border border-ws-ink/10 bg-white transition-all duration-300 hover:-translate-y-0.5 hover:border-ws-red/30"
-              >
-                <SoilSwatch mediaId={winery.mediaId} className="w-9 shrink-0" />
+              <Fragment key={meta.id}>
+                {index === 0 ? (
+                  <div className="col-span-full mb-2 flex items-center gap-3">
+                    <div className="font-mono text-[10px] tracking-widest text-ws-red">SEASON 02 — NEW</div>
+                    <div className="h-px flex-1 bg-ws-red/30" />
+                  </div>
+                ) : null}
+                {index === 2 ? (
+                  <div className="col-span-full my-2 flex items-center gap-3">
+                    <div className="font-mono text-[10px] tracking-widest text-ws-ink/40">SEASON 01</div>
+                    <div className="h-px flex-1 bg-ws-ink/15" />
+                  </div>
+                ) : null}
 
-                <div className="flex flex-1 flex-col justify-between p-5">
-                  <div>
-                    <div className="mb-3 flex items-center gap-2">
-                      <span className="font-mono text-[10px] tracking-widest text-ws-red">
-                        EP {meta.episodeNumber}
-                      </span>
-                      <span className="h-1 w-1 rounded-full bg-ws-red/40" />
+                <Link
+                  href={winery.landingPath}
+                  className="group flex min-h-[180px] overflow-hidden rounded-lg border border-ws-ink/10 bg-white transition-all duration-300 hover:-translate-y-0.5 hover:border-ws-red/30"
+                >
+                  <SoilSwatch mediaId={winery.mediaId} className="w-9 shrink-0" />
+
+                  <div className="flex flex-1 flex-col justify-between p-5">
+                    <div>
+                      <div className="mb-3 flex items-center gap-2">
+                        <span className="font-mono text-[10px] tracking-widest text-ws-red">
+                          SEASON {meta.season}
+                        </span>
+                        <span className="h-1 w-1 rounded-full bg-ws-red/40" />
+                        <span className="font-mono text-[10px] tracking-wider text-ws-ink/50">
+                          {meta.region?.toUpperCase()}
+                        </span>
+                      </div>
+
+                      <div className="mb-3 flex h-8 items-center">
+                        <Image
+                          src={winery.logo}
+                          alt={`${winery.name} logo`}
+                          width={140}
+                          height={32}
+                          className="max-h-8 w-auto object-contain object-left"
+                        />
+                      </div>
+
+                      <div className="font-serif text-lg leading-tight text-ws-ink">{winery.name}</div>
+
+                      <div className="mt-2 text-xs leading-relaxed text-ws-ink/65">
+                        <span className="font-medium text-ws-ink/85">{meta.soilType}</span>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 flex items-center justify-between border-t border-ws-ink/10 pt-3">
                       <span className="font-mono text-[10px] tracking-wider text-ws-ink/50">
-                        {meta.region?.toUpperCase()}
+                        EST. {meta.founded}
+                      </span>
+                      <span className="font-mono text-[10px] tracking-widest text-ws-red transition-transform group-hover:translate-x-0.5">
+                        WATCH →
                       </span>
                     </div>
-
-                    <div className="mb-3 flex h-8 items-center">
-                      <Image
-                        src={winery.logo}
-                        alt={`${winery.name} logo`}
-                        width={140}
-                        height={32}
-                        className="max-h-8 w-auto object-contain object-left"
-                      />
-                    </div>
-
-                    <div className="font-serif text-lg leading-tight text-ws-ink">{winery.name}</div>
-
-                    <div className="mt-2 text-xs leading-relaxed text-ws-ink/65">
-                      <span className="font-medium text-ws-ink/85">{meta.soilType}</span>
-                    </div>
                   </div>
-
-                  <div className="mt-4 flex items-center justify-between border-t border-ws-ink/10 pt-3">
-                    <span className="font-mono text-[10px] tracking-wider text-ws-ink/50">
-                      EST. {meta.founded}
-                    </span>
-                    <span className="font-mono text-[10px] tracking-widest text-ws-red transition-transform group-hover:translate-x-0.5">
-                      WATCH →
-                    </span>
-                  </div>
-                </div>
-              </Link>
+                </Link>
+              </Fragment>
             );
           })}
         </div>

@@ -4,10 +4,9 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import JWPlayer from '@/components/JWPlayer';
 import {
-  CAROUSEL_PIN_FIRST,
+  getOrderedVideos,
   getThumbnailObjectPosition,
   jwThumbnailUrl,
-  theDirtJwVideos,
   type TheDirtJwVideo,
 } from '@/data/theDirtJwVideos';
 
@@ -18,19 +17,19 @@ function formatDuration(seconds: number) {
 }
 
 export default function EpisodeCarousel() {
+  const allVideos = useMemo(() => getOrderedVideos(), []);
+  const [seasonFilter, setSeasonFilter] = useState<'01' | '02'>('02');
   const [activeIndex, setActiveIndex] = useState(0);
-  const [videos, setVideos] = useState<TheDirtJwVideo[]>([]);
   const cardRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
+  const videos = useMemo(
+    () => allVideos.filter((v) => v.season === seasonFilter),
+    [allVideos, seasonFilter],
+  );
+
   useEffect(() => {
-    const list = [...theDirtJwVideos];
-    const first = list.find((v) => v.id === CAROUSEL_PIN_FIRST) ?? list[0];
-    const second = list.find((v) => v.episodeNumber === '02') ?? list[1];
-    const rest = list.filter((v) => v.id !== first.id && v.id !== second.id);
-    const shuffledRest = [...rest].sort(() => Math.random() - 0.5);
-    setVideos([first, second, ...shuffledRest]);
     setActiveIndex(0);
-  }, []);
+  }, [seasonFilter]);
 
   useEffect(() => {
     try {
@@ -49,63 +48,82 @@ export default function EpisodeCarousel() {
     [videos, activeIndex],
   );
 
-  const indexLabel = String(activeIndex + 1).padStart(2, '0');
+  const seasonButtons = (
+    <>
+      <button
+        type="button"
+        onClick={() => setSeasonFilter('02')}
+        className={`rounded-full px-3 py-1.5 font-mono text-[10px] tracking-widest transition-colors ${
+          seasonFilter === '02'
+            ? 'bg-ws-red text-ws-cream'
+            : 'text-ws-ink/60 hover:text-ws-ink'
+        }`}
+      >
+        SEASON 02
+      </button>
+      <button
+        type="button"
+        onClick={() => setSeasonFilter('01')}
+        className={`rounded-full px-3 py-1.5 font-mono text-[10px] tracking-widest transition-colors ${
+          seasonFilter === '01'
+            ? 'bg-ws-red text-ws-cream'
+            : 'text-ws-ink/60 hover:text-ws-ink'
+        }`}
+      >
+        SEASON 01
+      </button>
+    </>
+  );
 
   return (
     <section id="about" className="bg-ws-cream py-12 md:py-16">
       <div className="mx-auto max-w-7xl px-6">
-        {/* Header */}
-        <div className="mb-8 flex items-end justify-between">
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <div className="flex items-center gap-3">
               <span className="h-px w-7 bg-ws-red" />
-              <span className="font-mono text-[10px] text-ws-red">
-                EPISODES&nbsp;&nbsp;01–07
+              <span className="font-mono text-[10px] tracking-widest text-ws-red">
+                — THE SERIES
               </span>
             </div>
             <h2 className="font-serif mt-2 text-4xl font-normal leading-none tracking-tight text-ws-ink md:text-5xl">
               Stories told <em className="italic text-ws-red">from the ground.</em>
             </h2>
           </div>
-          <div className="mb-0.5 hidden items-center gap-2 md:flex">
-            <span
-              className="font-mono text-[10px]"
-              style={{ color: '#6b5d4a', marginRight: 6 }}
-            >
-              {indexLabel} / 07
-            </span>
-            <button
-              type="button"
-              aria-label="Previous episode"
-              disabled={activeIndex <= 0}
-              onClick={() => setActiveIndex((i) => Math.max(0, i - 1))}
-              className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full border text-lg leading-none text-ws-red disabled:opacity-40"
-              style={{ borderColor: 'rgba(152,35,31,0.3)' }}
-            >
-              ‹
-            </button>
-            <button
-              type="button"
-              aria-label="Next episode"
-              disabled={activeIndex >= videos.length - 1}
-              onClick={() =>
-                setActiveIndex((i) => Math.min(videos.length - 1, i + 1))
-              }
-              className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-ws-red text-lg leading-none text-[#faf6ee] shadow-[0_4px_12px_rgba(152,35,31,0.3)] disabled:opacity-40"
-            >
-              ›
-            </button>
+          <div className="mb-0.5 flex flex-wrap items-center gap-2">
+            {seasonButtons}
+            <div className="ml-0 flex gap-2 sm:ml-3">
+              <button
+                type="button"
+                aria-label="Previous story"
+                disabled={activeIndex <= 0}
+                onClick={() => setActiveIndex((i) => Math.max(0, i - 1))}
+                className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full border text-lg leading-none text-ws-red disabled:opacity-40"
+                style={{ borderColor: 'rgba(152,35,31,0.3)' }}
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                aria-label="Next story"
+                disabled={activeIndex >= videos.length - 1}
+                onClick={() =>
+                  setActiveIndex((i) => Math.min(videos.length - 1, i + 1))
+                }
+                className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-ws-red text-lg leading-none text-[#faf6ee] shadow-[0_4px_12px_rgba(152,35,31,0.3)] disabled:opacity-40"
+              >
+                ›
+              </button>
+            </div>
           </div>
         </div>
 
         {activeVideo ? (
           <>
-            {/* Player block */}
             <div
-              className="relative w-full mx-auto max-w-5xl rounded-lg overflow-hidden mb-6 bg-black"
+              className="relative mx-auto mb-6 max-w-5xl overflow-hidden rounded-lg bg-black"
               style={{ height: 'min(70vh, 600px)' }}
             >
-              {/* Blurred backdrop */}
               <div
                 className="absolute inset-0"
                 style={{
@@ -117,7 +135,6 @@ export default function EpisodeCarousel() {
                 }}
               />
 
-              {/* Vignette */}
               <div
                 className="absolute inset-0"
                 style={{
@@ -126,8 +143,7 @@ export default function EpisodeCarousel() {
                 }}
               />
 
-              {/* Vertical 9:16 player, sized by height */}
-              <div className="relative z-10 h-full flex items-center justify-center">
+              <div className="relative z-10 flex h-full items-center justify-center">
                 <div
                   className="relative h-full min-h-0 overflow-hidden rounded-md bg-black ring-1 ring-white/10"
                   style={{
@@ -139,49 +155,42 @@ export default function EpisodeCarousel() {
                 </div>
               </div>
 
-              {/* Left metadata panel — positioned in empty space */}
               <div
-                className="hidden lg:block absolute top-1/2 -translate-y-1/2 z-20"
-                style={{ left: '5%', maxWidth: '200px' }}
+                className="absolute left-[5%] top-1/2 z-20 hidden max-w-[200px] -translate-y-1/2 lg:block"
               >
-                <div className="font-mono text-[10px] text-ws-gold mb-2">
-                  EP {activeVideo.episodeNumber}
+                <div className="font-mono mb-2 text-[10px] text-ws-gold">
+                  SEASON {activeVideo.season}
                 </div>
-                <div className="font-serif text-2xl text-white leading-tight">{activeVideo.winery}</div>
-                <div className="font-mono text-[10px] text-white/70 mt-2">{activeVideo.region?.toUpperCase()}</div>
-                <div className="text-xs text-white/80 mt-3 leading-relaxed">{activeVideo.description}</div>
+                <div className="font-serif text-2xl leading-tight text-white">{activeVideo.winery}</div>
+                <div className="font-mono mt-2 text-[10px] text-white/70">
+                  {activeVideo.region?.toUpperCase()}
+                </div>
+                <div className="mt-3 text-xs leading-relaxed text-white/80">{activeVideo.description}</div>
               </div>
 
-              {/* Right CTA panel */}
-              {activeVideo.cta && (
-                <div
-                  className="absolute z-20 hidden lg:block"
-                  style={{ right: '5%', bottom: '8%' }}
-                >
+              {activeVideo.cta ? (
+                <div className="absolute bottom-[8%] right-[5%] z-20 hidden lg:block">
                   <a
                     href={activeVideo.cta.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-ws-red text-ws-cream px-4 py-2.5 rounded-sm font-mono text-[10px] tracking-widest hover:bg-ws-red-deep transition-colors"
+                    className="inline-flex items-center gap-2 rounded-sm bg-ws-red px-4 py-2.5 font-mono text-[10px] tracking-widest text-ws-cream transition-colors hover:bg-ws-red-deep"
                   >
                     {activeVideo.cta.text.toUpperCase()} →
                   </a>
                 </div>
-              )}
+              ) : null}
             </div>
 
-            {/* Mobile metadata (below lg only — desktop copy lives inside player block) */}
             <div className="mb-6 rounded-md bg-ws-cream-warm p-4 lg:hidden">
               <div className="font-mono mb-2 inline-block rounded-full bg-ws-red/10 px-2 py-0.5 text-[9px] text-ws-red">
-                EP {activeVideo.episodeNumber}
+                SEASON {activeVideo.season}
               </div>
               <div className="font-serif text-xl text-ws-ink">{activeVideo.winery}</div>
               <div className="font-mono mt-1 text-[10px] text-ws-ink/60">
                 {activeVideo.region?.toUpperCase()}
               </div>
-              <p className="mt-2 text-sm leading-relaxed text-ws-ink/80">
-                {activeVideo.description}
-              </p>
+              <p className="mt-2 text-sm leading-relaxed text-ws-ink/80">{activeVideo.description}</p>
               {activeVideo.cta ? (
                 <a
                   href={activeVideo.cta.url}
@@ -196,13 +205,12 @@ export default function EpisodeCarousel() {
           </>
         ) : null}
 
-        {/* Rail */}
         <div
-          className="-mx-6 overflow-x-auto pb-5 px-6"
+          className="-mx-6 overflow-x-auto px-6 pb-5"
           style={{ scrollSnapType: 'x mandatory' }}
         >
           <div className="flex gap-4">
-            {videos.map((video, index) => {
+            {videos.map((video: TheDirtJwVideo, index: number) => {
               const isActive = index === activeIndex;
               const pos = getThumbnailObjectPosition(video.id);
               return (
@@ -228,11 +236,7 @@ export default function EpisodeCarousel() {
                       src={jwThumbnailUrl(video.id)}
                       alt={video.winery}
                       className="h-full w-full object-cover"
-                      style={
-                        pos
-                          ? { objectPosition: pos }
-                          : undefined
-                      }
+                      style={pos ? { objectPosition: pos } : undefined}
                     />
                   </div>
                   <div
@@ -245,7 +249,7 @@ export default function EpisodeCarousel() {
 
                   <div className="absolute left-2.5 top-4">
                     {isActive ? (
-                      <div className="font-mono flex items-center gap-1.5 rounded-full bg-ws-red px-2.5 py-1 text-[9px] text-ws-cream">
+                      <div className="flex items-center gap-1.5 rounded-full bg-ws-red px-2.5 py-1 font-mono text-[9px] text-ws-cream">
                         <span
                           className="h-1.5 w-1.5 rounded-full bg-ws-cream"
                           style={{
@@ -255,8 +259,8 @@ export default function EpisodeCarousel() {
                         NOW PLAYING
                       </div>
                     ) : (
-                      <div className="font-mono rounded-full bg-ws-cream/95 px-2 py-0.5 text-[9px] font-medium text-ws-ink">
-                        EP {video.episodeNumber}
+                      <div className="rounded-full bg-ws-cream/95 px-2 py-0.5 font-mono text-[9px] font-medium text-ws-ink">
+                        S{video.season}
                       </div>
                     )}
                   </div>
@@ -297,39 +301,11 @@ export default function EpisodeCarousel() {
           </div>
         </div>
 
-        {/* Progress */}
-        {videos.length > 0 ? (
-          <div className="mt-8 flex items-center gap-2">
-            <span className="font-mono w-6 text-[9px] text-ws-red">01</span>
-            <div className="relative h-[3px] flex-1 rounded-sm bg-ws-red/15">
-              <div
-                className="absolute left-0 top-0 h-full rounded-sm bg-ws-red transition-all duration-500"
-                style={{
-                  width: `${((activeIndex + 1) / videos.length) * 100}%`,
-                }}
-              />
-              {videos.map((_, i) => (
-                <div
-                  key={i}
-                  className="absolute w-px"
-                  style={{
-                    left: `${((i + 1) / videos.length) * 100}%`,
-                    top: '-3px',
-                    height: '9px',
-                    transform: 'translateX(-50%)',
-                    background:
-                      i <= activeIndex
-                        ? '#98231f'
-                        : 'rgba(152,35,31,0.25)',
-                  }}
-                />
-              ))}
-            </div>
-            <span className="font-mono w-6 text-right text-[9px] text-ws-ink/40">
-              07
-            </span>
-          </div>
-        ) : null}
+        <div className="mt-8 flex items-center gap-2">
+          <span className="font-mono text-[10px] tracking-widest text-ws-ink/40">SEASON 02</span>
+          <div className="h-px flex-1 bg-ws-ink/15" />
+          <span className="font-mono text-[10px] tracking-widest text-ws-ink/40">SEASON 01</span>
+        </div>
       </div>
     </section>
   );

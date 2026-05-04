@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import { useEffect, useId, useRef, useState } from 'react';
-import { theDirtJwVideos } from '@/data/theDirtJwVideos';
+import { getOrderedVideos } from '@/data/theDirtJwVideos';
 
 const HERO_VIDEO_SRC = '/hero/hero-background.mp4';
 
@@ -67,10 +67,8 @@ const HeroSection = () => {
     };
   }, []);
 
-  const marqueeDoubled = [
-    ...theDirtJwVideos.map((v) => v.winery),
-    ...theDirtJwVideos.map((v) => v.winery),
-  ];
+  const orderedWineries = getOrderedVideos().map((v) => v.winery);
+  const marqueeDoubled = [...orderedWineries, ...orderedWineries];
 
   return (
     <section className="hero-minimal relative min-h-screen overflow-hidden">
@@ -234,13 +232,13 @@ const HeroSection = () => {
           className="font-mono pointer-events-none absolute left-4 top-1/2 z-10 hidden -translate-y-1/2 -rotate-90 origin-left whitespace-nowrap text-[9px] text-[rgba(250,246,238,0.5)] md:block"
           style={{ transformOrigin: 'left center' }}
         >
-          SEASON 01 · EST. 2024
+          EST. 2024 · TWO SEASONS
         </div>
         <div
           className="font-mono pointer-events-none absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 rotate-90 origin-right whitespace-nowrap text-[9px] text-[rgba(250,246,238,0.5)] md:block"
           style={{ transformOrigin: 'right center' }}
         >
-          7 EPISODES · 7 TERROIRS
+          7 WINEMAKERS · 7 TERROIRS
         </div>
 
         <div className="absolute inset-0 z-0 flex flex-col items-center justify-center px-6 pb-32 pt-20">
@@ -281,7 +279,7 @@ const HeroSection = () => {
               className="font-sans mt-[14px] max-w-[520px] text-center leading-[1.7] text-[rgba(250,246,238,0.7)]"
               style={{ fontSize: 14, fontWeight: 300, marginTop: 14 }}
             >
-              Seven winemakers. Seven terroirs. Told from the ground up by the people who farm it.
+              Seven winemakers. Two seasons. Told from the ground up by the people who farm it.
             </p>
 
             <div className="mt-7 flex flex-wrap justify-center gap-[10px]" style={{ marginTop: 28 }}>

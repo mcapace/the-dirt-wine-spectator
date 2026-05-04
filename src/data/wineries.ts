@@ -15,7 +15,7 @@ export interface Winery {
   }
 }
 
-/** Display order follows episode order 01–07 (see `theDirtJwVideos`). */
+/** Display order matches `DISPLAY_ORDER` / `getOrderedVideos()` (Season 02 first). */
 export const wineries: Winery[] = [
   {
     id: 1,

@@ -34,15 +34,13 @@ export interface TheDirtJwVideo {
     text: string
     url: string
   }
-  episodeNumber?: string
+  /** Two-season structure; Season 02 is newest */
+  season?: '01' | '02'
   region?: string
   state?: string
   soilType?: string
   founded?: string
 }
-
-/** JW media id pinned as the first carousel tile (episode 01). */
-export const CAROUSEL_PIN_FIRST = 'J4mjNPcy'
 
 export const theDirtJwVideos: TheDirtJwVideo[] = [
   {
@@ -57,7 +55,7 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
       text: 'Shop Now',
       url: 'https://rockypondwinery.orderport.net/product-details/1140/2023-11-dams',
     },
-    episodeNumber: '01',
+    season: '02',
     region: 'Columbia Valley',
     state: 'Washington',
     soilType: 'Volcanic basalt, glacial silt',
@@ -75,7 +73,7 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
       text: 'Discover Robert Hall',
       url: 'https://www.roberthallwinery.com/regenerative-organic-viticulture/',
     },
-    episodeNumber: '02',
+    season: '02',
     region: 'Paso Robles',
     state: 'California',
     soilType: 'Calcareous shale',
@@ -93,7 +91,7 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
       text: 'Inquire for Availability',
       url: 'https://sullivanwine.com/estate-experiences/',
     },
-    episodeNumber: '03',
+    season: '01',
     region: 'Rutherford, Napa',
     state: 'California',
     soilType: 'Rutherford dust, alluvial loam',
@@ -110,7 +108,7 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
       text: 'Come See Us!',
       url: 'https://www.hallwines.com/',
     },
-    episodeNumber: '04',
+    season: '01',
     region: 'St. Helena, Napa',
     state: 'California',
     soilType: 'Bale clay loam',
@@ -127,7 +125,7 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
       text: 'Learn More',
       url: 'https://whitehavenwine.com',
     },
-    episodeNumber: '05',
+    season: '01',
     region: 'Marlborough',
     state: 'New Zealand',
     soilType: 'Stony alluvial gravel',
@@ -144,7 +142,7 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
       text: '❤️ Follow Us',
       url: 'https://www.instagram.com/jwinery/',
     },
-    episodeNumber: '06',
+    season: '01',
     region: 'Russian River Valley',
     state: 'California',
     soilType: 'Goldridge sandy loam',
@@ -161,13 +159,30 @@ export const theDirtJwVideos: TheDirtJwVideo[] = [
       text: '🛒 Buy This Wine',
       url: 'https://www.trefethen.com/',
     },
-    episodeNumber: '07',
+    season: '01',
     region: 'Oak Knoll, Napa',
     state: 'California',
     soilType: 'Volcanic ash, sedimentary clay',
     founded: '1968',
   },
 ]
+
+/** Homepage / bento display order: Season 02 first, then Season 01. */
+export const DISPLAY_ORDER: string[] = [
+  'J4mjNPcy',
+  'nsF12zfB',
+  'bE41U3pF',
+  'oPFkkAfZ',
+  'L6WSfCgB',
+  'kncdFPTD',
+  'FSUUFWTG',
+]
+
+export function getOrderedVideos(): TheDirtJwVideo[] {
+  return DISPLAY_ORDER.map((id) => theDirtJwVideos.find((v) => v.id === id)).filter(
+    (v): v is TheDirtJwVideo => v !== undefined,
+  )
+}
 
 /**
  * CTA + duration for a JW media id. Landing pages use this so buttons stay in sync
