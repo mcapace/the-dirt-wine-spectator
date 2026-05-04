@@ -1,7 +1,7 @@
 'use client'
 
 import HeroSection from '@/components/sections/HeroSection';
-import AboutTheDirtSection from '@/components/sections/AboutTheDirtSection';
+import EpisodeCarousel from '@/components/sections/EpisodeCarousel';
 import FeaturedWineriesSection from '@/components/sections/FeaturedWineriesSection';
 import ClosingSection from '@/components/sections/ClosingSection';
 import Footer from '@/components/Footer/Footer';
@@ -13,8 +13,8 @@ export default function HomePage() {
       {/* 2. Hero Section */}
       <HeroSection />
       
-      {/* 3. About The Dirt with Video Gallery */}
-      <AboutTheDirtSection />
+      {/* 3. Episodes carousel */}
+      <EpisodeCarousel />
       
       {/* Separator */}
       <SectionSeparator />
