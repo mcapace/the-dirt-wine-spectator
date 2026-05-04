@@ -1,6 +1,7 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
+import Image from 'next/image';
 import { useEffect, useId, useRef, useState } from 'react';
 import { theDirtJwVideos } from '@/data/theDirtJwVideos';
 
@@ -94,14 +95,16 @@ const HeroSection = () => {
       />
 
       <div className="relative z-10 flex min-h-screen flex-col">
-        <header className="flex w-full shrink-0 items-center justify-between border-b border-[rgba(250,246,238,0.12)] px-9 py-[22px]">
+        <header className="relative z-20 flex w-full shrink-0 items-center justify-between border-b border-[rgba(250,246,238,0.12)] px-9 py-[22px]">
           <div className="flex min-w-0 flex-1 items-center gap-3">
-            <span
-              className="font-serif shrink-0 font-medium tracking-[0.02em] text-[#faf6ee]"
-              style={{ fontSize: 15 }}
-            >
-              Wine Spectator
-            </span>
+            <Image
+              src="/images/WS White.png"
+              alt="Wine Spectator"
+              width={140}
+              height={28}
+              className="h-7 w-auto object-contain"
+              priority
+            />
             <span
               className="hidden shrink-0 sm:inline-block"
               style={{
@@ -228,19 +231,19 @@ const HeroSection = () => {
         ) : null}
 
         <div
-          className="font-mono pointer-events-none absolute left-4 top-1/2 hidden -translate-y-1/2 -rotate-90 origin-left whitespace-nowrap text-[9px] text-[rgba(250,246,238,0.5)] md:block"
+          className="font-mono pointer-events-none absolute left-4 top-1/2 z-10 hidden -translate-y-1/2 -rotate-90 origin-left whitespace-nowrap text-[9px] text-[rgba(250,246,238,0.5)] md:block"
           style={{ transformOrigin: 'left center' }}
         >
           SEASON 01 · EST. 2024
         </div>
         <div
-          className="font-mono pointer-events-none absolute right-4 top-1/2 hidden -translate-y-1/2 rotate-90 origin-right whitespace-nowrap text-[9px] text-[rgba(250,246,238,0.5)] md:block"
+          className="font-mono pointer-events-none absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 rotate-90 origin-right whitespace-nowrap text-[9px] text-[rgba(250,246,238,0.5)] md:block"
           style={{ transformOrigin: 'right center' }}
         >
           7 EPISODES · 7 TERROIRS
         </div>
 
-        <div className="relative flex flex-1 flex-col items-center px-4 pb-48 pt-6 md:absolute md:inset-x-0 md:bottom-[130px] md:top-[80px] md:pb-0 md:pt-0">
+        <div className="absolute inset-0 z-0 flex flex-col items-center justify-center px-6 pb-32 pt-20">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -308,7 +311,7 @@ const HeroSection = () => {
         </div>
 
         <div
-          className="font-serif absolute bottom-[110px] left-0 right-0 hidden overflow-hidden border-y border-[rgba(250,246,238,0.12)] py-[14px] md:block"
+          className="font-serif absolute bottom-[110px] left-0 right-0 z-10 hidden overflow-hidden border-y border-[rgba(250,246,238,0.12)] py-[14px] md:block"
           style={{
             background: 'rgba(250,246,238,0.06)',
             backdropFilter: 'blur(20px)',
