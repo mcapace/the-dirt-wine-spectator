@@ -4,27 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-
-const SUBJECT = 'The Dirt - Winery Story Submission';
-const SUBMIT_BODY = `Hi John,
-
-I'm interested in sharing my winery's story for The Dirt video series.
-
-Winery Name:
-Location:
-Contact Information:
-
-I'd love to discuss how we can showcase our unique terroir and winemaking story through your vertical video format.
-
-Best regards,
-[Your Name]`;
-
-function openSubmitMailto() {
-  window.open(
-    `mailto:ebain@mshanken.com?subject=${encodeURIComponent(SUBJECT)}&body=${encodeURIComponent(SUBMIT_BODY)}`,
-    '_blank',
-  );
-}
+import { openSubmitStoryMailto } from '@/lib/submitStoryMailto';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -119,7 +99,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => {
-                openSubmitMailto();
+                openSubmitStoryMailto();
                 setMobileOpen(false);
               }}
               className="font-mono hidden rounded-[2px] bg-[#98231f] px-[14px] py-[6px] text-[11px] text-[#faf6ee] md:inline-block"
@@ -180,7 +160,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => {
-                openSubmitMailto();
+                openSubmitStoryMailto();
                 setMobileOpen(false);
               }}
               className="font-mono w-full rounded-[2px] bg-[#98231f] py-3 text-[11px] tracking-wide text-[#faf6ee]"

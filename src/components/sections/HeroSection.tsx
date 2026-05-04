@@ -4,28 +4,9 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import { useEffect, useId, useRef, useState } from 'react';
 import { getOrderedVideos } from '@/data/theDirtJwVideos';
+import { openSubmitStoryMailto } from '@/lib/submitStoryMailto';
 
 const HERO_VIDEO_SRC = '/hero/hero-background.mp4';
-
-const SUBJECT = 'The Dirt - Winery Story Submission';
-const SUBMIT_BODY = `Hi John,
-
-I'm interested in sharing my winery's story for The Dirt video series.
-
-Winery Name:
-Location:
-Contact Information:
-
-I'd love to discuss how we can showcase our unique terroir and winemaking story through your vertical video format.
-
-Best regards,
-[Your Name]`;
-
-function openSubmitStoryMailto() {
-  const subject = encodeURIComponent(SUBJECT);
-  const body = encodeURIComponent(SUBMIT_BODY);
-  window.open(`mailto:ebain@mshanken.com?subject=${subject}&body=${body}`, '_blank');
-}
 
 function smoothScrollToId(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
