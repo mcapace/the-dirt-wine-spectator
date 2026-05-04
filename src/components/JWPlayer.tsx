@@ -21,6 +21,7 @@ function readBox(el: HTMLElement): { w: number; h: number } | null {
 export default function JWPlayer({ mediaId, wineryName, onTime, onComplete }: JWPlayerProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const resizeObserverRef = useRef<ResizeObserver | null>(null);
   /** JW Cloud reads iframe size on load; mount only after layout gives non-zero dimensions (avoids random zoom/crop). */
   const [iframeBox, setIframeBox] = useState<{ w: number; h: number } | null>(null);
 
@@ -28,25 +29,38 @@ export default function JWPlayer({ mediaId, wineryName, onTime, onComplete }: JW
     const el = containerRef.current;
     if (!el) return;
 
+    /**
+     * IMPORTANT: Once set, never change width/height on the iframe.
+     * JW scales on first layout; later DOM size updates (fonts, scrollbar, flex reflow) make it look
+     * “fine then zoomed.” Freeze after the first valid measurement and stop observing.
+     */
     const apply = () => {
-      const next = readBox(el);
       setIframeBox((prev) => {
+        if (prev) return prev;
+        const next = readBox(el);
         if (!next) return prev;
-        if (prev && prev.w === next.w && prev.h === next.h) return prev;
         return next;
       });
     };
 
     apply();
-    // Second pass next frame: flex + aspect-ratio layout can report wrong size on first layout pass.
+    // Second pass next frame: flex + padding-bottom aspect layout can settle after first paint.
     const raf = requestAnimationFrame(() => apply());
     const ro = new ResizeObserver(() => apply());
+    resizeObserverRef.current = ro;
     ro.observe(el);
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
+      resizeObserverRef.current = null;
     };
   }, []);
+
+  useEffect(() => {
+    if (!iframeBox) return;
+    resizeObserverRef.current?.disconnect();
+    resizeObserverRef.current = null;
+  }, [iframeBox]);
 
   // Listen for postMessage events from the JW iframe to wire onTime/onComplete callbacks.
   // JW's iframe doesn't post these by default — it only does if the player is configured
