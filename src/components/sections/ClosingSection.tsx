@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 const ClosingSection = () => {
   return (
     <section
+      id="submit"
       className="relative bg-ws-ink py-12 text-white"
       style={{ backgroundColor: '#1a1410' }}
     >

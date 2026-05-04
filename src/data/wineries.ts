@@ -15,7 +15,7 @@ export interface Winery {
   }
 }
 
-/** Display order: Rocky Pond, Robert Hall, Sullivan, Trefethen, HALL, J Vineyards, Whitehaven */
+/** Display order follows episode order 01–07 (see `theDirtJwVideos`). */
 export const wineries: Winery[] = [
   {
     id: 1,
@@ -55,18 +55,6 @@ export const wineries: Winery[] = [
   },
   {
     id: 4,
-    name: 'Trefethen',
-    mediaId: 'FSUUFWTG',
-    logo: '/Logos/TFV - Gray.png',
-    landingPath: '/trefethen',
-    website: 'https://www.trefethen.com/',
-    social: {
-      instagram: 'https://www.instagram.com/trefethenfamily/',
-      facebook: 'https://www.facebook.com/trefethenfamily',
-    },
-  },
-  {
-    id: 5,
     name: 'HALL',
     mediaId: 'oPFkkAfZ',
     logo: '/Logos/HALL Napa Valley Logo - Red.png',
@@ -75,6 +63,18 @@ export const wineries: Winery[] = [
     social: {
       instagram: 'https://www.instagram.com/hallwines/',
       facebook: 'https://www.facebook.com/hallwines',
+    },
+  },
+  {
+    id: 5,
+    name: 'Whitehaven',
+    mediaId: 'L6WSfCgB',
+    logo: '/Logos/WHV_Logo_2019-removebg-preview.png',
+    landingPath: '/whitehaven',
+    website: 'https://www.whitehavenwine.com/',
+    social: {
+      instagram: 'https://www.instagram.com/whitehaven/?hl=en',
+      facebook: 'https://www.facebook.com/whitehavenwine/',
     },
   },
   {
@@ -91,14 +91,14 @@ export const wineries: Winery[] = [
   },
   {
     id: 7,
-    name: 'Whitehaven',
-    mediaId: 'L6WSfCgB',
-    logo: '/Logos/WHV_Logo_2019-removebg-preview.png',
-    landingPath: '/whitehaven',
-    website: 'https://www.whitehavenwine.com/',
+    name: 'Trefethen',
+    mediaId: 'FSUUFWTG',
+    logo: '/Logos/TFV - Gray.png',
+    landingPath: '/trefethen',
+    website: 'https://www.trefethen.com/',
     social: {
-      instagram: 'https://www.instagram.com/whitehaven/?hl=en',
-      facebook: 'https://www.facebook.com/whitehavenwine/',
+      instagram: 'https://www.instagram.com/trefethenfamily/',
+      facebook: 'https://www.facebook.com/trefethenfamily',
     },
   },
 ]

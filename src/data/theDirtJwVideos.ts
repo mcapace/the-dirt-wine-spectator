@@ -199,3 +199,80 @@ export const THUMBNAIL_OBJECT_POSITION: Record<string, string> = {
 export function getThumbnailObjectPosition(videoId: string): string {
   return THUMBNAIL_OBJECT_POSITION[videoId] ?? 'center center'
 }
+
+export interface SoilLayer {
+  color: string
+  ratio: number // proportion of total height, summing to 1.0
+}
+
+export const SOIL_PROFILES: Record<string, { layers: SoilLayer[]; speckles?: boolean }> = {
+  J4mjNPcy: {
+    // Rocky Pond - Volcanic basalt over glacial silt
+    layers: [
+      { color: '#d4c4a0', ratio: 0.25 },
+      { color: '#6a5e4a', ratio: 0.35 },
+      { color: '#2a2018', ratio: 0.4 },
+    ],
+  },
+  nsF12zfB: {
+    // Robert Hall - Calcareous shale
+    layers: [
+      { color: '#e8dcc8', ratio: 0.35 },
+      { color: '#c2a878', ratio: 0.35 },
+      { color: '#8b6e44', ratio: 0.3 },
+    ],
+  },
+  bE41U3pF: {
+    // Sullivan - Rutherford dust, alluvial loam
+    layers: [
+      { color: '#c9a878', ratio: 0.3 },
+      { color: '#8b6840', ratio: 0.35 },
+      { color: '#4a3220', ratio: 0.35 },
+    ],
+  },
+  oPFkkAfZ: {
+    // HALL Napa Valley - Bale clay loam
+    layers: [
+      { color: '#b8907a', ratio: 0.4 },
+      { color: '#8b5e3e', ratio: 0.35 },
+      { color: '#4a2818', ratio: 0.25 },
+    ],
+  },
+  L6WSfCgB: {
+    // Whitehaven - Stony alluvial gravel
+    layers: [
+      { color: '#d4d4d0', ratio: 0.5 },
+      { color: '#8b8b80', ratio: 0.3 },
+      { color: '#4a4a40', ratio: 0.2 },
+    ],
+    speckles: true,
+  },
+  kncdFPTD: {
+    // J Vineyards - Goldridge sandy loam
+    layers: [
+      { color: '#e8c896', ratio: 0.35 },
+      { color: '#b8946a', ratio: 0.35 },
+      { color: '#6a4e2c', ratio: 0.3 },
+    ],
+  },
+  FSUUFWTG: {
+    // Trefethen - Volcanic ash, sedimentary clay
+    layers: [
+      { color: '#a8a098', ratio: 0.3 },
+      { color: '#6a5a48', ratio: 0.3 },
+      { color: '#4a3a24', ratio: 0.4 },
+    ],
+  },
+}
+
+export function getSoilProfile(mediaId: string) {
+  return (
+    SOIL_PROFILES[mediaId] ?? {
+      layers: [
+        { color: '#c9a878', ratio: 0.33 },
+        { color: '#8b6840', ratio: 0.33 },
+        { color: '#4a3220', ratio: 0.34 },
+      ],
+    }
+  )
+}
