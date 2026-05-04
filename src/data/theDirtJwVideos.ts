@@ -10,7 +10,12 @@
 export const JW_PLAYER_ID = '5hjWylbo'
 
 export function jwEmbedUrl(mediaId: string): string {
-  return `https://cdn.jwplayer.com/players/${mediaId}-${JW_PLAYER_ID}.html`
+  const url = new URL(
+    `https://cdn.jwplayer.com/players/${mediaId}-${JW_PLAYER_ID}.html`,
+  )
+  /** Prefer letterboxing over crop/zoom when aspect ratios differ */
+  url.searchParams.set('stretching', 'uniform')
+  return url.toString()
 }
 
 export function jwThumbnailUrl(mediaId: string): string {

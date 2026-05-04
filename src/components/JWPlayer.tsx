@@ -42,15 +42,25 @@ export default function JWPlayer({ mediaId, onTime, onComplete }: JWPlayerProps)
   }, [onTime, onComplete]);
 
   return (
-    <iframe
-      ref={iframeRef}
-      key={mediaId}
-      src={jwEmbedUrl(mediaId)}
-      allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
-      allowFullScreen
-      className="absolute inset-0 w-full h-full"
-      style={{ border: 0, backgroundColor: '#000' }}
-      title={`Video player for ${mediaId}`}
-    />
+    <div className="absolute inset-0 flex items-center justify-center overflow-hidden bg-black">
+      <iframe
+        ref={iframeRef}
+        key={mediaId}
+        src={jwEmbedUrl(mediaId)}
+        allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+        allowFullScreen
+        className="block border-0 bg-black"
+        style={{
+          aspectRatio: '9 / 16',
+          width: 'auto',
+          height: 'auto',
+          maxHeight: '100%',
+          maxWidth: '100%',
+          border: 0,
+          backgroundColor: '#000',
+        }}
+        title={`Video player for ${mediaId}`}
+      />
+    </div>
   );
 }
