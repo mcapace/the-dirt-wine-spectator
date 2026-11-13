@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Inter, JetBrains_Mono, Playfair_Display } from 'next/font/google'
 import Script from 'next/script'
 import Navigation from '@/components/Navigation/Navbar'
+import { ConsentGatedAnalytics } from '@/components/consent/ConsentGatedAnalytics'
+import { COOKIEBOT_CBID, COOKIEBOT_GEOREGIONS } from '@/components/consent/cookiebot'
 import './globals.css'
 
 const playfairDisplay = Playfair_Display({
@@ -109,7 +111,6 @@ export default function RootLayout({
         
         {/* DNS Prefetch for external resources */}
         <link rel="dns-prefetch" href="https://cdn.jwplayer.com" />
-        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         
         {/* Favicon and app icons */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -138,19 +139,17 @@ export default function RootLayout({
       <body
         className={`${playfairDisplay.variable} ${inter.variable} ${jetbrainsMono.variable}`}
       >
-        {/* Google tag (gtag.js) */}
+        {/* Cookie consent banner (same Cookiebot setup as winespectator.com) */}
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-0SX1LL4XNX"
-          strategy="afterInteractive"
+          id="Cookiebot"
+          src="https://consent.cookiebot.com/uc.js"
+          strategy="beforeInteractive"
+          data-cbid={COOKIEBOT_CBID}
+          data-blockingmode="manual"
+          data-georegions={COOKIEBOT_GEOREGIONS}
         />
-        <Script id="ga-init" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-0SX1LL4XNX');
-          `}
-        </Script>
+        {/* Google Analytics: loads only after statistics consent */}
+        <ConsentGatedAnalytics measurementId="G-0SX1LL4XNX" />
 
         {/* Sponsored Header */}
         <div 
