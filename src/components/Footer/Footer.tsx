@@ -2,6 +2,9 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { PrivacyChoicesLink } from '@/components/consent/PrivacyChoicesLink';
+
+const PRIVACY_POLICY_URL = 'https://www.winespectator.com/pages/privacy-policy';
 
 export default function Footer() {
   return (
@@ -36,10 +39,13 @@ export default function Footer() {
             <Link href="https://www.winespectator.com/" className="hover:text-ws-red" style={{ color: 'rgba(26,20,16,0.5)' }}>
               WineSpectator.com
             </Link>
-            <Link href="https://www.winespectator.com/policy/privacy-policy" className="hover:text-ws-red" style={{ color: 'rgba(26,20,16,0.5)' }}>
+            <Link href={PRIVACY_POLICY_URL} className="hover:text-ws-red" style={{ color: 'rgba(26,20,16,0.5)' }}>
               Privacy Policy
             </Link>
-            <Link href="https://www.winespectator.com/policy/terms-of-use" className="hover:text-ws-red" style={{ color: 'rgba(26,20,16,0.5)' }}>
+            <span style={{ color: 'rgba(26,20,16,0.5)' }}>
+              <PrivacyChoicesLink fallbackHref={PRIVACY_POLICY_URL} className="hover:text-ws-red" />
+            </span>
+            <Link href="https://www.winespectator.com/pages/terms-of-service" className="hover:text-ws-red" style={{ color: 'rgba(26,20,16,0.5)' }}>
               Terms of Use
             </Link>
           </div>
