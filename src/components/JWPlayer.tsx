@@ -1,7 +1,11 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { jwEmbedUrl } from '@/data/theDirtJwVideos';
+/*
+ * Plays a JW Player media item as a plain HTML5 video from JW Player's CDN.
+ * The JW Player embed sent analytics pings to JW Player on page load, before
+ * any consent and even with GPC on; the CDN file and poster carry no tracking.
+ * Same props as before, so EpisodeCarousel and WineryLanding are unchanged.
+ */
 
 interface JWPlayerProps {
   mediaId: string;
@@ -11,77 +15,27 @@ interface JWPlayerProps {
 }
 
 export default function JWPlayer({ mediaId, wineryName, onTime, onComplete }: JWPlayerProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [size, setSize] = useState<{ w: number; h: number } | null>(null);
-
-  // Measure the parent container's pixel dimensions and update on any resize.
-  // The iframe gets these as explicit width/height attributes, which JW Player
-  // reads reliably (instead of racing the CSS layout pass).
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    const update = () => {
-      const el = containerRef.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const w = Math.round(rect.width);
-      const h = Math.round(rect.height);
-      if (w > 0 && h > 0) {
-        setSize((prev) => (prev?.w === w && prev?.h === h ? prev : { w, h }));
-      }
-    };
-
-    update();
-    const observer = new ResizeObserver(update);
-    observer.observe(containerRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!onTime && !onComplete) return;
-
-    const handleMessage = (event: MessageEvent) => {
-      if (typeof event.origin === 'string' && !event.origin.includes('jwplayer.com')) return;
-      if (typeof event.data !== 'object' || !event.data) return;
-
-      const { type, position, duration } = event.data as {
-        type?: string;
-        position?: number;
-        duration?: number;
-      };
-      if (type === 'time' && onTime && typeof position === 'number' && typeof duration === 'number') {
-        onTime(position, duration);
-      }
-      if (type === 'complete' && onComplete) {
-        onComplete();
-      }
-    };
-
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, [onTime, onComplete]);
-
   return (
-    <div ref={containerRef} className="absolute inset-0 overflow-hidden bg-black">
-      {size && (
-        <iframe
-          // include size in key so iframe remounts cleanly on big resizes (e.g., orientation change)
-          key={`${mediaId}-${size.w}x${size.h}`}
-          src={jwEmbedUrl(mediaId)}
-          width={size.w}
-          height={size.h}
-          allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
-          allowFullScreen
-          className="absolute inset-0 block border-0 bg-black"
-          style={{
-            border: 0,
-            backgroundColor: '#000',
-            width: `${size.w}px`,
-            height: `${size.h}px`,
-          }}
-          title={wineryName ? `${wineryName} — The Dirt` : 'The Dirt video player'}
-        />
-      )}
+    <div className="absolute inset-0 overflow-hidden bg-black">
+      <video
+        key={mediaId}
+        src={`https://cdn.jwplayer.com/videos/${mediaId}.mp4`}
+        poster={`https://cdn.jwplayer.com/v2/media/${mediaId}/poster.jpg?width=1280`}
+        title={wineryName ? `${wineryName} — The Dirt` : 'The Dirt video player'}
+        className="absolute inset-0 block h-full w-full bg-black object-contain"
+        controls
+        playsInline
+        preload="none"
+        onTimeUpdate={
+          onTime
+            ? (e) => {
+                const v = e.currentTarget;
+                if (Number.isFinite(v.duration)) onTime(v.currentTime, v.duration);
+              }
+            : undefined
+        }
+        onEnded={onComplete}
+      />
     </div>
   );
 }
